@@ -12,7 +12,7 @@ Available from API 14.
         }
         
         dependencies {
-          compile 'com.github.rubensousa:BottomSheetBuilder:0.2'
+          compile 'com.github.rubensousa:BottomSheetBuilder:0.2.1'
         }
 
 
@@ -22,7 +22,7 @@ Available from API 14.
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_grid_sheet)
-                .setItemListener(this)
+                .setItemClickListener(this)
                 .createView();
 
 - Create a BottomSheetDialog:
@@ -31,12 +31,12 @@ Available from API 14.
                       .setMode(BottomSheetBuilder.MODE_LIST)
                       .setBackgroundColor(android.R.color.white)
                       .setMenu(R.menu.menu_bottom_simple_sheet)
-                      .setItemListener(new BottomSheetItemAdapter.BottomSheetItemListener() {
-                          @Override
-                          public void onBottomSheetItemClick(BottomSheetMenuItem item) {
-                              mBottomSheetDialog.dismiss();
-                          }
-                      })
+                      .setItemClickListener(new BottomSheetItemClickListener() {
+                                @Override
+                                public void onBottomSheetItemClick(BottomSheetMenuItem item) {
+                                        mBottomSheetDialog.dismiss();
+                                }
+                        })
                       .createDialog();
                       
         dialog.show();
