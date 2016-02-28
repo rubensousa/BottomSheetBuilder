@@ -1,6 +1,8 @@
 # BottomSheetBuilder
 A simple library that creates BottomSheets according to the Material Design specs
 
+Available from API 14.
+
 ## How to use
 
 - Add the following to your build.gradle:
@@ -10,7 +12,7 @@ A simple library that creates BottomSheets according to the Material Design spec
         }
         
         dependencies {
-          compile 'com.github.rubensousa:BottomSheetBuilder:0.1'
+          compile 'com.github.rubensousa:BottomSheetBuilder:0.2'
         }
 
 
