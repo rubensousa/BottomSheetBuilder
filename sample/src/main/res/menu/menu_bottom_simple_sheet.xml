@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/ic_preview_24dp"
+        android:title="Preview" />
+    <item
+        android:icon="@drawable/ic_share_24dp"
+        android:title="Share" />
+    <item
+        android:icon="@drawable/ic_link_24dp"
+        android:title="Get link" />
+    <item
+        android:icon="@drawable/ic_content_copy_24dp"
+        android:title="Copy" />
+
+</menu>

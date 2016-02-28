@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorSheetText">#DE000000</color>
+    <color name="colorSheetTitle">#8A000000</color>
+    <color name="colorSheetDivider">#3f717171</color>
+</resources>
