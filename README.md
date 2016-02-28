@@ -10,7 +10,7 @@ A simple library that creates BottomSheets according to the Material Design spec
         }
         
         dependencies {
-          compile 'com.github.rubensousa:BottomSheetBuilder:0.1'
+          compile 'com.github.rubensousa:BottomSheetBuilder:0.2'
         }
 
 
