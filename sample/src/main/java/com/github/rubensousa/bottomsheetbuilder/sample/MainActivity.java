@@ -10,15 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetItemAdapter;
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetItemClickListener;
 import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetMenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements BottomSheetItemAdapter.BottomSheetItemListener, View.OnClickListener {
+        implements BottomSheetItemClickListener, View.OnClickListener {
 
     private BottomSheetDialog mBottomSheetDialog;
     private View mBottomSheet;
-    private View mBottomSheet2;
     private BottomSheetBehavior mBehavior;
 
     @Override
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_grid_sheet)
-                .setItemListener(this)
+                .setItemClickListener(this)
                 .createView();
 
         mBehavior = BottomSheetBehavior.from(mBottomSheet);
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(menu)
-                .setItemListener(new BottomSheetItemAdapter.BottomSheetItemListener() {
+                .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
                     public void onBottomSheetItemClick(BottomSheetMenuItem item) {
                         mBottomSheetDialog.dismiss();

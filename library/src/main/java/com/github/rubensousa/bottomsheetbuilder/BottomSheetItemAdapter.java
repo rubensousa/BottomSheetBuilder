@@ -23,12 +23,12 @@ public class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItem
     public static final int TYPE_DIVIDER = 2;
 
     private List<BottomSheetItem> mItems;
-    private BottomSheetItemListener mListener;
+    private BottomSheetItemClickListener mListener;
     private int mMode;
     private int mItemWidth;
 
     public BottomSheetItemAdapter(List<BottomSheetItem> items, int mode,
-                                  BottomSheetItemListener listener) {
+                                  BottomSheetItemClickListener listener) {
         mMode = mode;
         mItems = items;
         mListener = listener;
@@ -38,7 +38,7 @@ public class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItem
         mItemWidth = width;
     }
 
-    public void setListener(BottomSheetItemListener listener) {
+    public void setListener(BottomSheetItemClickListener listener) {
         mListener = listener;
     }
 
@@ -209,9 +209,5 @@ public class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItem
                 mListener.onBottomSheetItemClick((BottomSheetMenuItem) item);
             }
         }
-    }
-
-    public interface BottomSheetItemListener {
-        void onBottomSheetItemClick(BottomSheetMenuItem item);
     }
 }

@@ -67,7 +67,7 @@ public class BottomSheetBuilder {
 
     private CoordinatorLayout mCoordinatorLayout;
     private Context mContext;
-    private BottomSheetItemAdapter.BottomSheetItemListener mItemListener;
+    private BottomSheetItemClickListener mItemClickListener;
     private int mMode = MODE_LIST;
 
 
@@ -96,8 +96,8 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    public BottomSheetBuilder setItemListener(BottomSheetItemAdapter.BottomSheetItemListener listener) {
-        mItemListener = listener;
+    public BottomSheetBuilder setItemClickListener(BottomSheetItemClickListener listener) {
+        mItemClickListener = listener;
         return this;
     }
 
@@ -194,7 +194,7 @@ public class BottomSheetBuilder {
 
         if (mMode == MODE_LIST) {
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-            recyclerView.setAdapter(new BottomSheetItemAdapter(items, mMode, mItemListener));
+            recyclerView.setAdapter(new BottomSheetItemAdapter(items, mMode, mItemClickListener));
         }
 
         if (mMode == MODE_GRID) {
@@ -210,7 +210,7 @@ public class BottomSheetBuilder {
                 @Override
                 public void run() {
                     BottomSheetItemAdapter adapter
-                            = new BottomSheetItemAdapter(items, mMode, mItemListener);
+                            = new BottomSheetItemAdapter(items, mMode, mItemClickListener);
 
                     DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
                     float margins = 24 * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
