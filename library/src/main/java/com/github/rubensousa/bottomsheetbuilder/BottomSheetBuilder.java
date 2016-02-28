@@ -19,6 +19,7 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -145,10 +146,6 @@ public class BottomSheetBuilder {
 
         View sheet = setupView();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
-        }
-
         CoordinatorLayout.LayoutParams layoutParams
                 = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,
                 CoordinatorLayout.LayoutParams.WRAP_CONTENT);
@@ -201,13 +198,23 @@ public class BottomSheetBuilder {
         }
 
         if (mMode == MODE_GRID) {
-            recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+            GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
+            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return 1;
+                }
+            });
+            recyclerView.setLayoutManager(layoutManager);
             recyclerView.post(new Runnable() {
                 @Override
                 public void run() {
                     BottomSheetItemAdapter adapter
                             = new BottomSheetItemAdapter(items, mMode, mItemListener);
-                    adapter.setItemWidth(recyclerView.getWidth() / 3);
+
+                    DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
+                    float margins = 24 * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+                    adapter.setItemWidth((int) ((recyclerView.getWidth() - 2 * margins) / 3));
                     recyclerView.setAdapter(adapter);
                 }
             });
