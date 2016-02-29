@@ -65,6 +65,7 @@ public class BottomSheetBuilder {
     @MenuRes
     private int mMenuRes;
 
+    private Menu mMenu;
     private CoordinatorLayout mCoordinatorLayout;
     private Context mContext;
     private BottomSheetItemClickListener mItemClickListener;
@@ -103,6 +104,11 @@ public class BottomSheetBuilder {
 
     public BottomSheetBuilder setMenu(@MenuRes int menu) {
         mMenuRes = menu;
+        return this;
+    }
+
+    public BottomSheetBuilder setMenu(Menu menu) {
+        mMenu = menu;
         return this;
     }
 
@@ -163,13 +169,17 @@ public class BottomSheetBuilder {
 
         View sheet = setupView();
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
-
         dialog.setContentView(sheet);
         return dialog;
     }
 
     @SuppressLint("InflateParams")
     private View setupView() {
+
+        if (mMenu == null && mMenuRes == 0) {
+            throw new IllegalStateException("You need to provide at least one Menu or a Menu resource id");
+        }
+
         final List<BottomSheetItem> items = addMenuItems();
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View sheet;
@@ -226,8 +236,15 @@ public class BottomSheetBuilder {
     private List<BottomSheetItem> addMenuItems() {
         List<BottomSheetItem> items = new ArrayList<>();
         SupportMenuInflater menuInflater = new SupportMenuInflater(mContext);
-        Menu menu = new MenuBuilder(mContext);
-        menuInflater.inflate(mMenuRes, menu);
+
+        Menu menu;
+
+        if (mMenu == null) {
+            menu = new MenuBuilder(mContext);
+            menuInflater.inflate(mMenuRes, menu);
+        } else {
+            menu = mMenu;
+        }
 
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);

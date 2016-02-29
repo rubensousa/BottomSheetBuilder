@@ -6,7 +6,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
@@ -34,10 +36,13 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.showDialogBtn).setOnClickListener(this);
         findViewById(R.id.showDialogHeadersBtn).setOnClickListener(this);
 
+        Menu menu = new MenuBuilder(this);
+        getMenuInflater().inflate(R.menu.menu_bottom_grid_sheet, menu);
+
         mBottomSheet = new BottomSheetBuilder(this, coordinatorLayout)
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setBackgroundColor(android.R.color.white)
-                .setMenu(R.menu.menu_bottom_grid_sheet)
+                .setMenu(menu)
                 .setItemClickListener(this)
                 .createView();
 
