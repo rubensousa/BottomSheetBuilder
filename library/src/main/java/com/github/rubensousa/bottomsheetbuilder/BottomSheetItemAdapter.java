@@ -77,7 +77,7 @@ public class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItem
 
             if (viewType == TYPE_HEADER) {
                 return new HeaderViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.bottomsheetbuilder_list_header_adapter, parent, false));
+                        .inflate(R.layout.bottomsheetbuilder_list_header, parent, false));
             }
 
             if (viewType == TYPE_ITEM) {
@@ -87,7 +87,7 @@ public class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItem
 
             if (viewType == TYPE_DIVIDER) {
                 return new DividerViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.bottomsheetbuilder_list_divider_adapter, parent, false));
+                        .inflate(R.layout.bottomsheetbuilder_list_divider, parent, false));
             }
 
         }

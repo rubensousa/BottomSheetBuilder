@@ -2,7 +2,6 @@ package com.github.rubensousa.bottomsheetbuilder;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,7 +10,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.StyleRes;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.SupportMenuInflater;
@@ -162,9 +160,9 @@ public class BottomSheetBuilder {
         return sheet;
     }
 
-    public BottomSheetDialog createDialog() {
-        BottomSheetDialog dialog = mTheme == 0 ? new BottomSheetDialog(mContext)
-                : new BottomSheetDialog(mContext, mTheme);
+    public BottomSheetMenuDialog createDialog() {
+        BottomSheetMenuDialog dialog = mTheme == 0 ? new BottomSheetMenuDialog(mContext)
+                : new BottomSheetMenuDialog(mContext, mTheme);
 
         View sheet = setupView();
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
