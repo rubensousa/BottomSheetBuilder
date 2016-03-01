@@ -142,7 +142,6 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    @SuppressLint("InflateParams")
     public View createView() {
 
         if (mCoordinatorLayout == null) {
@@ -235,13 +234,11 @@ public class BottomSheetBuilder {
 
     private List<BottomSheetItem> addMenuItems() {
         List<BottomSheetItem> items = new ArrayList<>();
-        SupportMenuInflater menuInflater = new SupportMenuInflater(mContext);
-
         Menu menu;
 
         if (mMenu == null) {
             menu = new MenuBuilder(mContext);
-            menuInflater.inflate(mMenuRes, menu);
+            new SupportMenuInflater(mContext).inflate(mMenuRes, menu);
         } else {
             menu = mMenu;
         }
