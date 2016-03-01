@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/bottomsheet_horizontal_margin"
         android:layout_marginStart="@dimen/bottomsheet_horizontal_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:gravity="center_vertical"
         android:textColor="@color/colorSheetText" />
 
