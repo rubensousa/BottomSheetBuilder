@@ -12,7 +12,7 @@ Available from API 14.
         }
         
         dependencies {
-          compile 'com.github.rubensousa:BottomSheetBuilder:0.2.1'
+          compile 'com.github.rubensousa:BottomSheetBuilder:0.3'
         }
 
 
@@ -25,9 +25,10 @@ Available from API 14.
                 .setItemClickListener(this)
                 .createView();
 
-- Create a BottomSheetDialog:
+####BottomSheetMenuDialog was added in 0.3 to fix some issues with BottomSheetDialog
+- Create a BottomSheetMenuDialog:
 
-        BottomSheetDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+        BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
                       .setMode(BottomSheetBuilder.MODE_LIST)
                       .setBackgroundColor(android.R.color.white)
                       .setMenu(R.menu.menu_bottom_simple_sheet)
@@ -40,6 +41,8 @@ Available from API 14.
                       .createDialog();
                       
         dialog.show();
+
+
 
 ## Styling
 
