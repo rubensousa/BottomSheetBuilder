@@ -5,9 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.MotionEventCompat;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 
 public class BottomSheetMenuDialog extends BottomSheetDialog {
@@ -56,20 +54,15 @@ public class BottomSheetMenuDialog extends BottomSheetDialog {
         });
 
         if (shouldWindowCloseOnTouchOutside()) {
-            final View finalView = view;
-            coordinator.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (isShowing() &&
-                            MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_UP &&
-                            !coordinator.isPointInChildBounds(finalView,
-                                    (int) event.getX(), (int) event.getY())) {
-                        cancel();
-                        return true;
-                    }
-                    return false;
-                }
-            });
+            coordinator.findViewById(R.id.touch_outside)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (isShowing()) {
+                                cancel();
+                            }
+                        }
+                    });
         }
         return coordinator;
     }

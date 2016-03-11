@@ -13,7 +13,6 @@ import android.view.View;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetItemClickListener;
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
 import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetMenuItem;
 
 public class MainActivity extends AppCompatActivity
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
-    private BottomSheetMenuDialog createDialog(@MenuRes int menu) {
+    private BottomSheetDialog createDialog(@MenuRes int menu) {
         return new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setBackgroundColor(android.R.color.white)
