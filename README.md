@@ -72,9 +72,11 @@ The sample includes 3 view modes: grid, list and list with one submenu. Check th
 
 There's some bugs that affect the BottomSheetDialog and the BottomSheetBehavior in the Support Library v23.3.0:
 
-~~- https://code.google.com/p/android/issues/detail?id=201793~~
+- ~~https://code.google.com/p/android/issues/detail?id=201793~~
+
 - https://code.google.com/p/android/issues/detail?id=201825
-~~- https://code.google.com/p/android/issues/detail?id=201826~~
+
+- ~~https://code.google.com/p/android/issues/detail?id=201826~~
 
 ## License
 
