@@ -2,9 +2,11 @@ package com.github.rubensousa.bottomsheetbuilder.sample;
 
 import android.os.Bundle;
 import android.support.annotation.MenuRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     private BottomSheetDialog mBottomSheetDialog;
     private View mBottomSheet;
     private BottomSheetBehavior mBehavior;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.showViewBtn).setOnClickListener(this);
         findViewById(R.id.showDialogBtn).setOnClickListener(this);
         findViewById(R.id.showDialogHeadersBtn).setOnClickListener(this);
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(this);
 
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
@@ -47,6 +52,20 @@ public class MainActivity extends AppCompatActivity
                 .createView();
 
         mBehavior = BottomSheetBehavior.from(mBottomSheet);
+        mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN
+                        || newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    mFab.show();
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
     }
 
     @Override
@@ -85,7 +104,14 @@ public class MainActivity extends AppCompatActivity
         if (v.getId() == R.id.showDialogHeadersBtn) {
             mBottomSheetDialog = createDialog(R.menu.menu_bottom_headers_sheet);
             mBottomSheetDialog.show();
+            return;
         }
+
+        if (v.getId() == R.id.fab) {
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            mFab.hide();
+        }
+
     }
 
     @Override
