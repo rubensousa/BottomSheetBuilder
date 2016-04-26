@@ -28,13 +28,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-
         setSupportActionBar(toolbar);
 
         findViewById(R.id.showViewBtn).setOnClickListener(this);
         findViewById(R.id.showDialogBtn).setOnClickListener(this);
         findViewById(R.id.showDialogHeadersBtn).setOnClickListener(this);
+
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         Menu menu = new MenuBuilder(this);
         getMenuInflater().inflate(R.menu.menu_bottom_grid_sheet, menu);
@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         BottomSheetBuilder.saveState(outState, mBehavior);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mBottomSheetDialog != null) {
+            mBottomSheetDialog.dismiss();
+        }
     }
 
     @Override
@@ -93,7 +101,7 @@ public class MainActivity extends AppCompatActivity
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
                     public void onBottomSheetItemClick(BottomSheetMenuItem item) {
-                        mBottomSheetDialog.dismiss();
+
                     }
                 })
                 .createDialog();

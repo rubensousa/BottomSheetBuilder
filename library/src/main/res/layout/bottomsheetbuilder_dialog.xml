@@ -8,6 +8,6 @@
         android:id="@+id/touch_outside"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:soundEffectsEnabled="false"/>
+        android:soundEffectsEnabled="false" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -5,13 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
-public class BottomSheetMenuDialog extends BottomSheetDialog {
+import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetMenuItem;
+
+public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSheetItemClickListener {
 
     private BottomSheetBehavior.BottomSheetCallback mCallback;
     private BottomSheetBehavior mBehavior;
+    private BottomSheetItemClickListener mClickListener;
 
     public BottomSheetMenuDialog(Context context) {
         super(context);
@@ -30,6 +34,10 @@ public class BottomSheetMenuDialog extends BottomSheetDialog {
         mCallback = callback;
     }
 
+    public void setBottomSheetItemClickListener(BottomSheetItemClickListener listener) {
+        mClickListener = listener;
+    }
+
     public BottomSheetBehavior getBehavior() {
         return mBehavior;
     }
@@ -41,17 +49,15 @@ public class BottomSheetMenuDialog extends BottomSheetDialog {
         CoordinatorLayout.LayoutParams layoutParams
                 = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,
                 CoordinatorLayout.LayoutParams.WRAP_CONTENT);
-
         layoutParams.setBehavior(new BottomSheetBehavior());
         coordinator.addView(view, layoutParams);
         mBehavior = BottomSheetBehavior.from(view);
         mBehavior.setBottomSheetCallback(mBottomSheetCallback);
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
+        mBehavior.setHideable(true);
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        BottomSheetItemAdapter adapter = (BottomSheetItemAdapter) recyclerView.getAdapter();
+        adapter.setListener(this);
 
         if (shouldWindowCloseOnTouchOutside()) {
             coordinator.findViewById(R.id.touch_outside)
@@ -65,6 +71,14 @@ public class BottomSheetMenuDialog extends BottomSheetDialog {
                     });
         }
         return coordinator;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mBehavior != null) {
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
     }
 
     private boolean shouldWindowCloseOnTouchOutside() {
@@ -84,7 +98,9 @@ public class BottomSheetMenuDialog extends BottomSheetDialog {
             if (mCallback != null) {
                 mCallback.onStateChanged(bottomSheet, newState);
             }
-            if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+
+            if (newState == BottomSheetBehavior.STATE_HIDDEN
+                    || newState == BottomSheetBehavior.STATE_COLLAPSED) {
                 dismiss();
             }
         }
@@ -96,4 +112,15 @@ public class BottomSheetMenuDialog extends BottomSheetDialog {
             }
         }
     };
+
+    @Override
+    public void onBottomSheetItemClick(BottomSheetMenuItem item) {
+        if (mBehavior != null) {
+            mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+
+        if (mClickListener != null) {
+            mClickListener.onBottomSheetItemClick(item);
+        }
+    }
 }

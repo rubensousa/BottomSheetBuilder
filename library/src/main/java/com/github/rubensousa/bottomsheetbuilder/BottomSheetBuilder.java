@@ -2,6 +2,8 @@ package com.github.rubensousa.bottomsheetbuilder;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,9 +11,11 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.StyleRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
@@ -65,14 +69,20 @@ public class BottomSheetBuilder {
 
     private Menu mMenu;
     private CoordinatorLayout mCoordinatorLayout;
+    private AppBarLayout mAppBarLayout;
     private Context mContext;
     private BottomSheetItemClickListener mItemClickListener;
     private int mMode = MODE_LIST;
 
-
     public BottomSheetBuilder(Context context, CoordinatorLayout coordinatorLayout) {
+        this(context, coordinatorLayout, null);
+    }
+
+    public BottomSheetBuilder(Context context, CoordinatorLayout coordinatorLayout,
+                              AppBarLayout appBarLayout) {
         mContext = context;
         mCoordinatorLayout = coordinatorLayout;
+        mAppBarLayout = appBarLayout;
     }
 
     public BottomSheetBuilder(Context context) {
@@ -147,16 +157,22 @@ public class BottomSheetBuilder {
                     "so the view can be placed on it");
         }
 
-        View sheet = setupView();
+        final View sheet = setupView();
+        ViewCompat.setElevation(sheet, Resources.getSystem().getDisplayMetrics().densityDpi
+                / DisplayMetrics.DENSITY_DEFAULT * 16);
 
-        CoordinatorLayout.LayoutParams layoutParams
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
+        }
+
+        final CoordinatorLayout.LayoutParams layoutParams
                 = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,
                 CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+
 
         layoutParams.setBehavior(new BottomSheetBehavior());
         mCoordinatorLayout.addView(sheet, layoutParams);
         mCoordinatorLayout.postInvalidate();
-
         return sheet;
     }
 
@@ -166,7 +182,9 @@ public class BottomSheetBuilder {
 
         View sheet = setupView();
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
+        dialog.setBottomSheetItemClickListener(mItemClickListener);
         dialog.setContentView(sheet);
+
         return dialog;
     }
 
@@ -177,7 +195,7 @@ public class BottomSheetBuilder {
             throw new IllegalStateException("You need to provide at least one Menu or a Menu resource id");
         }
 
-        final List<BottomSheetItem> items = addMenuItems();
+        final List<BottomSheetItem> items = createMenuItems();
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View sheet;
 
@@ -213,13 +231,15 @@ public class BottomSheetBuilder {
                 }
             });
             recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(new BottomSheetItemAdapter(items, mMode, mItemClickListener));
             recyclerView.post(new Runnable() {
                 @Override
                 public void run() {
-                    BottomSheetItemAdapter adapter
-                            = new BottomSheetItemAdapter(items, mMode, mItemClickListener);
 
-                    DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
+                    BottomSheetItemAdapter adapter
+                            = (BottomSheetItemAdapter) recyclerView.getAdapter();
+
+                    DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
                     float margins = 24 * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
                     adapter.setItemWidth((int) ((recyclerView.getWidth() - 2 * margins) / 3));
                     recyclerView.setAdapter(adapter);
@@ -230,7 +250,7 @@ public class BottomSheetBuilder {
         return sheet;
     }
 
-    private List<BottomSheetItem> addMenuItems() {
+    private List<BottomSheetItem> createMenuItems() {
         List<BottomSheetItem> items = new ArrayList<>();
         Menu menu;
 
@@ -278,7 +298,7 @@ public class BottomSheetBuilder {
                 @Override
                 public void run() {
                     int state = savedInstanceState.getInt(SAVED_STATE);
-                    if (state == BottomSheetBehavior.STATE_EXPANDED) {
+                    if (state == BottomSheetBehavior.STATE_EXPANDED && behavior != null) {
                         behavior.setState(state);
                     }
                 }
