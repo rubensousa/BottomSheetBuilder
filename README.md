@@ -3,6 +3,10 @@ A simple library that creates BottomSheets according to the Material Design spec
 
 Available from API 14.
 
+## Screenshots
+<img src="screens/sheet-list-submenu.png" width="350"> <img src="screens/sheet-list-simple.png" width="350">
+<img src="screens/sheet-grid.png" width="350"> 
+
 ## How to use
 
 - Add the following to your build.gradle:
@@ -12,7 +16,7 @@ Available from API 14.
         }
         
         dependencies {
-          compile 'com.github.rubensousa:BottomSheetBuilder:0.3'
+          compile 'com.github.rubensousa:BottomSheetBuilder:1.0'
         }
 
 
@@ -25,7 +29,6 @@ Available from API 14.
                 .setItemClickListener(this)
                 .createView();
 
-####BottomSheetMenuDialog was added in 0.3 to fix some issues with BottomSheetDialog
 - Create a BottomSheetMenuDialog:
 
         BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
@@ -41,7 +44,6 @@ Available from API 14.
                       .createDialog();
                       
         dialog.show();
-
 
 
 ## Styling
@@ -68,15 +70,11 @@ The sample includes 3 view modes: grid, list and list with one submenu. Check th
 
 ## Known bugs
 
-There's some bugs that affect the BottomSheetDialog and the BottomSheetBehavior in the Support Library v23.2.0:
+There's some bugs that affect the BottomSheetDialog and the BottomSheetBehavior in the Support Library v23.3.0:
 
-- https://code.google.com/p/android/issues/detail?id=201793
+~~- https://code.google.com/p/android/issues/detail?id=201793~~
 - https://code.google.com/p/android/issues/detail?id=201825
-- https://code.google.com/p/android/issues/detail?id=201826
-
-## Screenshots
-<img src="screens/sheet-list-submenu.png" width="350"> <img src="screens/sheet-list-simple.png" width="350">
-<img src="screens/sheet-grid.png" width="350"> 
+~~- https://code.google.com/p/android/issues/detail?id=201826~~
 
 ## License
 
