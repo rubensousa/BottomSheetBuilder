@@ -11,49 +11,49 @@ Available from API 14.
 
 - Add the following to your build.gradle:
 ```groovy
-        repositories{
-          maven { url "https://jitpack.io" }
-        }
-        
-        dependencies {
-          compile 'com.github.rubensousa:BottomSheetBuilder:1.0'
-        }
+repositories{
+  maven { url "https://jitpack.io" }
+}
+
+dependencies {
+  compile 'com.github.rubensousa:BottomSheetBuilder:1.0'
+}
 ```
 
 - Create a view (the builder already inflates the view inside the coordinatorLayout):
 ```java
-        View bottomSheet = new BottomSheetBuilder(context, coordinatorLayout)
-                .setMode(BottomSheetBuilder.MODE_GRID)
-                .setBackgroundColor(android.R.color.white)
-                .setMenu(R.menu.menu_bottom_grid_sheet)
-                .setItemClickListener(this)
-                .createView();
+View bottomSheet = new BottomSheetBuilder(context, coordinatorLayout)
+        .setMode(BottomSheetBuilder.MODE_GRID)
+        .setBackgroundColor(android.R.color.white)
+        .setMenu(R.menu.menu_bottom_grid_sheet)
+        .setItemClickListener(this)
+        .createView();
 ```
 - Create a BottomSheetMenuDialog:
 ```java
-        BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
-                      .setMode(BottomSheetBuilder.MODE_LIST)
-                      .setBackgroundColor(android.R.color.white)
-                      .setMenu(R.menu.menu_bottom_simple_sheet)
-                      .setItemClickListener(new BottomSheetItemClickListener() {
-                                @Override
-                                public void onBottomSheetItemClick(BottomSheetMenuItem item) {
-                                        
-                                }
-                        })
-                      .createDialog();
-                      
-        dialog.show();
+BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+              .setMode(BottomSheetBuilder.MODE_LIST)
+              .setBackgroundColor(android.R.color.white)
+              .setMenu(R.menu.menu_bottom_simple_sheet)
+              .setItemClickListener(new BottomSheetItemClickListener() {
+                        @Override
+                        public void onBottomSheetItemClick(BottomSheetMenuItem item) {
+                                
+                        }
+                })
+              .createDialog();
+              
+dialog.show();
 ```
 
 ## Styling
 
 Make sure the style passed in the BottomSheetBuilder's constructor extends from Theme.Design.BottomSheetDialog:
 ```xml
-    <style name="AppTheme.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
-        <!-- This changes the overlay background -->
-        <item name="android:background">@color/colorAccent</item>
-    </style>
+<style name="AppTheme.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+    <!-- This changes the overlay background -->
+    <item name="android:background">@color/colorAccent</item>
+</style>
 ```
 ## Sample
 
@@ -61,12 +61,12 @@ The sample includes 3 view modes: grid, list and list with one submenu. Check th
 
 ## Customization methods
 ```java
-    setItemTextColor(@ColorRes int color)
-    setTitleTextColor(@ColorRes int color)
-    setBackground(@DrawableRes int background)
-    setBackgroundColor(@ColorRes int background)
-    setDividerBackground(@DrawableRes int background)
-    setItemBackground(@DrawableRes int background)
+setItemTextColor(@ColorRes int color)
+setTitleTextColor(@ColorRes int color)
+setBackground(@DrawableRes int background)
+setBackgroundColor(@ColorRes int background)
+setDividerBackground(@DrawableRes int background)
+setItemBackground(@DrawableRes int background)
 ```
 ## Known bugs
 
