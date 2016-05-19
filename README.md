@@ -16,7 +16,7 @@ repositories{
 }
 
 dependencies {
-  compile 'com.github.rubensousa:BottomSheetBuilder:1.0'
+  compile 'com.github.rubensousa:BottomSheetBuilder:1.1'
 }
 ```
 
@@ -68,6 +68,17 @@ setBackgroundColor(@ColorRes int background)
 setDividerBackground(@DrawableRes int background)
 setItemBackground(@DrawableRes int background)
 ```
+
+## Changelog
+
+### 1.1 (19/05/2016)
+- Update support library to 23.4.0
+- Only add visible menu items
+
+### 1.0 (26/04/2016)
+- Update support library to 23.3.0
+- Improve dismiss on item click
+
 ## Known bugs
 
 There's some bugs that affect the BottomSheetDialog and the BottomSheetBehavior in the Support Library v23.3.0:
