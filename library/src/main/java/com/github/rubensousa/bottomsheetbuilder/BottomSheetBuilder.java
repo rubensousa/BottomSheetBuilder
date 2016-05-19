@@ -261,24 +261,34 @@ public class BottomSheetBuilder {
             menu = mMenu;
         }
 
+        boolean addedSubMenu = false;
+
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
 
-            if (item.hasSubMenu()) {
-                if (i != 0) {
-                    items.add(new BottomSheetDivider(mDividerBackground));
+            if (item.isVisible()) {
+                if (item.hasSubMenu()) {
+                    SubMenu subMenu = item.getSubMenu();
+
+                    if (i != 0 && addedSubMenu) {
+                        items.add(new BottomSheetDivider(mDividerBackground));
+                    }
+
+                    CharSequence title = item.getTitle();
+                    if (title != null && !title.equals("")) {
+                        items.add(new BottomSheetHeader(title.toString(), mTitleTextColor));
+                    }
+
+                    for (int j = 0; j < subMenu.size(); j++) {
+                        MenuItem subItem = subMenu.getItem(j);
+                        if (subItem.isVisible()) {
+                            items.add(new BottomSheetMenuItem(subItem, mItemTextColor, mItemBackground));
+                            addedSubMenu = true;
+                        }
+                    }
+                } else {
+                    items.add(new BottomSheetMenuItem(item, mItemTextColor, mItemBackground));
                 }
-                CharSequence title = item.getTitle();
-                if (title != null && !title.equals("")) {
-                    items.add(new BottomSheetHeader(title.toString(), mTitleTextColor));
-                }
-                SubMenu subMenu = item.getSubMenu();
-                for (int j = 0; j < subMenu.size(); j++) {
-                    items.add(new BottomSheetMenuItem(subMenu.getItem(j),
-                            mItemTextColor, mItemBackground));
-                }
-            } else {
-                items.add(new BottomSheetMenuItem(item, mItemTextColor, mItemBackground));
             }
         }
 
