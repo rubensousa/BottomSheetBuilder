@@ -1,4 +1,4 @@
-package com.github.rubensousa.bottomsheetbuilder.items;
+package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;

@@ -1,8 +1,8 @@
-package com.github.rubensousa.bottomsheetbuilder.items;
+package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.support.annotation.ColorRes;
 
-public class BottomSheetHeader implements BottomSheetItem {
+class BottomSheetHeader implements BottomSheetItem {
 
     private String mTitle;
 

@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetMenuItem;
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetMenuItem;
 
 public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSheetItemClickListener {
 
@@ -54,10 +54,6 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
         mBehavior = BottomSheetBehavior.from(view);
         mBehavior.setBottomSheetCallback(mBottomSheetCallback);
         mBehavior.setHideable(true);
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        BottomSheetItemAdapter adapter = (BottomSheetItemAdapter) recyclerView.getAdapter();
-        adapter.setListener(this);
 
         if (shouldWindowCloseOnTouchOutside()) {
             coordinator.findViewById(R.id.touch_outside)
@@ -123,4 +119,5 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             mClickListener.onBottomSheetItemClick(item);
         }
     }
+
 }

@@ -14,8 +14,8 @@ import android.view.Menu;
 import android.view.View;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetItemClickListener;
-import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetMenuItem;
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetMenuItem;
 import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 public class MainActivity extends AppCompatActivity

@@ -1,10 +1,10 @@
-package com.github.rubensousa.bottomsheetbuilder.items;
+package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 
 import android.support.annotation.DrawableRes;
 
 
-public class BottomSheetDivider implements BottomSheetItem {
+class BottomSheetDivider implements BottomSheetItem {
 
     @DrawableRes
     private int mBackgroundDrawable;

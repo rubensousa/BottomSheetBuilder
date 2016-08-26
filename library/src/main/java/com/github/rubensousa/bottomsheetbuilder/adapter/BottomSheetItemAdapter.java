@@ -1,4 +1,4 @@
-package com.github.rubensousa.bottomsheetbuilder;
+package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -8,15 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetDivider;
-import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetHeader;
-import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetItem;
-import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetMenuItem;
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
+import com.github.rubensousa.bottomsheetbuilder.R;
 
 import java.util.List;
 
 
-public class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter.ViewHolder> {
+class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter.ViewHolder> {
 
     public static final int TYPE_ITEM = 0;
     public static final int TYPE_HEADER = 1;
