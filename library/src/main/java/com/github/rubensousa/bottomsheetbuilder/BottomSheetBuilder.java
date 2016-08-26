@@ -39,7 +39,6 @@ import java.util.List;
 
 public class BottomSheetBuilder {
 
-    public static final String SAVED_STATE = "saved_behavior_state";
     public static final int MODE_LIST = 0;
     public static final int MODE_GRID = 1;
 
@@ -293,27 +292,6 @@ public class BottomSheetBuilder {
         }
 
         return items;
-    }
-
-    public static void saveState(Bundle outState, BottomSheetBehavior behavior) {
-        if (outState != null) {
-            outState.putInt(SAVED_STATE, behavior.getState());
-        }
-    }
-
-    public static void restoreState(final Bundle savedInstanceState, final BottomSheetBehavior behavior) {
-        if (savedInstanceState != null) {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int state = savedInstanceState.getInt(SAVED_STATE);
-                    if (state == BottomSheetBehavior.STATE_EXPANDED && behavior != null) {
-                        behavior.setState(state);
-                    }
-                }
-            }, 300);
-        }
     }
 
 }

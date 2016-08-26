@@ -16,6 +16,7 @@ import android.view.View;
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetItemClickListener;
 import com.github.rubensousa.bottomsheetbuilder.items.BottomSheetMenuItem;
+import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 public class MainActivity extends AppCompatActivity
         implements BottomSheetItemClickListener, View.OnClickListener {
@@ -71,13 +72,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        BottomSheetBuilder.restoreState(savedInstanceState, mBehavior);
+        BottomSheetBuilderUtils.restoreState(savedInstanceState, mBehavior);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        BottomSheetBuilder.saveState(outState, mBehavior);
+        BottomSheetBuilderUtils.saveState(outState, mBehavior);
     }
 
     @Override
