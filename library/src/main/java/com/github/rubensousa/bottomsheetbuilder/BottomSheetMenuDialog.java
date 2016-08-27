@@ -152,7 +152,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                 BottomSheetMenuDialog.super.dismiss();
 
                 // User dragged the sheet.
-                if (!mRequestDismiss && !mRequestCancel && mOnCancelListener != null) {
+                if (!mClicked && !mRequestDismiss && !mRequestCancel && mOnCancelListener != null) {
                     mOnCancelListener.onCancel(BottomSheetMenuDialog.this);
                 }
             }
