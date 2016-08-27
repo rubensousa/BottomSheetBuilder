@@ -102,6 +102,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             }
 
             if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                mBehavior.setBottomSheetCallback(null);
                 BottomSheetMenuDialog.super.dismiss();
             }
         }
