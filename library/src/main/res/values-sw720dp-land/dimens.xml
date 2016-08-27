@@ -1,0 +1,5 @@
+<resources>
+    <bool name="tablet_landscape">true</bool>
+    <dimen name="bottomsheet_width">650dp</dimen>
+    <integer name="bottomsheet_grid_columns">4</integer>
+</resources>
