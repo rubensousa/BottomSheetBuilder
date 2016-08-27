@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     fab.show();
                 }
             }
