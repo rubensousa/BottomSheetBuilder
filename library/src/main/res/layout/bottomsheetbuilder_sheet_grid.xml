@@ -14,6 +14,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         android:paddingBottom="@dimen/bottomsheet_grid_padding_bottom"
         android:paddingEnd="@dimen/bottomsheet_grid_horizontal_margin"
         android:paddingLeft="@dimen/bottomsheet_grid_horizontal_margin"
