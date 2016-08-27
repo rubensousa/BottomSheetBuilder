@@ -71,12 +71,6 @@ public class BottomSheetAdapterBuilder {
             recyclerView.setAdapter(new BottomSheetItemAdapter(items, mMode, itemClickListener));
         } else {
             GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
-            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    return 1;
-                }
-            });
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(new BottomSheetItemAdapter(items, mMode, itemClickListener));
             recyclerView.post(new Runnable() {
@@ -109,6 +103,10 @@ public class BottomSheetAdapterBuilder {
 
             if (item.isVisible()) {
                 if (item.hasSubMenu()) {
+                    if (mMode == BottomSheetBuilder.MODE_GRID) {
+                        throw new IllegalArgumentException("MODE_GRID can't have submenus." +
+                                " Use MODE_LIST instead");
+                    }
                     SubMenu subMenu = item.getSubMenu();
 
                     if (i != 0 && addedSubMenu) {
