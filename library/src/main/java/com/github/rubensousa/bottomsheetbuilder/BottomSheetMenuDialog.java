@@ -48,6 +48,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
         if (sheet != null) {
             mBehavior = BottomSheetBehavior.from(sheet);
             mBehavior.setBottomSheetCallback(mBottomSheetCallback);
+            mBehavior.setSkipCollapsed(true);
 
             // Make sure the sheet doesn't overlap the appbar
             if (mAppBarLayout != null) {
@@ -57,10 +58,14 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                 sheet.setLayoutParams(layoutParams);
             }
 
-            if (mExpandOnStart) {
-                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if(mExpandOnStart){
+                sheet.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+                });
             }
-
         }
     }
 
