@@ -4,11 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
-import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetMenuItem;
 import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSheetItemClickListener {
@@ -72,7 +72,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     }
 
     @Override
-    public void onBottomSheetItemClick(BottomSheetMenuItem item) {
+    public void onBottomSheetItemClick(MenuItem item) {
         if (!mClicked) {
 
             if (mBehavior != null) {
@@ -114,5 +114,4 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             }
         }
     };
-
 }

@@ -203,8 +203,10 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
 
         @Override
         public void onClick(View v) {
+            BottomSheetMenuItem item = (BottomSheetMenuItem) mItems.get(getLayoutPosition());
+
             if (mListener != null) {
-                mListener.onBottomSheetItemClick((BottomSheetMenuItem) item);
+                mListener.onBottomSheetItemClick(item.getMenuItem());
             }
         }
     }

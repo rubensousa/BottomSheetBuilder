@@ -6,11 +6,12 @@ import android.support.annotation.DrawableRes;
 import android.view.MenuItem;
 
 
-public class BottomSheetMenuItem implements BottomSheetItem {
+class BottomSheetMenuItem implements BottomSheetItem {
 
     private Drawable mDrawable;
     private String mTitle;
     private int mId;
+    private MenuItem mMenuItem;
 
     @ColorRes
     private int mTextColor;
@@ -19,6 +20,7 @@ public class BottomSheetMenuItem implements BottomSheetItem {
     private int mBackground;
 
     public BottomSheetMenuItem(MenuItem item, @ColorRes int textColor, @DrawableRes int background) {
+        mMenuItem = item;
         mId = item.getItemId();
         mDrawable = item.getIcon();
         mTitle = item.getTitle().toString();
@@ -28,6 +30,10 @@ public class BottomSheetMenuItem implements BottomSheetItem {
 
     public Drawable getDrawable() {
         return mDrawable;
+    }
+
+    public MenuItem getMenuItem(){
+        return mMenuItem;
     }
 
     @DrawableRes

@@ -9,13 +9,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
-import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetMenuItem;
 import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 public class MainActivity extends AppCompatActivity
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBottomSheetItemClick(BottomSheetMenuItem item) {
+    public void onBottomSheetItemClick(MenuItem item) {
         mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
@@ -129,8 +130,8 @@ public class MainActivity extends AppCompatActivity
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
-                    public void onBottomSheetItemClick(BottomSheetMenuItem item) {
-
+                    public void onBottomSheetItemClick(MenuItem item) {
+                        Log.d("Item click", item.getTitle() + "");
                     }
                 })
                 .createDialog();
