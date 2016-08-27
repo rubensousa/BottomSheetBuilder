@@ -46,14 +46,10 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
 
         if (item instanceof BottomSheetMenuItem) {
             return TYPE_ITEM;
-        } else {
-            if (item instanceof BottomSheetDivider) {
-                return TYPE_DIVIDER;
-            } else {
-                if (item instanceof BottomSheetHeader) {
-                    return TYPE_HEADER;
-                }
-            }
+        } else if (item instanceof BottomSheetDivider) {
+            return TYPE_DIVIDER;
+        } else if (item instanceof BottomSheetHeader) {
+            return TYPE_HEADER;
         }
 
         return super.getItemViewType(position);
@@ -101,14 +97,10 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         if (mMode == BottomSheetBuilder.MODE_LIST) {
             if (holder.getItemViewType() == TYPE_ITEM) {
                 ((ItemViewHolder) holder).setData((BottomSheetMenuItem) item);
-            } else {
-                if (holder.getItemViewType() == TYPE_HEADER) {
-                    ((HeaderViewHolder) holder).setData((BottomSheetHeader) item);
-                } else {
-                    if (holder.getItemViewType() == TYPE_DIVIDER) {
-                        ((DividerViewHolder) holder).setData((BottomSheetDivider) item);
-                    }
-                }
+            } else if (holder.getItemViewType() == TYPE_HEADER) {
+                ((HeaderViewHolder) holder).setData((BottomSheetHeader) item);
+            } else if (holder.getItemViewType() == TYPE_DIVIDER) {
+                ((DividerViewHolder) holder).setData((BottomSheetDivider) item);
             }
         } else {
             ((ItemViewHolder) holder).setData((BottomSheetMenuItem) item);
@@ -122,15 +114,10 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        BottomSheetItem item;
-
         public ViewHolder(View itemView) {
             super(itemView);
         }
 
-        public void setData(BottomSheetItem item) {
-            this.item = item;
-        }
     }
 
     public class DividerViewHolder extends ViewHolder {
@@ -143,7 +130,6 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetDivider item) {
-            super.setData(item);
             int background = item.getBackground();
             if (background != 0) {
                 divider.setBackgroundResource(background);
@@ -161,7 +147,6 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetHeader item) {
-            super.setData(item);
             textView.setText(item.getTitle());
             int color = item.getTextColor();
 
@@ -185,8 +170,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetMenuItem item) {
-            super.setData(item);
-            imageView.setImageDrawable(item.getDrawable());
+            imageView.setImageDrawable(item.getIcon());
             textView.setText(item.getTitle());
             int color = item.getTextColor();
             int background = item.getBackground();

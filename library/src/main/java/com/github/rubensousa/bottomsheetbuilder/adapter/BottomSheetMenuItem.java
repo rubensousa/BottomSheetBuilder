@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 class BottomSheetMenuItem implements BottomSheetItem {
 
-    private Drawable mDrawable;
+    private Drawable mIcon;
     private String mTitle;
     private int mId;
     private MenuItem mMenuItem;
@@ -21,15 +21,15 @@ class BottomSheetMenuItem implements BottomSheetItem {
 
     public BottomSheetMenuItem(MenuItem item, @ColorRes int textColor, @DrawableRes int background) {
         mMenuItem = item;
+        mIcon = item.getIcon();
         mId = item.getItemId();
-        mDrawable = item.getIcon();
         mTitle = item.getTitle().toString();
         mTextColor = textColor;
         mBackground = background;
     }
 
-    public Drawable getDrawable() {
-        return mDrawable;
+    public Drawable getIcon() {
+        return mIcon;
     }
 
     public MenuItem getMenuItem(){
