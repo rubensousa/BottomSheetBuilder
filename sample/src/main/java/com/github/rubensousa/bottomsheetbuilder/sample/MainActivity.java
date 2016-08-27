@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetMenuItem;
 import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
@@ -21,7 +21,7 @@ import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 public class MainActivity extends AppCompatActivity
         implements BottomSheetItemClickListener, View.OnClickListener {
 
-    private BottomSheetDialog mBottomSheetDialog;
+    private BottomSheetMenuDialog mBottomSheetDialog;
     private View mBottomSheet;
     private BottomSheetBehavior mBehavior;
     private FloatingActionButton mFab;
@@ -120,11 +120,12 @@ public class MainActivity extends AppCompatActivity
         mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
-    private BottomSheetDialog createDialog(@MenuRes int menu) {
+    private BottomSheetMenuDialog createDialog(@MenuRes int menu) {
         return new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(menu)
+                .delayDismissOnItemClick(true)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override

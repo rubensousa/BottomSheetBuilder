@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetMenuItem;
+import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSheetItemClickListener {
 
@@ -16,6 +17,8 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     private BottomSheetBehavior mBehavior;
     private BottomSheetItemClickListener mClickListener;
     private boolean mExpandOnStart;
+    private boolean mDelayDismiss;
+    private boolean mClicked;
 
     public BottomSheetMenuDialog(Context context) {
         super(context);
@@ -27,6 +30,10 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
     public void expandOnStart(boolean expand) {
         mExpandOnStart = expand;
+    }
+
+    public void delayDismiss(boolean dismiss) {
+        mDelayDismiss = dismiss;
     }
 
     public void setBottomSheetCallback(BottomSheetBehavior.BottomSheetCallback callback) {
@@ -80,12 +87,21 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
     @Override
     public void onBottomSheetItemClick(BottomSheetMenuItem item) {
-        if (mBehavior != null) {
-            mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
+        if (!mClicked) {
 
-        if (mClickListener != null) {
-            mClickListener.onBottomSheetItemClick(item);
+            if (mBehavior != null) {
+                if (mDelayDismiss) {
+                    BottomSheetBuilderUtils.delayDismiss(mBehavior);
+                } else {
+                    mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+            }
+
+            if (mClickListener != null) {
+                mClickListener.onBottomSheetItemClick(item);
+            }
+
+            mClicked = true;
         }
     }
 

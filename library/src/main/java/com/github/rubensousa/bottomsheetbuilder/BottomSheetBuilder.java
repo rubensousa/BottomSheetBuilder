@@ -7,7 +7,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.StyleRes;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -47,6 +46,7 @@ public class BottomSheetBuilder {
     @StyleRes
     private int mTheme;
 
+    private boolean mDelayedDismiss;
     private boolean mExpandOnStart;
     private Menu mMenu;
     private BottomSheetAdapterBuilder mAdapterBuilder;
@@ -133,6 +133,11 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder delayDismissOnItemClick(boolean dismiss) {
+        mDelayedDismiss = dismiss;
+        return this;
+    }
+
     public View createView() {
 
         if (mMenu == null) {
@@ -182,6 +187,7 @@ public class BottomSheetBuilder {
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.expandOnStart(mExpandOnStart);
+        dialog.delayDismiss(mDelayedDismiss);
         dialog.setBottomSheetItemClickListener(mItemClickListener);
         dialog.setContentView(sheet);
 
