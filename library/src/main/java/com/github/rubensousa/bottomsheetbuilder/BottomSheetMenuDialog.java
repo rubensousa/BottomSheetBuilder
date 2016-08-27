@@ -28,6 +28,29 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
         super(context, theme);
     }
 
+    @Override
+    public void dismiss() {
+        if (mBehavior != null) {
+            mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        } else {
+            super.dismiss();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FrameLayout sheet = (FrameLayout) findViewById(R.id.design_bottom_sheet);
+        if (sheet != null) {
+            mBehavior = BottomSheetBehavior.from(sheet);
+            mBehavior.setBottomSheetCallback(mBottomSheetCallback);
+
+            if (mExpandOnStart) {
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        }
+    }
+
     public void expandOnStart(boolean expand) {
         mExpandOnStart = expand;
     }
@@ -49,43 +72,6 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        FrameLayout sheet = (FrameLayout) findViewById(R.id.design_bottom_sheet);
-        if (sheet != null) {
-            mBehavior = BottomSheetBehavior.from(sheet);
-            mBehavior.setBottomSheetCallback(mBottomSheetCallback);
-
-            if (mExpandOnStart) {
-                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        }
-    }
-
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetCallback
-            = new BottomSheetBehavior.BottomSheetCallback() {
-        @Override
-        public void onStateChanged(@NonNull View bottomSheet,
-                                   @BottomSheetBehavior.State int newState) {
-
-            if (mCallback != null) {
-                mCallback.onStateChanged(bottomSheet, newState);
-            }
-
-            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                dismiss();
-            }
-        }
-
-        @Override
-        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            if (mCallback != null) {
-                mCallback.onSlide(bottomSheet, slideOffset);
-            }
-        }
-    };
-
-    @Override
     public void onBottomSheetItemClick(BottomSheetMenuItem item) {
         if (!mClicked) {
 
@@ -104,5 +90,28 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             mClicked = true;
         }
     }
+
+    private BottomSheetBehavior.BottomSheetCallback mBottomSheetCallback
+            = new BottomSheetBehavior.BottomSheetCallback() {
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet,
+                                   @BottomSheetBehavior.State int newState) {
+
+            if (mCallback != null) {
+                mCallback.onStateChanged(bottomSheet, newState);
+            }
+
+            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                BottomSheetMenuDialog.super.dismiss();
+            }
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            if (mCallback != null) {
+                mCallback.onSlide(bottomSheet, slideOffset);
+            }
+        }
+    };
 
 }

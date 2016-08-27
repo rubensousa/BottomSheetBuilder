@@ -15,7 +15,7 @@ public class BottomSheetBuilderUtils {
             public void run() {
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             }
-        }, 400);
+        }, 300);
     }
 
     public static void saveState(Bundle outState, BottomSheetBehavior behavior) {
