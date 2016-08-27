@@ -28,6 +28,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,8 +189,16 @@ public class BottomSheetBuilder {
                 = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,
                 CoordinatorLayout.LayoutParams.WRAP_CONTENT);
 
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+
 
         layoutParams.setBehavior(new BottomSheetBehavior());
+
+        if (mContext.getResources().getBoolean(R.bool.tablet_landscape)) {
+            layoutParams.width = mContext.getResources()
+                    .getDimensionPixelSize(R.dimen.bottomsheet_width);
+        }
+
         mCoordinatorLayout.addView(sheet, layoutParams);
         mCoordinatorLayout.postInvalidate();
         return sheet;
