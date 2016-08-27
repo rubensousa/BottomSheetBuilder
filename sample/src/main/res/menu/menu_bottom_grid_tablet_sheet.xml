@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/ic_keep"
+        android:title="Keep" />
+
+    <item
+        android:icon="@drawable/ic_inbox"
+        android:title="Inbox" />
+
+    <item
+        android:icon="@drawable/ic_hangouts"
+        android:title="Hangouts" />
+    <item
+        android:icon="@drawable/ic_messenger"
+        android:title="Messenger" />
+
+    <item
+        android:icon="@drawable/ic_google"
+        android:title="Google+" />
+
+    <item
+        android:icon="@drawable/ic_sheets"
+        android:title="Sheets" />
+
+    <item
+        android:icon="@drawable/ic_docs"
+        android:title="Docs" />
+
+    <item
+        android:icon="@drawable/ic_slides"
+        android:title="Slides" />
+
+    <item
+        android:icon="@drawable/ic_photos"
+        android:title="Photos" />
+
+    <item
+        android:icon="@drawable/ic_facebook_box"
+        android:title="Facebook" />
+
+    <item
+        android:icon="@drawable/ic_twitter_box"
+        android:title="Twitter" />
+
+    <item
+        android:icon="@drawable/ic_drive"
+        android:title="Drive" />
+
+</menu>

@@ -7,4 +7,8 @@
     <dimen name="bottomsheet_grid_padding_bottom">24dp</dimen>
     <dimen name="bottomsheet_horizontal_margin">16dp</dimen>
     <dimen name="bottomsheet_vertical_margin">8dp</dimen>
+    <dimen name="bottomsheet_elevation">16dp</dimen>
+
+    <bool name="tablet_landscape">false</bool>
+    <integer name="bottomsheet_grid_columns">3</integer>
 </resources>

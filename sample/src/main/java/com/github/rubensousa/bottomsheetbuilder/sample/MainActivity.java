@@ -3,7 +3,6 @@ package com.github.rubensousa.bottomsheetbuilder.sample;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
@@ -194,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setAppBarLayout(appBarLayout)
                 .setBackgroundColor(android.R.color.white)
-                .setMenu(R.menu.menu_bottom_grid_sheet)
+                .setMenu(getResources().getBoolean(R.bool.tablet_landscape)
+                        ? R.menu.menu_bottom_grid_tablet_sheet : R.menu.menu_bottom_grid_sheet)
                 .delayDismissOnItemClick(true)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {

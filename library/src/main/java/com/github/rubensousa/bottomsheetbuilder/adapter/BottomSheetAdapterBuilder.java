@@ -19,12 +19,10 @@ package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -81,24 +79,23 @@ public class BottomSheetAdapterBuilder {
         List<BottomSheetItem> items = createAdapterItems(dividerBackground, titleTextColor,
                 itemTextColor, itemBackground);
 
+        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(items, mMode,
+                itemClickListener);
 
         if (mMode == BottomSheetBuilder.MODE_LIST) {
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-            recyclerView.setAdapter(new BottomSheetItemAdapter(items, mMode, itemClickListener));
+            recyclerView.setAdapter(adapter);
         } else {
-            GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
+            final int columns = mContext.getResources().getInteger(R.integer.bottomsheet_grid_columns);
+            GridLayoutManager layoutManager = new GridLayoutManager(mContext, columns);
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(new BottomSheetItemAdapter(items, mMode, itemClickListener));
             recyclerView.post(new Runnable() {
                 @Override
                 public void run() {
 
-                    BottomSheetItemAdapter adapter
-                            = (BottomSheetItemAdapter) recyclerView.getAdapter();
-
-                    DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-                    float margins = 24 * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-                    adapter.setItemWidth((int) ((recyclerView.getWidth() - 2 * margins) / 3));
+                    float margin = mContext.getResources()
+                            .getDimensionPixelSize(R.dimen.bottomsheet_grid_horizontal_margin);
+                    adapter.setItemWidth((int) ((recyclerView.getWidth() - 2 * margin) / columns));
                     recyclerView.setAdapter(adapter);
                 }
             });

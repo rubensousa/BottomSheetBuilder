@@ -17,7 +17,6 @@
 package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -29,9 +28,10 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetAdapterBuilder;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
@@ -156,7 +156,7 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    public BottomSheetBuilder setAppBarLayout(AppBarLayout appbar){
+    public BottomSheetBuilder setAppBarLayout(AppBarLayout appbar) {
         mAppBarLayout = appbar;
         return this;
     }
@@ -177,8 +177,8 @@ public class BottomSheetBuilder {
                 mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
                 mItemClickListener);
 
-        ViewCompat.setElevation(sheet, Resources.getSystem().getDisplayMetrics().density
-                / DisplayMetrics.DENSITY_DEFAULT * 16);
+        ViewCompat.setElevation(sheet, mContext.getResources()
+                .getDimensionPixelSize(R.dimen.bottomsheet_elevation));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
@@ -213,7 +213,16 @@ public class BottomSheetBuilder {
         dialog.expandOnStart(mExpandOnStart);
         dialog.delayDismiss(mDelayedDismiss);
         dialog.setBottomSheetItemClickListener(mItemClickListener);
-        dialog.setContentView(sheet);
+
+        if (mContext.getResources().getBoolean(R.bool.tablet_landscape)) {
+            FrameLayout.LayoutParams layoutParams
+                    = new FrameLayout.LayoutParams(mContext.getResources()
+                    .getDimensionPixelSize(R.dimen.bottomsheet_width),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setContentView(sheet, layoutParams);
+        } else {
+            dialog.setContentView(sheet);
+        }
 
         return dialog;
     }
