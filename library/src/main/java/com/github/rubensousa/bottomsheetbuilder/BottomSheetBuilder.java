@@ -47,23 +47,16 @@ public class BottomSheetBuilder {
     @StyleRes
     private int mTheme;
 
+    private boolean mExpandOnStart;
     private Menu mMenu;
     private BottomSheetAdapterBuilder mAdapterBuilder;
     private CoordinatorLayout mCoordinatorLayout;
-    private AppBarLayout mAppBarLayout;
     private Context mContext;
     private BottomSheetItemClickListener mItemClickListener;
-    private int mMode = MODE_LIST;
 
     public BottomSheetBuilder(Context context, CoordinatorLayout coordinatorLayout) {
-        this(context, coordinatorLayout, null);
-    }
-
-    public BottomSheetBuilder(Context context, CoordinatorLayout coordinatorLayout,
-                              AppBarLayout appBarLayout) {
         mContext = context;
         mCoordinatorLayout = coordinatorLayout;
-        mAppBarLayout = appBarLayout;
         mAdapterBuilder = new BottomSheetAdapterBuilder(mContext);
     }
 
@@ -84,8 +77,7 @@ public class BottomSheetBuilder {
                     "or BottomSheetBuilder.MODE_GRID");
         }
 
-        mMode = mode;
-        mAdapterBuilder.setMode(mMode);
+        mAdapterBuilder.setMode(mode);
         return this;
     }
 
@@ -136,6 +128,11 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder expandOnStart(boolean expand) {
+        mExpandOnStart = expand;
+        return this;
+    }
+
     public View createView() {
 
         if (mMenu == null) {
@@ -152,7 +149,7 @@ public class BottomSheetBuilder {
                 mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
                 mItemClickListener);
 
-        ViewCompat.setElevation(sheet, Resources.getSystem().getDisplayMetrics().densityDpi
+        ViewCompat.setElevation(sheet, Resources.getSystem().getDisplayMetrics().density
                 / DisplayMetrics.DENSITY_DEFAULT * 16);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -184,6 +181,7 @@ public class BottomSheetBuilder {
                 mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground, dialog);
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
+        dialog.expandOnStart(mExpandOnStart);
         dialog.setBottomSheetItemClickListener(mItemClickListener);
         dialog.setContentView(sheet);
 

@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(menu)
+                .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
                     public void onBottomSheetItemClick(BottomSheetMenuItem item) {

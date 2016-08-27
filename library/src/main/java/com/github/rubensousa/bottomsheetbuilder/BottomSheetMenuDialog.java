@@ -15,6 +15,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     private BottomSheetBehavior.BottomSheetCallback mCallback;
     private BottomSheetBehavior mBehavior;
     private BottomSheetItemClickListener mClickListener;
+    private boolean mExpandOnStart;
 
     public BottomSheetMenuDialog(Context context) {
         super(context);
@@ -22,6 +23,10 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
     public BottomSheetMenuDialog(Context context, int theme) {
         super(context, theme);
+    }
+
+    public void expandOnStart(boolean expand) {
+        mExpandOnStart = expand;
     }
 
     public void setBottomSheetCallback(BottomSheetBehavior.BottomSheetCallback callback) {
@@ -43,6 +48,10 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
         if (sheet != null) {
             mBehavior = BottomSheetBehavior.from(sheet);
             mBehavior.setBottomSheetCallback(mBottomSheetCallback);
+
+            if (mExpandOnStart) {
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
         }
     }
 
