@@ -4,8 +4,7 @@ A simple library that creates BottomSheets according to the Material Design spec
 Available from API 14.
 
 ## Screenshots
-<img src="screens/sheet-list-submenu.png" width="350"> <img src="screens/sheet-list-simple.png" width="350">
-<img src="screens/sheet-grid.png" width="350"> 
+<img src="screens/demo.gif" width="350"><img src="screens/sheet-list-submenu.png" width="350">
 
 ## How to use
 
@@ -37,7 +36,7 @@ BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_
               .setMenu(R.menu.menu_bottom_simple_sheet)
               .setItemClickListener(new BottomSheetItemClickListener() {
                         @Override
-                        public void onBottomSheetItemClick(BottomSheetMenuItem item) {
+                        public void onBottomSheetItemClick(MenuItem item) {
                                 
                         }
                 })
@@ -57,7 +56,8 @@ Make sure the style passed in the BottomSheetBuilder's constructor extends from 
 ```
 ## Sample
 
-The sample includes 3 view modes: grid, list and list with one submenu. Check the screenshots below.
+The sample includes 3 view modes: grid, list and list with one submenu.
+It also has a save/restore state example.
 
 ## Customization methods
 ```java
@@ -71,17 +71,7 @@ setItemBackground(@DrawableRes int background)
 
 ## Changelog
 
-
-
-## Known bugs
-
-There's some bugs that affect the BottomSheetDialog and the BottomSheetBehavior in the Support Library v23.3.0:
-
-- ~~https://code.google.com/p/android/issues/detail?id=201793~~
-
-- https://code.google.com/p/android/issues/detail?id=201825
-
-- ~~https://code.google.com/p/android/issues/detail?id=201826~~
+https://github.com/rubensousa/BottomSheetBuilder/blob/master/CHANGELOG.md
 
 ## License
 
