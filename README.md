@@ -1,10 +1,12 @@
 # BottomSheetBuilder
-A simple library that creates BottomSheets according to the Material Design specs
+A simple library that creates BottomSheets according to the Material Design specs: https://material.google.com/components/bottom-sheets.html
 
 Available from API 14.
 
 ## Screenshots
-<img src="screens/demo.gif" width="350"><img src="screens/sheet-list-submenu.png" width="350">
+<img src="screens/demo.gif" width="350">
+
+<img src="screens/sheet-list-submenu.png" width="250"><img src="screens/sheet-list-simple.png" width="250">
 
 ## How to use
 
@@ -44,6 +46,28 @@ BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_
               
 dialog.show();
 ```
+- If you have a long view, you should consider adding the AppBarLayout to the builder so that the dialog doesn't overlap with it:
+
+```java
+BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+              .setAppBarLayout(appbar)
+              ...
+```
+- If you want to expand the dialog automatically:
+
+```java
+BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+              .expandOnStart(true)
+              ...
+```
+
+- If you want to add a delay between click and dialog dismiss:
+
+```java
+BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+              .delayDismissOnItemClick(true)
+              ...
+```
 
 ## Styling
 
@@ -67,6 +91,8 @@ setBackground(@DrawableRes int background)
 setBackgroundColor(@ColorRes int background)
 setDividerBackground(@DrawableRes int background)
 setItemBackground(@DrawableRes int background)
+expandOnStart(boolean expand) -> Defaults to false
+delayDismissOnItemClick(boolean delayDismiss) -> Defaults to false
 ```
 
 ## Changelog
