@@ -22,6 +22,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     private boolean mExpandOnStart;
     private boolean mDelayDismiss;
     private boolean mClicked;
+    private boolean mRequestCancel;
 
     public BottomSheetMenuDialog(Context context) {
         super(context);
@@ -42,6 +43,19 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     }
 
     @Override
+    public void cancel() {
+        mRequestCancel = true;
+        super.cancel();
+    }
+
+    @Override
+    public void dismiss() {
+        if(mRequestCancel){
+            dismissWithAnimation();
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         FrameLayout sheet = (FrameLayout) findViewById(R.id.design_bottom_sheet);
@@ -58,7 +72,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                 sheet.setLayoutParams(layoutParams);
             }
 
-            if(mExpandOnStart){
+            if (mExpandOnStart) {
                 sheet.post(new Runnable() {
                     @Override
                     public void run() {

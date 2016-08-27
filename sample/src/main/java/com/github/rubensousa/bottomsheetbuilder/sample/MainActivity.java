@@ -1,17 +1,14 @@
 package com.github.rubensousa.bottomsheetbuilder.sample;
 
 import android.os.Bundle;
-import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,39 +17,39 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
 import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
-public class MainActivity extends AppCompatActivity
-        implements BottomSheetItemClickListener, View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class MainActivity extends AppCompatActivity implements BottomSheetItemClickListener {
 
     private BottomSheetMenuDialog mBottomSheetDialog;
     private View mBottomSheet;
     private BottomSheetBehavior mBehavior;
-    private FloatingActionButton mFab;
-    private AppBarLayout mAppbar;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+    @BindView(R.id.appbar)
+    AppBarLayout appBarLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mAppbar = (AppBarLayout) findViewById(R.id.appbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-        findViewById(R.id.showViewBtn).setOnClickListener(this);
-        findViewById(R.id.showDialogBtn).setOnClickListener(this);
-        findViewById(R.id.showDialogHeadersBtn).setOnClickListener(this);
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-        mFab.setOnClickListener(this);
-
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-
-        Menu menu = new MenuBuilder(this);
-        getMenuInflater().inflate(R.menu.menu_bottom_grid_sheet, menu);
 
         mBottomSheet = new BottomSheetBuilder(this, coordinatorLayout)
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setBackgroundColor(android.R.color.white)
-                .setMenu(menu)
+                .setMenu(R.menu.menu_bottom_grid_sheet)
                 .setItemClickListener(this)
                 .createView();
 
@@ -60,9 +57,8 @@ public class MainActivity extends AppCompatActivity
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN
-                        || newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mFab.show();
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    fab.show();
                 }
             }
 
@@ -93,43 +89,27 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.showViewBtn) {
-            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            return;
-        }
-
-        if (v.getId() == R.id.showDialogBtn) {
-            mBottomSheetDialog = createDialog(R.menu.menu_bottom_simple_sheet);
-            mBottomSheetDialog.show();
-            return;
-        }
-
-        if (v.getId() == R.id.showDialogHeadersBtn) {
-            mBottomSheetDialog = createDialog(R.menu.menu_bottom_headers_sheet);
-            mBottomSheetDialog.show();
-            return;
-        }
-
-        if (v.getId() == R.id.fab) {
-            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            mFab.hide();
-        }
-
+    @SuppressWarnings("unused")
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        fab.hide();
     }
 
-    @Override
-    public void onBottomSheetItemClick(MenuItem item) {
-        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showViewBtn)
+    public void onShowViewClick() {
+        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
-    private BottomSheetMenuDialog createDialog(@MenuRes int menu) {
-        return new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showDialogBtn)
+    public void onShowDialogClick() {
+        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
-                .setAppBarLayout(mAppbar)
+                .setAppBarLayout(appBarLayout)
                 .setBackgroundColor(android.R.color.white)
-                .setMenu(menu)
+                .setMenu(R.menu.menu_bottom_simple_sheet)
                 .delayDismissOnItemClick(true)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
@@ -139,5 +119,54 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
                 .createDialog();
+        mBottomSheetDialog.show();
+    }
+
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showDialogHeadersBtn)
+    public void onShowDialogHeadersClick() {
+        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+                .setMode(BottomSheetBuilder.MODE_LIST)
+                .setAppBarLayout(appBarLayout)
+                .setBackgroundColor(android.R.color.white)
+                .setMenu(R.menu.menu_bottom_headers_sheet)
+                .delayDismissOnItemClick(true)
+                .expandOnStart(true)
+                .setItemClickListener(new BottomSheetItemClickListener() {
+                    @Override
+                    public void onBottomSheetItemClick(MenuItem item) {
+                        Log.d("Item click", item.getTitle() + "");
+                    }
+                })
+                .createDialog();
+
+        mBottomSheetDialog.show();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showDialogGridBtn)
+    public void onShowDialogGridClick() {
+        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+                .setMode(BottomSheetBuilder.MODE_GRID)
+                .setAppBarLayout(appBarLayout)
+                .setBackgroundColor(android.R.color.white)
+                .setMenu(R.menu.menu_bottom_grid_sheet)
+                .delayDismissOnItemClick(true)
+                .expandOnStart(true)
+                .setItemClickListener(new BottomSheetItemClickListener() {
+                    @Override
+                    public void onBottomSheetItemClick(MenuItem item) {
+                        Log.d("Item click", item.getTitle() + "");
+                    }
+                })
+                .createDialog();
+
+        mBottomSheetDialog.show();
+    }
+
+    @Override
+    public void onBottomSheetItemClick(MenuItem item) {
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 }

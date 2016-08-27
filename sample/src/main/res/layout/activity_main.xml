@@ -31,6 +31,12 @@
             android:layout_height="wrap_content"
             android:text="BottomSheetDialog with submenus" />
 
+        <Button
+            android:id="@+id/showDialogGridBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BottomSheetDialog with a grid" />
+
     </LinearLayout>
 
     <android.support.design.widget.AppBarLayout
