@@ -31,12 +31,13 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
         super(context, theme);
     }
 
-    @Override
-    public void dismiss() {
+
+    /**
+     * Dismiss the BottomSheetDialog while animating the sheet.
+     */
+    public void dismissWithAnimation() {
         if (mBehavior != null) {
             mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        } else {
-            super.dismiss();
         }
     }
 
@@ -48,10 +49,6 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             mBehavior = BottomSheetBehavior.from(sheet);
             mBehavior.setBottomSheetCallback(mBottomSheetCallback);
 
-            if (mExpandOnStart) {
-                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-
             // Make sure the sheet doesn't overlap the appbar
             if (mAppBarLayout != null) {
                 CoordinatorLayout.LayoutParams layoutParams
@@ -59,6 +56,11 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                 layoutParams.topMargin = mAppBarLayout.getHeight();
                 sheet.setLayoutParams(layoutParams);
             }
+
+            if (mExpandOnStart) {
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+
         }
     }
 
