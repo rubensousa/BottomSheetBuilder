@@ -1,7 +1,9 @@
 package com.github.rubensousa.bottomsheetbuilder.sample;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,8 +25,11 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements BottomSheetItemClickListener {
 
+    public static final String STATE_SIMPLE = "state_simple";
+    public static final String STATE_HEADER = "state_header";
+    public static final String STATE_GRID = "state_grid";
+
     private BottomSheetMenuDialog mBottomSheetDialog;
-    private View mBottomSheet;
     private BottomSheetBehavior mBehavior;
 
     @BindView(R.id.fab)
@@ -39,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
+    private boolean mShowingSimpleDialog;
+    private boolean mShowingHeaderDialog;
+    private boolean mShowingGridDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +55,14 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        mBottomSheet = new BottomSheetBuilder(this, coordinatorLayout)
+        View bottomSheet = new BottomSheetBuilder(this, coordinatorLayout)
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_grid_sheet)
                 .setItemClickListener(this)
                 .createView();
 
-        mBehavior = BottomSheetBehavior.from(mBottomSheet);
+        mBehavior = BottomSheetBehavior.from(bottomSheet);
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -70,19 +79,28 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        BottomSheetBuilderUtils.restoreState(savedInstanceState, mBehavior);
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         BottomSheetBuilderUtils.saveState(outState, mBehavior);
+        outState.putBoolean(STATE_SIMPLE, mShowingSimpleDialog);
+        outState.putBoolean(STATE_GRID, mShowingGridDialog);
+        outState.putBoolean(STATE_HEADER, mShowingHeaderDialog);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        BottomSheetBuilderUtils.restoreState(savedInstanceState, mBehavior);
+        if (savedInstanceState.getBoolean(STATE_GRID)) onShowDialogGridClick();
+
+        if (savedInstanceState.getBoolean(STATE_HEADER)) onShowDialogHeadersClick();
+
+        if (savedInstanceState.getBoolean(STATE_SIMPLE)) onShowDialogClick();
     }
 
     @Override
     protected void onDestroy() {
+        // Avoid leaked windows
         if (mBottomSheetDialog != null) {
             mBottomSheetDialog.dismiss();
         }
@@ -105,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
     @SuppressWarnings("unused")
     @OnClick(R.id.showDialogBtn)
     public void onShowDialogClick() {
+        if (mBottomSheetDialog != null) {
+            mBottomSheetDialog.dismiss();
+        }
+        mShowingSimpleDialog = true;
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
@@ -116,9 +138,16 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                     @Override
                     public void onBottomSheetItemClick(MenuItem item) {
                         Log.d("Item click", item.getTitle() + "");
+                        mShowingSimpleDialog = false;
                     }
                 })
                 .createDialog();
+        mBottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mShowingSimpleDialog = false;
+            }
+        });
         mBottomSheetDialog.show();
     }
 
@@ -126,6 +155,10 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
     @SuppressWarnings("unused")
     @OnClick(R.id.showDialogHeadersBtn)
     public void onShowDialogHeadersClick() {
+        if (mBottomSheetDialog != null) {
+            mBottomSheetDialog.dismiss();
+        }
+        mShowingHeaderDialog = true;
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
@@ -137,16 +170,26 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                     @Override
                     public void onBottomSheetItemClick(MenuItem item) {
                         Log.d("Item click", item.getTitle() + "");
+                        mShowingHeaderDialog = false;
                     }
                 })
                 .createDialog();
-
+        mBottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mShowingHeaderDialog = false;
+            }
+        });
         mBottomSheetDialog.show();
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.showDialogGridBtn)
     public void onShowDialogGridClick() {
+        if (mBottomSheetDialog != null) {
+            mBottomSheetDialog.dismiss();
+        }
+        mShowingGridDialog = true;
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setAppBarLayout(appBarLayout)
@@ -158,10 +201,17 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                     @Override
                     public void onBottomSheetItemClick(MenuItem item) {
                         Log.d("Item click", item.getTitle() + "");
+                        mShowingGridDialog = false;
                     }
                 })
                 .createDialog();
 
+        mBottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mShowingGridDialog = false;
+            }
+        });
         mBottomSheetDialog.show();
     }
 

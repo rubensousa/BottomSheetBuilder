@@ -8,6 +8,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
@@ -23,6 +24,8 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     private boolean mDelayDismiss;
     private boolean mClicked;
     private boolean mRequestCancel;
+    private boolean mRequestDismiss;
+    private OnCancelListener mOnCancelListener;
 
     public BottomSheetMenuDialog(Context context) {
         super(context);
@@ -43,6 +46,12 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     }
 
     @Override
+    public void setOnCancelListener(OnCancelListener listener) {
+        super.setOnCancelListener(listener);
+        mOnCancelListener = listener;
+    }
+
+    @Override
     public void cancel() {
         mRequestCancel = true;
         super.cancel();
@@ -50,15 +59,18 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
     @Override
     public void dismiss() {
-        if(mRequestCancel){
+        mRequestDismiss = true;
+        if (mRequestCancel) {
             dismissWithAnimation();
+        } else {
+            super.dismiss();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        FrameLayout sheet = (FrameLayout) findViewById(R.id.design_bottom_sheet);
+        final FrameLayout sheet = (FrameLayout) findViewById(R.id.design_bottom_sheet);
         if (sheet != null) {
             mBehavior = BottomSheetBehavior.from(sheet);
             mBehavior.setBottomSheetCallback(mBottomSheetCallback);
@@ -66,19 +78,17 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
             // Make sure the sheet doesn't overlap the appbar
             if (mAppBarLayout != null) {
-                CoordinatorLayout.LayoutParams layoutParams
-                        = (CoordinatorLayout.LayoutParams) sheet.getLayoutParams();
-                layoutParams.topMargin = mAppBarLayout.getHeight();
-                sheet.setLayoutParams(layoutParams);
-            }
-
-            if (mExpandOnStart) {
-                sheet.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    }
-                });
+                if (mAppBarLayout.getHeight() == 0) {
+                    mAppBarLayout.getViewTreeObserver()
+                            .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                @Override
+                                public void onGlobalLayout() {
+                                    applyAppbarMargin(sheet);
+                                }
+                            });
+                } else {
+                    applyAppbarMargin(sheet);
+                }
             }
         }
     }
@@ -140,6 +150,11 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                 mBehavior.setBottomSheetCallback(null);
                 BottomSheetMenuDialog.super.dismiss();
+
+                // User dragged the sheet.
+                if (!mRequestDismiss && !mRequestCancel && mOnCancelListener != null) {
+                    mOnCancelListener.onCancel(BottomSheetMenuDialog.this);
+                }
             }
         }
 
@@ -150,4 +165,20 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             }
         }
     };
+
+    private void applyAppbarMargin(View sheet) {
+        CoordinatorLayout.LayoutParams layoutParams
+                = (CoordinatorLayout.LayoutParams) sheet.getLayoutParams();
+        layoutParams.topMargin = mAppBarLayout.getHeight();
+        sheet.setLayoutParams(layoutParams);
+
+        if (mExpandOnStart) {
+            sheet.post(new Runnable() {
+                @Override
+                public void run() {
+                    mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            });
+        }
+    }
 }
