@@ -2,8 +2,10 @@ package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,6 +18,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     private BottomSheetBehavior.BottomSheetCallback mCallback;
     private BottomSheetBehavior mBehavior;
     private BottomSheetItemClickListener mClickListener;
+    private AppBarLayout mAppBarLayout;
     private boolean mExpandOnStart;
     private boolean mDelayDismiss;
     private boolean mClicked;
@@ -48,7 +51,19 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             if (mExpandOnStart) {
                 mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
+
+            // Make sure the sheet doesn't overlap the appbar
+            if (mAppBarLayout != null) {
+                CoordinatorLayout.LayoutParams layoutParams
+                        = (CoordinatorLayout.LayoutParams) sheet.getLayoutParams();
+                layoutParams.topMargin = mAppBarLayout.getHeight();
+                sheet.setLayoutParams(layoutParams);
+            }
         }
+    }
+
+    public void setAppBar(AppBarLayout appBar) {
+        mAppBarLayout = appBar;
     }
 
     public void expandOnStart(boolean expand) {

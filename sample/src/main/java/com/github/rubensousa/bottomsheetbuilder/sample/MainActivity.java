@@ -3,6 +3,7 @@ package com.github.rubensousa.bottomsheetbuilder.sample;
 import android.os.Bundle;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     private View mBottomSheet;
     private BottomSheetBehavior mBehavior;
     private FloatingActionButton mFab;
+    private AppBarLayout mAppbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mAppbar = (AppBarLayout) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
 
         findViewById(R.id.showViewBtn).setOnClickListener(this);
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity
     private BottomSheetMenuDialog createDialog(@MenuRes int menu) {
         return new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
+                .setAppBarLayout(mAppbar)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(menu)
                 .delayDismissOnItemClick(true)

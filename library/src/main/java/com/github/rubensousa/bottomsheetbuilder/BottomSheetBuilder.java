@@ -7,6 +7,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.StyleRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -51,6 +52,7 @@ public class BottomSheetBuilder {
     private Menu mMenu;
     private BottomSheetAdapterBuilder mAdapterBuilder;
     private CoordinatorLayout mCoordinatorLayout;
+    private AppBarLayout mAppBarLayout;
     private Context mContext;
     private BottomSheetItemClickListener mItemClickListener;
 
@@ -138,6 +140,11 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder setAppBarLayout(AppBarLayout appbar){
+        mAppBarLayout = appbar;
+        return this;
+    }
+
     public View createView() {
 
         if (mMenu == null) {
@@ -186,6 +193,7 @@ public class BottomSheetBuilder {
                 mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground, dialog);
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
+        dialog.setAppBar(mAppBarLayout);
         dialog.expandOnStart(mExpandOnStart);
         dialog.delayDismiss(mDelayedDismiss);
         dialog.setBottomSheetItemClickListener(mItemClickListener);
