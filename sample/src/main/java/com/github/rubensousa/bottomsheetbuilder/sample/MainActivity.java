@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
                 .setIconTintColor(R.color.colorSheetText)
-                .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_simple_sheet)
                 .delayDismissOnItemClick(true)
                 .expandOnStart(true)
@@ -168,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
-                .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_headers_sheet)
                 .delayDismissOnItemClick(true)
                 .expandOnStart(true)
@@ -199,10 +197,8 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_GRID)
                 .setAppBarLayout(appBarLayout)
-                .setBackgroundColor(android.R.color.white)
                 .setMenu(getResources().getBoolean(R.bool.tablet_landscape)
                         ? R.menu.menu_bottom_grid_tablet_sheet : R.menu.menu_bottom_grid_sheet)
-                .delayDismissOnItemClick(true)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
@@ -232,9 +228,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
-                .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_list_sheet)
-                .delayDismissOnItemClick(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
                     public void onBottomSheetItemClick(MenuItem item) {

@@ -48,7 +48,7 @@ public class BottomSheetBuilder {
     private int mBackgroundDrawable;
 
     @ColorRes
-    private int mBackgroundColor;
+    private int mBackgroundColor = android.R.color.white;
 
     @DrawableRes
     private int mDividerBackground;
@@ -66,8 +66,8 @@ public class BottomSheetBuilder {
     @StyleRes
     private int mTheme;
 
-    private boolean mDelayedDismiss;
-    private boolean mExpandOnStart;
+    private boolean mDelayedDismiss = true;
+    private boolean mExpandOnStart = false;
     private int mIconTintColor = -1;
     private Menu mMenu;
     private BottomSheetAdapterBuilder mAdapterBuilder;
