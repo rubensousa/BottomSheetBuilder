@@ -11,6 +11,7 @@
     <dimen name="bottomsheet_title_size">16sp</dimen>
     <dimen name="bottomsheet_item_textsize">18sp</dimen>
 
+    <bool name="landscape">false</bool>
     <bool name="tablet_landscape">false</bool>
     <integer name="bottomsheet_grid_columns">3</integer>
 </resources>

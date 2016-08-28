@@ -113,6 +113,10 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                     applyAppbarMargin(sheet);
                 }
             }
+
+            if (getContext().getResources().getBoolean(R.bool.landscape)) {
+                fixLandscapePeekHeight(sheet);
+            }
         }
     }
 
@@ -188,6 +192,16 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             }
         }
     };
+
+    private void fixLandscapePeekHeight(final View sheet) {
+        // On landscape, we shouldn't use the 16:9 keyline alignment
+        sheet.post(new Runnable() {
+            @Override
+            public void run() {
+                mBehavior.setPeekHeight(sheet.getHeight() / 2);
+            }
+        });
+    }
 
     private void applyAppbarMargin(View sheet) {
         CoordinatorLayout.LayoutParams layoutParams
