@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -134,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
+                .setIconTintColor(R.color.colorSheetText)
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_simple_sheet)
                 .delayDismissOnItemClick(true)

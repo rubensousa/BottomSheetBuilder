@@ -56,7 +56,7 @@ public class BottomSheetAdapterBuilder {
     @SuppressLint("InflateParams")
     public View createView(int itemTextColor, int titleTextColor, int backgroundDrawable,
                            int backgroundColor, int dividerBackground, int itemBackground,
-                           BottomSheetItemClickListener itemClickListener) {
+                           int tintColor, BottomSheetItemClickListener itemClickListener) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
@@ -77,7 +77,7 @@ public class BottomSheetAdapterBuilder {
         }
 
         List<BottomSheetItem> items = createAdapterItems(dividerBackground, titleTextColor,
-                itemTextColor, itemBackground);
+                itemTextColor, itemBackground, tintColor);
 
         final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(items, mMode,
                 itemClickListener);
@@ -106,7 +106,8 @@ public class BottomSheetAdapterBuilder {
     }
 
     private List<BottomSheetItem> createAdapterItems(int dividerBackground, int titleTextColor,
-                                                     int itemTextColor, int itemBackground) {
+                                                     int itemTextColor, int itemBackground,
+                                                     int tintColor) {
         List<BottomSheetItem> items = new ArrayList<>();
 
         boolean addedSubMenu = false;
@@ -135,12 +136,12 @@ public class BottomSheetAdapterBuilder {
                         MenuItem subItem = subMenu.getItem(j);
                         if (subItem.isVisible()) {
                             items.add(new BottomSheetMenuItem(subItem, itemTextColor,
-                                    itemBackground));
+                                    itemBackground, tintColor));
                             addedSubMenu = true;
                         }
                     }
                 } else {
-                    items.add(new BottomSheetMenuItem(item, itemTextColor, itemBackground));
+                    items.add(new BottomSheetMenuItem(item, itemTextColor, itemBackground, tintColor));
                 }
             }
         }

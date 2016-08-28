@@ -16,15 +16,19 @@
 
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.MenuItem;
 
 
 class BottomSheetMenuItem implements BottomSheetItem {
 
+    private int mTintColor;
     private Drawable mIcon;
+    private Drawable mTintedIcon;
     private String mTitle;
     private int mId;
     private MenuItem mMenuItem;
@@ -35,20 +39,27 @@ class BottomSheetMenuItem implements BottomSheetItem {
     @DrawableRes
     private int mBackground;
 
-    public BottomSheetMenuItem(MenuItem item, @ColorRes int textColor, @DrawableRes int background) {
+    public BottomSheetMenuItem(MenuItem item, @ColorRes int textColor, @DrawableRes int background,
+                               int tintColor) {
         mMenuItem = item;
         mIcon = item.getIcon();
         mId = item.getItemId();
         mTitle = item.getTitle().toString();
         mTextColor = textColor;
         mBackground = background;
+        mTintColor = tintColor;
+
+        if (mTintColor != -1) {
+            mIcon = DrawableCompat.wrap(mIcon);
+            DrawableCompat.setTint(mIcon, mTintColor);
+        }
     }
 
     public Drawable getIcon() {
         return mIcon;
     }
 
-    public MenuItem getMenuItem(){
+    public MenuItem getMenuItem() {
         return mMenuItem;
     }
 

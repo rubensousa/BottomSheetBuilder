@@ -16,7 +16,10 @@
 
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
+import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -175,13 +178,13 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
 
     public class ItemViewHolder extends ViewHolder implements View.OnClickListener {
 
-        public ImageView imageView;
+        public AppCompatImageView imageView;
         public TextView textView;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView = (AppCompatImageView) itemView.findViewById(R.id.imageView);
             textView = (TextView) itemView.findViewById(R.id.textView);
         }
 

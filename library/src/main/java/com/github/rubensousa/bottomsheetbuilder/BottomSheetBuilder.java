@@ -25,6 +25,7 @@ import android.support.annotation.StyleRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
@@ -61,11 +62,13 @@ public class BottomSheetBuilder {
     @ColorRes
     private int mTitleTextColor;
 
+
     @StyleRes
     private int mTheme;
 
     private boolean mDelayedDismiss;
     private boolean mExpandOnStart;
+    private int mIconTintColor = -1;
     private Menu mMenu;
     private BottomSheetAdapterBuilder mAdapterBuilder;
     private CoordinatorLayout mCoordinatorLayout;
@@ -162,6 +165,16 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder setIconTintColorResource(@ColorRes int color) {
+        mIconTintColor = ContextCompat.getColor(mContext, color);
+        return this;
+    }
+
+    public BottomSheetBuilder setIconTintColor(int color) {
+        mIconTintColor = color;
+        return this;
+    }
+
     public View createView() {
 
         if (mMenu == null) {
@@ -176,7 +189,7 @@ public class BottomSheetBuilder {
 
         View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
                 mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
-                mItemClickListener);
+                mIconTintColor, mItemClickListener);
 
         ViewCompat.setElevation(sheet, mContext.getResources()
                 .getDimensionPixelSize(R.dimen.bottomsheet_elevation));
@@ -215,7 +228,8 @@ public class BottomSheetBuilder {
                 : new BottomSheetMenuDialog(mContext, mTheme);
 
         View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
-                mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground, dialog);
+                mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
+                mIconTintColor, dialog);
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);
