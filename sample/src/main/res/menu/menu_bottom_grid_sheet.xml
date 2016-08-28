@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_gmail"
+        android:icon="@drawable/ic_gmail_48dp"
         android:title="Gmail" />
     <item
-        android:icon="@drawable/ic_hangouts"
+        android:icon="@drawable/ic_hangouts_48dp"
         android:title="Hangouts" />
     <item
-        android:icon="@drawable/ic_google"
+        android:icon="@drawable/ic_google_48dp"
         android:title="Google+" />
     <item
         android:icon="@drawable/ic_mail_48dp"

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
     public static final String STATE_SIMPLE = "state_simple";
     public static final String STATE_HEADER = "state_header";
     public static final String STATE_GRID = "state_grid";
+    public static final String STATE_LONG = "state_long";
 
     private BottomSheetMenuDialog mBottomSheetDialog;
     private BottomSheetBehavior mBehavior;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
     private boolean mShowingSimpleDialog;
     private boolean mShowingHeaderDialog;
     private boolean mShowingGridDialog;
+    private boolean mShowingLongDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         outState.putBoolean(STATE_SIMPLE, mShowingSimpleDialog);
         outState.putBoolean(STATE_GRID, mShowingGridDialog);
         outState.putBoolean(STATE_HEADER, mShowingHeaderDialog);
+        outState.putBoolean(STATE_LONG, mShowingLongDialog);
     }
 
     @Override
@@ -95,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         if (savedInstanceState.getBoolean(STATE_HEADER)) onShowDialogHeadersClick();
 
         if (savedInstanceState.getBoolean(STATE_SIMPLE)) onShowDialogClick();
+
+        if (savedInstanceState.getBoolean(STATE_LONG)) onShowLongDialogClick();
     }
 
     @Override
@@ -210,6 +215,38 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
             @Override
             public void onCancel(DialogInterface dialog) {
                 mShowingGridDialog = false;
+            }
+        });
+        mBottomSheetDialog.show();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showDialogLongBtn)
+    public void onShowLongDialogClick() {
+        if (mBottomSheetDialog != null) {
+            mBottomSheetDialog.dismiss();
+        }
+        mShowingLongDialog = true;
+        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+                .setMode(BottomSheetBuilder.MODE_LIST)
+                .setAppBarLayout(appBarLayout)
+                .setBackgroundColor(android.R.color.white)
+                .setMenu(R.menu.menu_bottom_list_sheet)
+                .delayDismissOnItemClick(true)
+                .expandOnStart(true)
+                .setItemClickListener(new BottomSheetItemClickListener() {
+                    @Override
+                    public void onBottomSheetItemClick(MenuItem item) {
+                        Log.d("Item click", item.getTitle() + "");
+                        mShowingLongDialog = false;
+                    }
+                })
+                .createDialog();
+
+        mBottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mShowingLongDialog = false;
             }
         });
         mBottomSheetDialog.show();

@@ -17,25 +17,31 @@
             android:id="@+id/showViewBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BottomSheet view with a grid" />
+            android:text="View with a grid" />
 
         <Button
             android:id="@+id/showDialogBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BottomSheetDialog with simple list" />
+            android:text="Dialog with simple list" />
+
+        <Button
+            android:id="@+id/showDialogLongBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dialog with long list" />
 
         <Button
             android:id="@+id/showDialogHeadersBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BottomSheetDialog with submenus" />
+            android:text="Dialog with submenus" />
 
         <Button
             android:id="@+id/showDialogGridBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BottomSheetDialog with a grid" />
+            android:text="Dialog with a grid" />
 
     </LinearLayout>
 

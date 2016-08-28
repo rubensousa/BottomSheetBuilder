@@ -2,38 +2,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_keep"
+        android:icon="@drawable/ic_keep_48dp"
         android:title="Keep" />
 
     <item
-        android:icon="@drawable/ic_inbox"
+        android:icon="@drawable/ic_inbox_48dp"
         android:title="Inbox" />
 
     <item
-        android:icon="@drawable/ic_hangouts"
+        android:icon="@drawable/ic_hangouts_48dp"
         android:title="Hangouts" />
     <item
-        android:icon="@drawable/ic_messenger"
+        android:icon="@drawable/ic_messenger_48dp"
         android:title="Messenger" />
 
     <item
-        android:icon="@drawable/ic_google"
+        android:icon="@drawable/ic_google_48dp"
         android:title="Google+" />
 
     <item
-        android:icon="@drawable/ic_sheets"
+        android:icon="@drawable/ic_sheets_48dp"
         android:title="Sheets" />
 
     <item
-        android:icon="@drawable/ic_docs"
+        android:icon="@drawable/ic_docs_48dp"
         android:title="Docs" />
 
     <item
-        android:icon="@drawable/ic_slides"
+        android:icon="@drawable/ic_slides_48dp"
         android:title="Slides" />
 
     <item
-        android:icon="@drawable/ic_photos"
+        android:icon="@drawable/ic_photos_48dp"
         android:title="Photos" />
 
     <item
@@ -45,7 +45,7 @@
         android:title="Twitter" />
 
     <item
-        android:icon="@drawable/ic_drive"
+        android:icon="@drawable/ic_drive_48dp"
         android:title="Drive" />
 
 </menu>
