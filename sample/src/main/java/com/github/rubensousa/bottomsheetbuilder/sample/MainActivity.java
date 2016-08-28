@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                 .setAppBarLayout(appBarLayout)
                 .setIconTintColor(R.color.colorSheetText)
                 .setMenu(R.menu.menu_bottom_simple_sheet)
-                .delayDismissOnItemClick(true)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
@@ -168,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
                 .setMenu(R.menu.menu_bottom_headers_sheet)
-                .delayDismissOnItemClick(true)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
