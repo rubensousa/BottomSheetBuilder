@@ -27,6 +27,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:gravity="center_vertical"
+        android:textSize="@dimen/bottomsheet_item_textsize"
         android:textColor="@color/colorSheetText" />
 
 </LinearLayout>

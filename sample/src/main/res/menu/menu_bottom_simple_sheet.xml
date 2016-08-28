@@ -12,6 +12,6 @@
         android:title="Get link" />
     <item
         android:icon="@drawable/ic_content_copy_24dp"
-        android:title="Copy" />
+        android:title="Make a copy" />
 
 </menu>

@@ -16,7 +16,7 @@
 
     <item
         android:icon="@drawable/ic_message_48dp"
-        android:title="Messages" />
+        android:title="Message" />
 
     <item
         android:icon="@drawable/ic_content_copy_48dp"

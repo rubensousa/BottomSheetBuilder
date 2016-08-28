@@ -23,7 +23,7 @@
                 android:title="Upload photos or videos" />
             <item
                 android:icon="@drawable/ic_camera_alt_24dp"
-                android:title="Use camera" />
+                android:title="Use Camera" />
         </menu>
     </item>
 
