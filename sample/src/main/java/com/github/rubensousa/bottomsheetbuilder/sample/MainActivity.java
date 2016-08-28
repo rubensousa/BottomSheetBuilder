@@ -233,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                 .setBackgroundColor(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_list_sheet)
                 .delayDismissOnItemClick(true)
-                .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
                     public void onBottomSheetItemClick(MenuItem item) {
