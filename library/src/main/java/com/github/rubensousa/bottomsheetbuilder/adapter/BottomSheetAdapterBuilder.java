@@ -116,13 +116,13 @@ public class BottomSheetAdapterBuilder {
 
             if (item.isVisible()) {
                 if (item.hasSubMenu()) {
-                    if (mMode == BottomSheetBuilder.MODE_GRID) {
-                        throw new IllegalArgumentException("MODE_GRID can't have submenus." +
-                                " Use MODE_LIST instead");
-                    }
                     SubMenu subMenu = item.getSubMenu();
 
                     if (i != 0 && addedSubMenu) {
+                        if (mMode == BottomSheetBuilder.MODE_GRID) {
+                            throw new IllegalArgumentException("MODE_GRID can't have submenus." +
+                                    " Use MODE_LIST instead");
+                        }
                         items.add(new BottomSheetDivider(dividerBackground));
                     }
 
