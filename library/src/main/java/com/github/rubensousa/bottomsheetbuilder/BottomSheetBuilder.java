@@ -48,7 +48,7 @@ public class BottomSheetBuilder {
     private int mBackgroundDrawable;
 
     @ColorRes
-    private int mBackgroundColor = android.R.color.white;
+    private int mBackgroundColor;
 
     @DrawableRes
     private int mDividerBackground;
@@ -61,7 +61,6 @@ public class BottomSheetBuilder {
 
     @ColorRes
     private int mTitleTextColor;
-
 
     @StyleRes
     private int mTheme;
@@ -203,8 +202,6 @@ public class BottomSheetBuilder {
                 CoordinatorLayout.LayoutParams.WRAP_CONTENT);
 
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-
-
         layoutParams.setBehavior(new BottomSheetBehavior());
 
         if (mContext.getResources().getBoolean(R.bool.tablet_landscape)) {
@@ -224,7 +221,8 @@ public class BottomSheetBuilder {
                     "or a Menu resource id");
         }
 
-        BottomSheetMenuDialog dialog = mTheme == 0 ? new BottomSheetMenuDialog(mContext)
+        BottomSheetMenuDialog dialog = mTheme == 0
+                ? new BottomSheetMenuDialog(mContext, R.style.BottomSheetBuilder_DialogStyle)
                 : new BottomSheetMenuDialog(mContext, mTheme);
 
         View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,

@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
             mBottomSheetDialog.dismiss();
         }
         mShowingSimpleDialog = true;
-        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+        mBottomSheetDialog = new BottomSheetBuilder(this)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
                 .setIconTintColor(R.color.colorSheetText)

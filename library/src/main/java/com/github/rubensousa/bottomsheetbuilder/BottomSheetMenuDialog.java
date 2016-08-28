@@ -86,6 +86,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     protected void onStart() {
         super.onStart();
         final FrameLayout sheet = (FrameLayout) findViewById(R.id.design_bottom_sheet);
+
         if (sheet != null) {
             mBehavior = BottomSheetBehavior.from(sheet);
             mBehavior.setBottomSheetCallback(mBottomSheetCallback);
