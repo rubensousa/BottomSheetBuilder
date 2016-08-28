@@ -19,7 +19,6 @@
         android:paddingEnd="@dimen/bottomsheet_grid_horizontal_margin"
         android:paddingLeft="@dimen/bottomsheet_grid_horizontal_margin"
         android:paddingRight="@dimen/bottomsheet_grid_horizontal_margin"
-        android:paddingStart="@dimen/bottomsheet_grid_horizontal_margin"
-        android:paddingTop="@dimen/bottomsheet_grid_padding_top" />
+        android:paddingStart="@dimen/bottomsheet_grid_horizontal_margin" />
 
 </LinearLayout>
