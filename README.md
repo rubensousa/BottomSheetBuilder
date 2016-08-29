@@ -6,7 +6,9 @@ Available from API 14.
 ## Screenshots
 <img src="screens/demo.gif" width="350">
 
-<img src="screens/sheet-list-submenu.png" width="250"><img src="screens/sheet-list-simple.png" width="250">
+<img src="screens/tablet_demo.gif">
+
+<img src="screens/tablet_grid.png">
 
 ## How to use
 
