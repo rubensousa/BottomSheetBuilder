@@ -135,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
-                .setIconTintColor(R.color.colorSheetText)
                 .setMenu(R.menu.menu_bottom_simple_sheet)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
