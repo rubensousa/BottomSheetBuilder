@@ -17,7 +17,7 @@ repositories{
 }
 
 dependencies {
-  compile 'com.github.rubensousa:BottomSheetBuilder:1.2'
+  compile 'com.github.rubensousa:BottomSheetBuilder:1.3'
 }
 ```
 
@@ -34,7 +34,6 @@ View bottomSheet = new BottomSheetBuilder(context, coordinatorLayout)
 ```java
 BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
               .setMode(BottomSheetBuilder.MODE_LIST)
-              .setBackgroundColor(android.R.color.white)
               .setMenu(R.menu.menu_bottom_simple_sheet)
               .setItemClickListener(new BottomSheetItemClickListener() {
                         @Override
@@ -61,38 +60,43 @@ BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_
               ...
 ```
 
-- If you want to add a delay between click and dialog dismiss:
-
-```java
+- If you want to tint the menu icons:
 BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
-              .delayDismissOnItemClick(true)
+              .setIconTintColorResource(R.color.colorPrimary)
               ...
-```
 
 ## Styling
 
-Make sure the style passed in the BottomSheetBuilder's constructor extends from Theme.Design.BottomSheetDialog:
+Make sure the style passed in the BottomSheetBuilder's constructor extends from the Theme.Design.BottomSheetDialog family:
 ```xml
-<style name="AppTheme.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
-    <!-- This changes the overlay background -->
-    <item name="android:background">@color/colorAccent</item>
-</style>
+    <style name="AppTheme.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppTheme.BottomSheetStyle</item>
+    </style>
+
+    <style name="AppTheme.BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/white</item>
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_skipCollapsed">true</item>
+    </style>
 ```
 ## Sample
 
-The sample includes 3 view modes: grid, list and list with one submenu.
+The sample includes 4 view modes: grid, list, long list and list with one submenu.
 It also has a save/restore state example.
 
 ## Customization methods
 ```java
 setItemTextColor(@ColorRes int color)
 setTitleTextColor(@ColorRes int color)
+setIconTintColorResource(@ColorRes int color)
+setIconTintColor(int color)
 setBackground(@DrawableRes int background)
 setBackgroundColor(@ColorRes int background)
 setDividerBackground(@DrawableRes int background)
 setItemBackground(@DrawableRes int background)
+setAppBarLayout(AppBarLayout appbar) -> To avoid overlapping
 expandOnStart(boolean expand) -> Defaults to false
-delayDismissOnItemClick(boolean delayDismiss) -> Defaults to false
+delayDismissOnItemClick(boolean delayDismiss) -> Defaults to true
 ```
 
 ## Changelog
