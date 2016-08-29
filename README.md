@@ -63,10 +63,11 @@ BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_
 ```
 
 - If you want to tint the menu icons:
+```java
 BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
               .setIconTintColorResource(R.color.colorPrimary)
               ...
-
+```
 ## Styling
 
 Make sure the style passed in the BottomSheetBuilder's constructor extends from the Theme.Design.BottomSheetDialog family:
