@@ -4,7 +4,7 @@ A simple library that creates BottomSheets according to the Material Design spec
 Available from API 14.
 
 ## Screenshots
-<img src="screens/demo.gif" width="350">
+<img src="screens/normal_demo.gif" width="350">
 
 <img src="screens/tablet_demo.gif">
 
