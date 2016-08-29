@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.3 (29/08/2016)
+- Add icon tint support
+- Add tablet layouts
+- Fix text size to match the material design spec.
+- Improve peek height on landscape
+- Use a BottomSheet style by default instead of setting a default background
+- 
 ### 1.2 (27/08/2016)
 - Call Dialog's onCancel method if the user hides the bottom sheet
 - Add option to avoid overlapping with AppBarLayout
