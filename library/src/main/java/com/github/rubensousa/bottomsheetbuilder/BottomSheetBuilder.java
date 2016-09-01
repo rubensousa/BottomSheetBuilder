@@ -18,6 +18,7 @@ package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
@@ -44,31 +45,11 @@ public class BottomSheetBuilder {
     public static final int MODE_LIST = 0;
     public static final int MODE_GRID = 1;
 
-    @DrawableRes
-    private int mBackgroundDrawable;
-
-    @ColorRes
-    private int mBackgroundColor;
-
-    @DrawableRes
-    private int mDividerBackground;
-
-    @DrawableRes
-    private int mItemBackground;
-
-    @ColorRes
-    private int mItemTextColor;
-
-    @ColorRes
-    private int mTitleTextColor;
-
     @StyleRes
     private int mTheme;
 
     private boolean mDelayedDismiss = true;
     private boolean mExpandOnStart = false;
-    private int mIconTintColor = -1;
-    private Menu mMenu;
     private BottomSheetAdapterBuilder mAdapterBuilder;
     private CoordinatorLayout mCoordinatorLayout;
     private AppBarLayout mAppBarLayout;
@@ -103,49 +84,48 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder setItemClickListener(BottomSheetItemClickListener listener) {
-        mItemClickListener = listener;
+        mAdapterBuilder.setItemClickListener(listener);
         return this;
     }
 
     public BottomSheetBuilder setMenu(@MenuRes int menu) {
-        mMenu = new MenuBuilder(mContext);
+        Menu mMenu = new MenuBuilder(mContext);
         new SupportMenuInflater(mContext).inflate(menu, mMenu);
         return setMenu(mMenu);
     }
 
     public BottomSheetBuilder setMenu(Menu menu) {
-        mMenu = menu;
-        mAdapterBuilder.setMenu(mMenu);
+        mAdapterBuilder.setMenu(menu);
         return this;
     }
 
     public BottomSheetBuilder setItemTextColor(@ColorRes int color) {
-        mItemTextColor = color;
+        mAdapterBuilder.setItemTextColor(color);
         return this;
     }
 
     public BottomSheetBuilder setTitleTextColor(@ColorRes int color) {
-        mTitleTextColor = color;
+        mAdapterBuilder.setTitleTextColor(color);
         return this;
     }
 
     public BottomSheetBuilder setBackground(@DrawableRes int background) {
-        mBackgroundDrawable = background;
+        mAdapterBuilder.setBackground(background);
         return this;
     }
 
     public BottomSheetBuilder setBackgroundColor(@ColorRes int background) {
-        mBackgroundColor = background;
+        mAdapterBuilder.setBackgroundColor(background);
         return this;
     }
 
     public BottomSheetBuilder setDividerBackground(@DrawableRes int background) {
-        mDividerBackground = background;
+        mAdapterBuilder.setDividerBackground(background);
         return this;
     }
 
     public BottomSheetBuilder setItemBackground(@DrawableRes int background) {
-        mItemBackground = background;
+        mAdapterBuilder.setItemBackground(background);
         return this;
     }
 
@@ -165,30 +145,27 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder setIconTintColorResource(@ColorRes int color) {
-        mIconTintColor = ContextCompat.getColor(mContext, color);
+        mAdapterBuilder.setIconTintColorResource(color);
         return this;
     }
 
-    public BottomSheetBuilder setIconTintColor(int color) {
-        mIconTintColor = color;
+    public BottomSheetBuilder setIconTintColor(@ColorInt int color) {
+        mAdapterBuilder.setIconTintColor(color);
         return this;
     }
 
-    public View createView() {
+    public BottomSheetBuilder setEditorEnabled(boolean editorEnabled) {
+        mAdapterBuilder.setEditorEnabled(editorEnabled);
+        return this;
+    }
 
-        if (mMenu == null) {
-            throw new IllegalStateException("You need to provide at least one Menu" +
-                    "or a Menu resource id");
-        }
-
+    public BottomSheetView createView() {
         if (mCoordinatorLayout == null) {
             throw new IllegalStateException("You need to provide a coordinatorLayout" +
                     "so the view can be placed on it");
         }
 
-        View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
-                mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
-                mIconTintColor, mItemClickListener);
+        BottomSheetView sheet = mAdapterBuilder.createView();
 
         ViewCompat.setElevation(sheet, mContext.getResources()
                 .getDimensionPixelSize(R.dimen.bottomsheet_elevation));
@@ -215,19 +192,13 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetMenuDialog createDialog() {
-
-        if (mMenu == null) {
-            throw new IllegalStateException("You need to provide at least one Menu" +
-                    "or a Menu resource id");
-        }
-
         BottomSheetMenuDialog dialog = mTheme == 0
                 ? new BottomSheetMenuDialog(mContext, R.style.BottomSheetBuilder_DialogStyle)
                 : new BottomSheetMenuDialog(mContext, mTheme);
 
-        View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
-                mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
-                mIconTintColor, dialog);
+        setItemClickListener(dialog);
+
+        View sheet = mAdapterBuilder.createView();
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);
