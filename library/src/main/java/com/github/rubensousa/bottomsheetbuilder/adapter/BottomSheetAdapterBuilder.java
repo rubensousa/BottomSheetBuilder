@@ -19,27 +19,67 @@ package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.menu.MenuItemImpl;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
+import android.widget.LinearLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.R;
 
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BottomSheetAdapterBuilder {
+    @DrawableRes
+    private int mBackgroundDrawable;
+
+    @ColorRes
+    private int mBackgroundColor;
+
+    @DrawableRes
+    private int mDividerBackground;
+
+    @DrawableRes
+    private int mItemBackground;
+
+    @ColorRes
+    private int mItemTextColor;
+
+    @ColorRes
+    private int mTitleTextColor;
+
+    @ColorRes
+    private int mIconTintColor = -1;
+
+    private BottomSheetItemClickListener mItemClickListener;
 
     private int mMode;
     private Menu mMenu;
     private Context mContext;
+    private boolean mEditorEnabled=false;
+
+    void setAddedSubMenu(boolean addedSubMenu) {
+        mAddedSubMenu = addedSubMenu;
+    }
+
+    private boolean mAddedSubMenu;
+    private HashMap<MenuItem,List<BottomSheetItem>> mBinds;
+
+    private List<BottomSheetItem> mItems;
 
     public BottomSheetAdapterBuilder(Context context) {
         mContext = context;
