@@ -1,6 +1,7 @@
 package com.github.rubensousa.bottomsheetbuilder.sample;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -242,6 +243,13 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
             }
         });
         mBottomSheetDialog.show();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showRuntimeEditBtn)
+    public void onShowRuntimeEditClick() {
+        Intent intent=new Intent(this,RuntimeEditing.class);
+        startActivity(intent);
     }
 
     @Override

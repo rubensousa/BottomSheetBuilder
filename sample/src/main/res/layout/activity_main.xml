@@ -38,10 +38,16 @@
             android:text="Dialog with submenus" />
 
         <Button
-            android:id="@+id/showDialogGridBtn"
+        android:id="@+id/showDialogGridBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dialog with a grid" />
+
+        <Button
+            android:id="@+id/showRuntimeEditBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dialog with a grid" />
+            android:text="Runtime editing" />
 
     </LinearLayout>
 

@@ -1,10 +1,14 @@
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
+
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,6 +24,13 @@ public class BottomSheetEditor {
     private MenuItem searchMenuItem;
     private int searchResultItemsPos;
     private int searchResultBindsOffsetPos;
+    private Comparator<MenuItem> mComparator;
+    private Comparator<MenuItem> mIdComparator=new Comparator<MenuItem>() {
+        @Override
+        public int compare(MenuItem menuItem, MenuItem t1) {
+            return menuItem.getItemId()==t1.getItemId()?0:-1;
+        }
+    };
 
 
     public BottomSheetEditor(BottomSheetAdapterBuilder builder) {
@@ -27,6 +38,11 @@ public class BottomSheetEditor {
         mBinds=builder.getBinds();
         mItems=builder.getItems();
         mMenu=builder.getMenu();
+        mComparator=mIdComparator;
+    }
+
+    public void setComparator(Comparator<MenuItem> comparator) {
+        mComparator=comparator;
     }
 
     void setItems(List<BottomSheetItem> items) {
@@ -49,12 +65,20 @@ public class BottomSheetEditor {
         changeItem(item,true);
     }
 
-    private void changeItem(MenuItem item,boolean notify) {
+    public void changeItem(MenuItem item,String title,Drawable icon) {
+        changeItem(item,title,icon,true);
+    }
+
+    public void changeItem(MenuItem item,String title) {
+        changeItem(item,title,null,true);
+    }
+
+    private void changeItem(MenuItem item, String title, Drawable icon, boolean notify) {
         MenuItem menu=getMenuItemWithSameID(item,true);
         if (menu==null)
             throw new NoSuchElementException("Item is not found in menu tree.");
         else {
-            boolean isTitleNewEmpty=item.getTitle()==null || item.getTitle()=="";
+            boolean isTitleNewEmpty=(title==null || title.compareTo("")==0);
 
             //in case title cannot be empty
             /*if (isTitleNewEmpty) {
@@ -64,23 +88,22 @@ public class BottomSheetEditor {
                     throw new IllegalArgumentException("Submenu must have a title.");
             */
 
-            menu.setTitle(item.getTitle());
-            menu.setIcon(item.getIcon());
+            if (title!=null) menu.setTitle(title);
+            if (icon!=null) menu.setIcon(icon);
 
             if (searchResultBindsOffsetPos>=0) {
-                int oldPos=searchResultItemsPos+searchResultBindsOffsetPos;
                 mBinds.get(searchMenuItem).remove(searchResultBindsOffsetPos);
-                mItems.remove(oldPos);
+                mItems.remove(searchResultItemsPos);
                 //menu that has BottomSheetHeader title but now it shouldnt have
-                if (searchResultBindsOffsetPos==0 && !searchIsSubItemFlag && menu.hasSubMenu() && isTitleNewEmpty) {
-                    if (notify) mAdapter.notifyItemRemoved(oldPos);
+                if (menu==searchMenuItem && !searchIsSubItemFlag && menu.hasSubMenu() && isTitleNewEmpty) {
+                    if (notify) mAdapter.notifyItemRemoved(searchResultItemsPos);
                 } else {
-                    if (!searchIsSubItemFlag)
-                        mBuilder.addHeader(menu.getTitle(),oldPos,searchResultBindsOffsetPos,mBinds.get(menu));
+                    if (menu.hasSubMenu())
+                        mBuilder.addHeader(menu.getTitle(),searchResultItemsPos,searchResultBindsOffsetPos,mBinds.get(menu));
                     else
-                        mBuilder.addMenuItem(menu,Integer.MAX_VALUE,oldPos,mBinds.get(searchMenuItem),searchResultBindsOffsetPos);
-                        if (notify) mAdapter.notifyItemChanged(searchResultItemsPos);
-                    }
+                        mBuilder.addMenuItem(menu,Integer.MAX_VALUE,searchResultItemsPos,mBinds.get(searchMenuItem),searchResultBindsOffsetPos);
+                    if (notify) mAdapter.notifyItemChanged(searchResultItemsPos);
+                }
             }
             else if (!isTitleNewEmpty) {
                 int posToAdd=mBinds.get(menu).size()-menu.getSubMenu().size();
@@ -88,6 +111,10 @@ public class BottomSheetEditor {
                 if (notify) mAdapter.notifyItemChanged(searchResultItemsPos);
             }
         }
+    }
+
+    private void changeItem(MenuItem item,boolean notify) {
+        changeItem(item,item.getTitle().toString(),item.getIcon(),notify);
     }
 
 
@@ -106,10 +133,10 @@ public class BottomSheetEditor {
                 if (i.hasSubMenu()) {
                     SubMenu j = i.getSubMenu();
                     for (int k=0;k<j.size();++k)
-                        if (j.getItem(k).getItemId()==item.getItemId()) {
+                        if (mComparator.compare(j.getItem(k),item)==0) {
                             //last submenu then remove the menu
                             if (j.size()==1)
-                                removeItem(getMenuItemPos(i),notify,removeFromMenu);
+                                removeItem(getMenuItemPos(i,mIdComparator),notify,removeFromMenu);
                             else {
                                 int posInBinds=getSubItemBindsPos(mBinds.get(i),k,j);
                                 int index=mItems.indexOf(mBinds.get(i).get(posInBinds));
@@ -131,7 +158,7 @@ public class BottomSheetEditor {
 
     private MenuItem getMenuItemWithSameID(MenuItem item,boolean searchSubMenus) {
         for (MenuItem i:mBinds.keySet())
-            if (i.getItemId()==item.getItemId()) {
+            if (mComparator.compare(i,item)==0) {
                 searchIsSubItemFlag=false;
                 if (i.hasSubMenu()) {
                     searchResultItemsPos=findHeaderInSubMenu(mItems.indexOf(mBinds.get(i).get(0)),mBinds.get(i).size());
@@ -147,10 +174,11 @@ public class BottomSheetEditor {
             else if (i.hasSubMenu() && searchSubMenus) {
                 SubMenu j = i.getSubMenu();
                 for (int k=0;k<j.size();++k)
-                    if (j.getItem(k).getItemId()==item.getItemId()) {
-                        searchResultItemsPos=mItems.indexOf(mBinds.get(i).get(k))+mBinds.get(i).size()-j.size();
-                        searchIsSubItemFlag =true;
-                        searchResultBindsOffsetPos =searchResultItemsPos-mItems.indexOf(mBinds.get(i).get(0));
+                    if (mComparator.compare(j.getItem(k),item)==0) {
+                        List<BottomSheetItem> bind=mBinds.get(i);
+                        searchResultItemsPos=mItems.indexOf(bind.get(bind.size()-j.size()+k));
+                        searchIsSubItemFlag=true;
+                        searchResultBindsOffsetPos =searchResultItemsPos-mItems.indexOf(bind.get(0));
                         searchMenuItem=i;
                         return j.getItem(k);
                     }
@@ -166,15 +194,20 @@ public class BottomSheetEditor {
         return -1;
     }
 
+
     private int getMenuItemPos(MenuItem item) {
+        return getMenuItemPos(item,mComparator);
+    }
+
+    private int getMenuItemPos(MenuItem item,Comparator<MenuItem> comparator) {
         int i=0;
-        while (i<mMenu.size() && mMenu.getItem(i++).getItemId()!=item.getItemId());
+        while (i<mMenu.size() && comparator.compare(mMenu.getItem(i++),item)!=0);
 
         //item not found
-        if (--i==mMenu.size()-1)
-            return i;
-        else
+        if (--i==mMenu.size())
             return -1;
+        else
+            return i;
     }
 
 
@@ -190,9 +223,7 @@ public class BottomSheetEditor {
         int positionOfMenu=mItems.indexOf(itemsToBeRemoved.get(0));
         int numberOfItemsToBeRemoved=itemsToBeRemoved.size();
 
-        for (BottomSheetItem i:itemsToBeRemoved) {
-            mItems.remove(i);
-        }
+        mItems.removeAll(itemsToBeRemoved);
 
         if (!hasSubMenuBefore(position) && mMenu.size()>position+1 && mMenu.getItem(position+1).hasSubMenu()) {
             List<BottomSheetItem> list=mBinds.get(mMenu.getItem(position + 1));
@@ -202,7 +233,7 @@ public class BottomSheetEditor {
                 numberOfItemsToBeRemoved++;
             }
         }
-        if (removeFromMenu) mMenu.removeItem(mMenu.getItem(position).getItemId());
+        if (removeFromMenu) mMenu.removeItem(menuToBeRemoved.getItemId());
         if (notify) mAdapter.notifyItemRangeRemoved(positionOfMenu,numberOfItemsToBeRemoved);
     }
 
@@ -215,6 +246,7 @@ public class BottomSheetEditor {
     }
 
     private void addItem(MenuItem item,int position,boolean notify) {
+        if (item.hasSubMenu() && mBuilder.getMode()== BottomSheetBuilder.MODE_GRID) throw new IllegalArgumentException("MODE_GRID can't have submenus.Use MODE_LIST instead");
         if (hasSubMenuBefore(mMenu.size())) {
             mBuilder.setAddedSubMenu(true);
         }
@@ -228,12 +260,12 @@ public class BottomSheetEditor {
             //new MenuItem has to be created
             MenuItem newItem;
             if (item.hasSubMenu()) {
-                mMenu.addSubMenu(item.getGroupId(), item.getItemId(), item.getOrder(), item.getTitle()).setIcon(item.getIcon());
+                mMenu.addSubMenu(item.getGroupId(), item.getItemId(), item.getOrder(), item.getTitle().toString()).setIcon(item.getIcon());
                 newItem=mMenu.getItem(mMenu.size()-1);
                 inflateSubMenu(newItem.getSubMenu(),item.getSubMenu());
             }
             else
-                newItem=mMenu.add(item.getGroupId(),item.getItemId(),item.getOrder(),item.getTitle()).setIcon(item.getIcon());
+                newItem=mMenu.add(item.getGroupId(),item.getItemId(),item.getOrder(),item.getTitle().toString()).setIcon(item.getIcon());
             int oldSize=mItems.size();
             mBuilder.addMenuItem(newItem,mMenu.size(),mItems.size());
             if (notify) mAdapter.notifyItemRangeInserted(oldSize,mItems.size()-oldSize);
@@ -241,7 +273,7 @@ public class BottomSheetEditor {
         else {
             MenuItem newItem;
             //item can be placed at the and of a submenu
-            newItem=mMenu.getItem(position).getSubMenu().add(item.getGroupId(),item.getItemId(),item.getOrder(),item.getTitle()).setIcon(item.getIcon());
+            newItem=mMenu.getItem(position).getSubMenu().add(item.getGroupId(),item.getItemId(),item.getOrder(),item.getTitle().toString()).setIcon(item.getIcon());
             int subMenuSize=mMenu.getItem(position).getSubMenu().size();
             MenuItem subMenuItem=mMenu.getItem(position);
 

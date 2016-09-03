@@ -123,14 +123,14 @@ public class BottomSheetAdapterBuilder {
             }
         }
 
-        List<BottomSheetItem> items = createAdapterItems();
+        mItems = createAdapterItems();
 
-        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(items, mMode,
+        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(mItems, mMode,
                 mItemClickListener);
 
         if (editor!=null) {
             editor.setAdapter(adapter);
-            editor.setItems(items);
+            editor.setItems(mItems);
             editor.setRecycler(recyclerView);
         }
 

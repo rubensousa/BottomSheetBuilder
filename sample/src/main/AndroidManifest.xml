@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RuntimeEditing"
+            android:label="@string/title_activity_runtime_editing"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
