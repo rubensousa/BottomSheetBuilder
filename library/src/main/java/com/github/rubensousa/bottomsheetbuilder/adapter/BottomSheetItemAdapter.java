@@ -17,6 +17,8 @@
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
@@ -149,9 +151,15 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetDivider item) {
-            int background = item.getBackground();
-            if (background != 0) {
-                divider.setBackgroundResource(background);
+            Drawable background = item.getBackground();
+            if (background != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    divider.setBackground(background);
+                }
+                else {
+                    //noinspection deprecation
+                    divider.setBackgroundDrawable(background);
+                }
             }
         }
     }
@@ -170,7 +178,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
             int color = item.getTextColor();
 
             if (color != 0) {
-                textView.setTextColor(ContextCompat.getColor(itemView.getContext(), color));
+                textView.setTextColor(color);
             }
         }
     }
@@ -192,14 +200,19 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
             imageView.setImageDrawable(item.getIcon());
             textView.setText(item.getTitle());
             int color = item.getTextColor();
-            int background = item.getBackground();
+            Drawable background = item.getBackground();
 
             if (color != 0) {
-                textView.setTextColor(ContextCompat.getColor(itemView.getContext(), color));
+                textView.setTextColor(color);
             }
 
-            if (background != 0) {
-                itemView.setBackgroundResource(background);
+            if (background != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    itemView.setBackground(background);
+                }
+                else
+                    //noinspection deprecation
+                    itemView.setBackgroundDrawable(background);
             }
 
         }

@@ -17,20 +17,19 @@
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 
 
 class BottomSheetDivider implements BottomSheetItem {
 
-    @DrawableRes
-    private int mBackgroundDrawable;
+    private Drawable mBackgroundDrawable;
 
-    public BottomSheetDivider(@DrawableRes int background) {
+    public BottomSheetDivider(Drawable background) {
         mBackgroundDrawable = background;
     }
 
-    @DrawableRes
-    public int getBackground() {
+    public Drawable getBackground() {
         return mBackgroundDrawable;
     }
 

@@ -26,7 +26,6 @@ import android.support.annotation.StyleRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
@@ -37,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetAdapterBuilder;
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetColors;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
 
 
@@ -47,6 +47,8 @@ public class BottomSheetBuilder {
 
     @StyleRes
     private int mTheme;
+
+    private BottomSheetColors mColors;
 
     private boolean mDelayedDismiss = true;
     private boolean mExpandOnStart = false;
@@ -59,7 +61,8 @@ public class BottomSheetBuilder {
     public BottomSheetBuilder(Context context, CoordinatorLayout coordinatorLayout) {
         mContext = context;
         mCoordinatorLayout = coordinatorLayout;
-        mAdapterBuilder = new BottomSheetAdapterBuilder(mContext);
+        mColors=new BottomSheetColors(mContext);
+        mAdapterBuilder = new BottomSheetAdapterBuilder(mContext,mColors);
     }
 
     public BottomSheetBuilder(Context context) {
@@ -69,7 +72,8 @@ public class BottomSheetBuilder {
     public BottomSheetBuilder(Context context, @StyleRes int theme) {
         mContext = context;
         mTheme = theme;
-        mAdapterBuilder = new BottomSheetAdapterBuilder(mContext);
+        mColors=new BottomSheetColors(context);
+        mAdapterBuilder = new BottomSheetAdapterBuilder(mContext, mColors);
     }
 
     public BottomSheetBuilder setMode(int mode) {
@@ -99,33 +103,39 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder setColors(BottomSheetColors colors) {
+        mColors=colors;
+        mAdapterBuilder.setColors(mColors);
+        return this;
+    }
+
     public BottomSheetBuilder setItemTextColor(@ColorRes int color) {
-        mAdapterBuilder.setItemTextColor(color);
+        mColors.setItemTextColorRes(color);
         return this;
     }
 
     public BottomSheetBuilder setTitleTextColor(@ColorRes int color) {
-        mAdapterBuilder.setTitleTextColor(color);
+        mColors.setTitleTextColorRes(color);
         return this;
     }
 
     public BottomSheetBuilder setBackground(@DrawableRes int background) {
-        mAdapterBuilder.setBackground(background);
+        mColors.setBackground(background);
         return this;
     }
 
     public BottomSheetBuilder setBackgroundColor(@ColorRes int background) {
-        mAdapterBuilder.setBackgroundColor(background);
+        mColors.setBackgroundColorRes(background);
         return this;
     }
 
     public BottomSheetBuilder setDividerBackground(@DrawableRes int background) {
-        mAdapterBuilder.setDividerBackground(background);
+        mColors.setDividerBackground(background);
         return this;
     }
 
     public BottomSheetBuilder setItemBackground(@DrawableRes int background) {
-        mAdapterBuilder.setItemBackground(background);
+        mColors.setItemBackground(background);
         return this;
     }
 
@@ -145,12 +155,12 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder setIconTintColorResource(@ColorRes int color) {
-        mAdapterBuilder.setIconTintColorResource(color);
+        mColors.setIconTintColorRes(color);
         return this;
     }
 
     public BottomSheetBuilder setIconTintColor(@ColorInt int color) {
-        mAdapterBuilder.setIconTintColor(color);
+        mColors.setIconTintColor(color);
         return this;
     }
 

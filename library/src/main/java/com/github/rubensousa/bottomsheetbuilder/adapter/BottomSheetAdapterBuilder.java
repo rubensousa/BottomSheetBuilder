@@ -19,11 +19,12 @@ package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.view.menu.MenuItemImpl;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,12 +32,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.widget.LinearLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.R;
 
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetView;
 
 import java.util.ArrayList;
@@ -44,26 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BottomSheetAdapterBuilder {
-    @DrawableRes
-    private int mBackgroundDrawable;
-
-    @ColorRes
-    private int mBackgroundColor;
-
-    @DrawableRes
-    private int mDividerBackground;
-
-    @DrawableRes
-    private int mItemBackground;
-
-    @ColorRes
-    private int mItemTextColor;
-
-    @ColorRes
-    private int mTitleTextColor;
-
-    @ColorRes
-    private int mIconTintColor = -1;
+    private BottomSheetColors mColors;
 
     private BottomSheetItemClickListener mItemClickListener;
 
@@ -81,8 +61,9 @@ public class BottomSheetAdapterBuilder {
 
     private List<BottomSheetItem> mItems;
 
-    public BottomSheetAdapterBuilder(Context context) {
+    public BottomSheetAdapterBuilder(Context context, BottomSheetColors colors) {
         mContext = context;
+        mColors=colors;
     }
 
     public void setMenu(Menu menu) {
@@ -115,13 +96,15 @@ public class BottomSheetAdapterBuilder {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (mBackgroundDrawable != 0) {
-            recyclerView.setBackgroundResource(mBackgroundDrawable);
-        } else {
-            if (mBackgroundColor != 0) {
-                recyclerView.setBackgroundColor(ContextCompat.getColor(mContext, mBackgroundColor));
+        if (mColors.getBackground() != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                recyclerView.setBackground(mColors.getBackground());
             }
-        }
+            else
+                //noinspection deprecation
+                recyclerView.setBackgroundDrawable(mColors.getBackground());
+        } else
+                recyclerView.setBackgroundColor(mColors.getBackgroundColor());
 
         mItems = createAdapterItems();
 
@@ -210,15 +193,15 @@ public class BottomSheetAdapterBuilder {
                 for (int j = 0; j < subMenu.size(); j++) {
                     MenuItem subItem = subMenu.getItem(j);
                     if (subItem.isVisible()) {
-                        toAdd=new BottomSheetMenuItem(subItem, mItemTextColor,
-                                mItemBackground, mIconTintColor);
+                        toAdd=new BottomSheetMenuItem(subItem, mColors.getItemTextColor(),
+                                mColors.getItemBackground(), mColors.getIconTintColor());
                         mItems.add(toPosition++,toAdd);
                         binds.add(specificPos++,toAdd);
                         mAddedSubMenu = true;
                     }
                 }
             } else {
-                toAdd=new BottomSheetMenuItem(item, mItemTextColor, mItemBackground, mIconTintColor);
+                toAdd=new BottomSheetMenuItem(item, mColors.getItemTextColor(), mColors.getItemBackground(), mColors.getIconTintColor());
                 mItems.add(toPosition,toAdd);
                 binds.add(specificPos,toAdd);
             }
@@ -226,13 +209,13 @@ public class BottomSheetAdapterBuilder {
     }
 
     void addHeader(CharSequence title,int itemsPos,int bindsPos, List<BottomSheetItem> binds) {
-        BottomSheetItem toAdd=new BottomSheetHeader(title.toString(), mTitleTextColor);
+        BottomSheetItem toAdd=new BottomSheetHeader(title.toString(), mColors.getTitleTextColor());
         mItems.add(itemsPos,toAdd);
         binds.add(bindsPos,toAdd);
     }
 
     void addDivider(int itemsPos,int bindsPos, List<BottomSheetItem> binds) {
-        BottomSheetItem toAdd=new BottomSheetDivider(mDividerBackground);
+        BottomSheetItem toAdd=new BottomSheetDivider(mColors.getDividerBackground());
         mItems.add(itemsPos,toAdd);
         binds.add(bindsPos,toAdd);
     }
@@ -241,76 +224,18 @@ public class BottomSheetAdapterBuilder {
         return mAddedSubMenu;
     }
 
-    public void setItemTextColor(int itemTextColor) {
-        this.mItemTextColor = itemTextColor;
-    }
-
-    public void setItemClickListener(BottomSheetItemClickListener itemClickListener) {
-        mItemClickListener = itemClickListener;
-    }
-
-    public void setTitleTextColor(int titleTextColor) {
-        mTitleTextColor = titleTextColor;
-    }
-
-    public void setBackground(int background) {
-        mBackgroundDrawable = background;
-    }
-
-    public void setBackgroundColor(int backgroundColor) {
-        mBackgroundColor = backgroundColor;
-    }
-
-    public void setDividerBackground(int dividerBackground) {
-        mDividerBackground = dividerBackground;
-    }
-
-    public void setItemBackground(int itemBackground) {
-        mItemBackground = itemBackground;
-    }
-
-    public void setIconTintColorResource(int iconTintColorResource) {
-        mIconTintColor = iconTintColorResource;
-    }
-
-    public void setIconTintColor(int iconTintColor) {
-        mIconTintColor = iconTintColor;
-    }
-
     HashMap<MenuItem, List<BottomSheetItem>> getBinds() {
         return mBinds;
     }
 
-    int getBackgroundDrawable() {
-        return mBackgroundDrawable;
-    }
-
-    int getBackgroundColor() {
-        return mBackgroundColor;
-    }
-
-    int getDividerBackground() {
-        return mDividerBackground;
-    }
-
-    int getItemBackground() {
-        return mItemBackground;
-    }
-
-    int getItemTextColor() {
-        return mItemTextColor;
-    }
-
-    int getTitleTextColor() {
-        return mTitleTextColor;
-    }
-
-    int getIconTintColor() {
-        return mIconTintColor;
-    }
 
     BottomSheetItemClickListener getItemClickListener() {
         return mItemClickListener;
+    }
+
+
+    public void setItemClickListener(BottomSheetItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
     }
 
     int getMode() {
@@ -327,5 +252,13 @@ public class BottomSheetAdapterBuilder {
 
     public void setEditorEnabled(boolean editorEnabled) {
         mEditorEnabled = editorEnabled;
+    }
+
+    public void setColors(BottomSheetColors colors) {
+        mColors = colors;
+    }
+
+    public BottomSheetColors getColors() {
+        return mColors;
     }
 }

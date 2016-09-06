@@ -7,7 +7,10 @@ import android.support.design.widget.CoordinatorLayout;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetColors;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetEditor;
+
+import java.io.Serializable;
 
 public class BottomSheetView extends LinearLayout {
     private BottomSheetEditor mEditor;
@@ -38,5 +41,4 @@ public class BottomSheetView extends LinearLayout {
         if (mEditor==null) throw new IllegalStateException("Editor is not enabled for this view.");
         return mEditor;
     }
-
 }

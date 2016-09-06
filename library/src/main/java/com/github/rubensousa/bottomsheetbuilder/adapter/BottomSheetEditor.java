@@ -8,6 +8,7 @@ import android.view.SubMenu;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -306,6 +307,14 @@ public class BottomSheetEditor {
 
     public Menu getMenu() {
         return mMenu;
+    }
+
+    public BottomSheetColors getColors() {
+        return mBuilder.getColors();
+    }
+
+    public int getMode() {
+        return mBuilder.getMode();
     }
 
     /*
