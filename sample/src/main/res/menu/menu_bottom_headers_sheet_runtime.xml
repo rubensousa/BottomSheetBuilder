@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Create"
+        android:id="@+id/id_0">
+        <menu>
+            <item
+                android:icon="@drawable/ic_document"
+                android:title="Document"
+                android:id="@+id/id_1"/>
+            <item
+                android:icon="@drawable/ic_spreadsheet"
+                android:title="Spreadsheet"
+                android:id="@+id/id_2"/>
+            <item
+                android:icon="@drawable/ic_folder_24dp"
+                android:title="Folder"
+                android:id="@+id/id_3"/>
+        </menu>
+    </item>
+
+
+    <item android:title=""
+        android:id="@+id/id_4">
+        <menu>
+            <item
+                android:icon="@drawable/ic_cloud_upload_24dp"
+                android:title="Upload photos or videos"
+                android:id="@+id/id_5"/>
+            <item
+                android:icon="@drawable/ic_camera_alt_24dp"
+                android:title="Use Camera"
+                android:id="@+id/id_6"/>
+        </menu>
+    </item>
+
+
+</menu>

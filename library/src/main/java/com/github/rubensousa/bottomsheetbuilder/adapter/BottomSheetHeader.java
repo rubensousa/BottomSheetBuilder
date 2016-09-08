@@ -16,21 +16,21 @@
 
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
-import android.support.annotation.ColorRes;
+import android.support.annotation.ColorInt;
 
 class BottomSheetHeader implements BottomSheetItem {
 
     private String mTitle;
 
-    @ColorRes
+    @ColorInt
     private int mTextColor;
 
-    public BottomSheetHeader(String title, @ColorRes int color) {
+    public BottomSheetHeader(String title, @ColorInt int color) {
         mTitle = title;
         mTextColor = color;
     }
 
-    @ColorRes
+    @ColorInt
     public int getTextColor() {
         return mTextColor;
     }

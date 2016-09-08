@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/ic_gmail_48dp"
+        android:title="Gmail"
+        android:id="@+id/id_1"/>
+    <item
+        android:icon="@drawable/ic_hangouts_48dp"
+        android:title="Hangouts"
+        android:id="@+id/id_2"/>
+    <item
+        android:icon="@drawable/ic_google_48dp"
+        android:title="Google+"
+        android:id="@+id/id_3"/>
+    <item
+        android:icon="@drawable/ic_mail_48dp"
+        android:title="Mail"
+        android:id="@+id/id_4"/>
+
+    <item
+        android:icon="@drawable/ic_message_48dp"
+        android:title="Message"
+        android:id="@+id/id_5"/>
+
+    <item
+        android:icon="@drawable/ic_content_copy_48dp"
+        android:title="Copy"
+        android:id="@+id/id_6"/>
+
+    <item
+        android:icon="@drawable/ic_facebook_box"
+        android:title="Facebook"
+        android:id="@+id/id_7"/>
+
+    <item
+        android:icon="@drawable/ic_twitter_box"
+        android:title="Twitter"
+        android:id="@+id/id_8"/>
+
+</menu>

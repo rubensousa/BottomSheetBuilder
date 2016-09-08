@@ -19,30 +19,51 @@ package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.R;
 
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BottomSheetAdapterBuilder {
+    private BottomSheetColors mColors;
+
+    private BottomSheetItemClickListener mItemClickListener;
 
     private int mMode;
     private Menu mMenu;
     private Context mContext;
+    private boolean mEditorEnabled=false;
 
-    public BottomSheetAdapterBuilder(Context context) {
+    void setAddedSubMenu(boolean addedSubMenu) {
+        mAddedSubMenu = addedSubMenu;
+    }
+
+    private boolean mAddedSubMenu;
+    private HashMap<MenuItem,List<BottomSheetItem>> mBinds;
+
+    private List<BottomSheetItem> mItems;
+
+    public BottomSheetAdapterBuilder(Context context, BottomSheetColors colors) {
         mContext = context;
+        mColors=colors;
     }
 
     public void setMenu(Menu menu) {
@@ -54,33 +75,47 @@ public class BottomSheetAdapterBuilder {
     }
 
     @SuppressLint("InflateParams")
-    public View createView(int itemTextColor, int titleTextColor, int backgroundDrawable,
-                           int backgroundColor, int dividerBackground, int itemBackground,
-                           int tintColor, BottomSheetItemClickListener itemClickListener) {
+    public BottomSheetView createView() {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        if (mMenu == null) {
+            throw new IllegalStateException("You need to provide at least one Menu" +
+                    "or a Menu resource id");
+        }
 
-        View sheet = mMode == BottomSheetBuilder.MODE_GRID ?
-                layoutInflater.inflate(R.layout.bottomsheetbuilder_sheet_grid, null)
-                : layoutInflater.inflate(R.layout.bottomsheetbuilder_sheet_list, null);
+        mItems=new ArrayList<>();
+        mBinds=new HashMap<>();
+
+        BottomSheetEditor editor=mEditorEnabled?new BottomSheetEditor(this):null;
+
+        BottomSheetView sheet = mMode == BottomSheetBuilder.MODE_GRID ?
+                BottomSheetView.from(mContext,R.layout.bottomsheetbuilder_sheet_grid,editor)
+                : BottomSheetView.from(mContext,R.layout.bottomsheetbuilder_sheet_list,editor);
 
 
         final RecyclerView recyclerView = (RecyclerView) sheet.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (backgroundDrawable != 0) {
-            recyclerView.setBackgroundResource(backgroundDrawable);
-        } else {
-            if (backgroundColor != 0) {
-                recyclerView.setBackgroundColor(ContextCompat.getColor(mContext, backgroundColor));
+        if (mColors.getBackground() != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                recyclerView.setBackground(mColors.getBackground());
             }
+            else
+                //noinspection deprecation
+                recyclerView.setBackgroundDrawable(mColors.getBackground());
+        } else
+                recyclerView.setBackgroundColor(mColors.getBackgroundColor());
+
+        mItems = createAdapterItems();
+
+        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(mItems, mMode,
+                mItemClickListener);
+
+        if (editor!=null) {
+            editor.setAdapter(adapter);
+            editor.setItems(mItems);
+            editor.setRecycler(recyclerView);
         }
-
-        List<BottomSheetItem> items = createAdapterItems(dividerBackground, titleTextColor,
-                itemTextColor, itemBackground, tintColor);
-
-        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(items, mMode,
-                itemClickListener);
 
         if (mMode == BottomSheetBuilder.MODE_LIST) {
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -105,48 +140,125 @@ public class BottomSheetAdapterBuilder {
 
     }
 
-    private List<BottomSheetItem> createAdapterItems(int dividerBackground, int titleTextColor,
-                                                     int itemTextColor, int itemBackground,
-                                                     int tintColor) {
-        List<BottomSheetItem> items = new ArrayList<>();
+    List<BottomSheetItem> createAdapterItems() {
 
-        boolean addedSubMenu = false;
+        mAddedSubMenu = false;
 
         for (int i = 0; i < mMenu.size(); i++) {
             MenuItem item = mMenu.getItem(i);
-
-            if (item.isVisible()) {
-                if (item.hasSubMenu()) {
-                    SubMenu subMenu = item.getSubMenu();
-
-                    if (i != 0 && addedSubMenu) {
-                        if (mMode == BottomSheetBuilder.MODE_GRID) {
-                            throw new IllegalArgumentException("MODE_GRID can't have submenus." +
-                                    " Use MODE_LIST instead");
-                        }
-                        items.add(new BottomSheetDivider(dividerBackground));
-                    }
-
-                    CharSequence title = item.getTitle();
-                    if (title != null && !title.equals("")) {
-                        items.add(new BottomSheetHeader(title.toString(), titleTextColor));
-                    }
-
-                    for (int j = 0; j < subMenu.size(); j++) {
-                        MenuItem subItem = subMenu.getItem(j);
-                        if (subItem.isVisible()) {
-                            items.add(new BottomSheetMenuItem(subItem, itemTextColor,
-                                    itemBackground, tintColor));
-                            addedSubMenu = true;
-                        }
-                    }
-                } else {
-                    items.add(new BottomSheetMenuItem(item, itemTextColor, itemBackground, tintColor));
-                }
-            }
+                addMenuItem(item,i,mItems.size());
         }
 
-        return items;
+        mAddedSubMenu=false;
+        return mItems;
     }
 
+    void addMenuItem(MenuItem item,int i,int toPosition) {
+        addMenuItem(item,i,toPosition,null,-1);
+    }
+
+
+    void addMenuItem(MenuItem item,int i,int toPosition,List<BottomSheetItem> bindsToAdd,int specificPos) {
+        BottomSheetItem toAdd;
+        List<BottomSheetItem> binds;
+        if (bindsToAdd!=null) {
+            binds=bindsToAdd;
+        }
+        else {
+            binds=new ArrayList<BottomSheetItem>();
+            mBinds.put(item,binds);
+        }
+
+        if (specificPos<0 || specificPos>binds.size()) {
+            specificPos=binds.size();
+        }
+
+        if (item.isVisible()) {
+            if (item.hasSubMenu()) {
+                SubMenu subMenu = item.getSubMenu();
+
+                if (i != 0 && mAddedSubMenu) {
+                    if (mMode == BottomSheetBuilder.MODE_GRID) {
+                        throw new IllegalArgumentException("MODE_GRID can't have submenus." +
+                                " Use MODE_LIST instead");
+                    }
+                    addDivider(toPosition++,specificPos++,binds);
+                }
+
+                CharSequence title = item.getTitle();
+                if (title != null && !title.equals("")) {
+                    addHeader(title,toPosition++,specificPos++,binds);
+                }
+
+                for (int j = 0; j < subMenu.size(); j++) {
+                    MenuItem subItem = subMenu.getItem(j);
+                    if (subItem.isVisible()) {
+                        toAdd=new BottomSheetMenuItem(subItem, mColors.getItemTextColor(),
+                                mColors.getItemBackground(), mColors.getIconTintColor());
+                        mItems.add(toPosition++,toAdd);
+                        binds.add(specificPos++,toAdd);
+                        mAddedSubMenu = true;
+                    }
+                }
+            } else {
+                toAdd=new BottomSheetMenuItem(item, mColors.getItemTextColor(), mColors.getItemBackground(), mColors.getIconTintColor());
+                mItems.add(toPosition,toAdd);
+                binds.add(specificPos,toAdd);
+            }
+        }
+    }
+
+    void addHeader(CharSequence title,int itemsPos,int bindsPos, List<BottomSheetItem> binds) {
+        BottomSheetItem toAdd=new BottomSheetHeader(title.toString(), mColors.getTitleTextColor());
+        mItems.add(itemsPos,toAdd);
+        binds.add(bindsPos,toAdd);
+    }
+
+    void addDivider(int itemsPos,int bindsPos, List<BottomSheetItem> binds) {
+        BottomSheetItem toAdd=new BottomSheetDivider(mColors.getDividerBackground());
+        mItems.add(itemsPos,toAdd);
+        binds.add(bindsPos,toAdd);
+    }
+
+    boolean addedSubMenu() {
+        return mAddedSubMenu;
+    }
+
+    HashMap<MenuItem, List<BottomSheetItem>> getBinds() {
+        return mBinds;
+    }
+
+
+    BottomSheetItemClickListener getItemClickListener() {
+        return mItemClickListener;
+    }
+
+
+    public void setItemClickListener(BottomSheetItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
+    }
+
+    int getMode() {
+        return mMode;
+    }
+
+    Menu getMenu() {
+        return mMenu;
+    }
+
+    List<BottomSheetItem> getItems() {
+        return mItems;
+    }
+
+    public void setEditorEnabled(boolean editorEnabled) {
+        mEditorEnabled = editorEnabled;
+    }
+
+    public void setColors(BottomSheetColors colors) {
+        mColors = colors;
+    }
+
+    public BottomSheetColors getColors() {
+        return mColors;
+    }
 }
