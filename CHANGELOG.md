@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.4 (28/10/2016)
+
+- Fix issue with long titles
+- Fix issue that caused grid bottom sheet to not expand on start
+- Set title as fixed if it's the only one in a list
+
 ### 1.3 (29/08/2016)
 - Add icon tint support
 - Add tablet layouts

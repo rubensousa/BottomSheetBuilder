@@ -14,12 +14,8 @@ Available from API 14.
 
 - Add the following to your build.gradle:
 ```groovy
-repositories{
-  maven { url "https://jitpack.io" }
-}
-
 dependencies {
-  compile 'com.github.rubensousa:BottomSheetBuilder:1.3'
+  compile 'com.github.rubensousa:bottomsheetbuilder:1.4'
 }
 ```
 
