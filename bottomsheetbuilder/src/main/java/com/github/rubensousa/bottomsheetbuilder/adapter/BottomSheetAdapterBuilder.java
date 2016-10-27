@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;
 import com.github.rubensousa.bottomsheetbuilder.R;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class BottomSheetAdapterBuilder {
 
+    private int mTitles;
     private int mMode;
     private Menu mMenu;
     private Context mContext;
@@ -79,6 +81,21 @@ public class BottomSheetAdapterBuilder {
         List<BottomSheetItem> items = createAdapterItems(dividerBackground, titleTextColor,
                 itemTextColor, itemBackground, tintColor);
 
+        // If we only have one title and it's the first item, set it as fixed
+        if (mTitles == 1 && mMode == BottomSheetBuilder.MODE_LIST) {
+            BottomSheetItem header = items.get(0);
+            TextView headerTextView = (TextView) sheet.findViewById(R.id.textView);
+            if (header instanceof BottomSheetHeader) {
+                headerTextView.setVisibility(View.VISIBLE);
+                headerTextView.setText(header.getTitle());
+                if (titleTextColor != 0) {
+                    headerTextView.setTextColor(ContextCompat.getColor(sheet.getContext(),
+                            titleTextColor));
+                }
+                items.remove(0);
+            }
+        }
+
         final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(items, mMode,
                 itemClickListener);
 
@@ -109,6 +126,7 @@ public class BottomSheetAdapterBuilder {
                                                      int itemTextColor, int itemBackground,
                                                      int tintColor) {
         List<BottomSheetItem> items = new ArrayList<>();
+        mTitles = 0;
 
         boolean addedSubMenu = false;
 
@@ -130,6 +148,7 @@ public class BottomSheetAdapterBuilder {
                     CharSequence title = item.getTitle();
                     if (title != null && !title.equals("")) {
                         items.add(new BottomSheetHeader(title.toString(), titleTextColor));
+                        mTitles++;
                     }
 
                     for (int j = 0; j < subMenu.size(); j++) {
