@@ -17,6 +17,7 @@
 package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
@@ -32,16 +33,17 @@ import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSheetItemClickListener {
 
-    private BottomSheetBehavior.BottomSheetCallback mCallback;
-    private BottomSheetBehavior mBehavior;
+    BottomSheetBehavior.BottomSheetCallback mCallback;
+    BottomSheetBehavior mBehavior;
     private BottomSheetItemClickListener mClickListener;
     private AppBarLayout mAppBarLayout;
     private boolean mExpandOnStart;
     private boolean mDelayDismiss;
-    private boolean mClicked;
-    private boolean mRequestCancel;
-    private boolean mRequestDismiss;
-    private OnCancelListener mOnCancelListener;
+    boolean mRequestedExpand;
+    boolean mClicked;
+    boolean mRequestCancel;
+    boolean mRequestDismiss;
+    OnCancelListener mOnCancelListener;
 
     public BottomSheetMenuDialog(Context context) {
         super(context);
@@ -117,6 +119,25 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
             if (getContext().getResources().getBoolean(R.bool.landscape)) {
                 fixLandscapePeekHeight(sheet);
+            }
+
+            if (mExpandOnStart) {
+                sheet.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        if (mBehavior.getState() == BottomSheetBehavior.STATE_SETTLING
+                                && mRequestedExpand) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                sheet.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            } else {
+                                //noinspection deprecation
+                                sheet.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            }
+                        }
+                        mRequestedExpand = true;
+                    }
+                });
             }
         }
     }
@@ -209,14 +230,5 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                 = (CoordinatorLayout.LayoutParams) sheet.getLayoutParams();
         layoutParams.topMargin = mAppBarLayout.getHeight();
         sheet.setLayoutParams(layoutParams);
-
-        if (mExpandOnStart) {
-            sheet.post(new Runnable() {
-                @Override
-                public void run() {
-                    mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
-            });
-        }
     }
 }
