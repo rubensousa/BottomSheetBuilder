@@ -29,7 +29,6 @@
     </style>
 
     <style name="AppTheme.BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/white</item>
         <item name="behavior_hideable">true</item>
         <item name="behavior_skipCollapsed">true</item>
     </style>
