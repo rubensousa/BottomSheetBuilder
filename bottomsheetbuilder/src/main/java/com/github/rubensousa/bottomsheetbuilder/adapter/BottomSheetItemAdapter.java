@@ -40,7 +40,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
     public static final int TYPE_DIVIDER = 2;
 
     private List<BottomSheetItem> mItems;
-    private BottomSheetItemClickListener mListener;
+    BottomSheetItemClickListener mListener;
     private int mMode;
     private int mItemWidth;
 
