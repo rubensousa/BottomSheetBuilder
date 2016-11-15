@@ -68,24 +68,24 @@ BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_
 
 Make sure the style passed in the BottomSheetBuilder's constructor extends from the Theme.Design.BottomSheetDialog family:
 ```xml
-    <style name="AppTheme.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppTheme.BottomSheetStyle</item>
-    </style>
+<style name="AppTheme.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+    <item name="bottomSheetStyle">@style/AppTheme.BottomSheetStyle</item>
+</style>
 
-    <style name="AppTheme.BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="behavior_hideable">true</item>
-        <item name="behavior_skipCollapsed">true</item>
-    </style>
+<style name="AppTheme.BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+    <item name="behavior_hideable">true</item>
+    <item name="behavior_skipCollapsed">true</item>
+</style>
 ```
 
 You can also style the background and text colors as of 1.5:
-
+```xml
 <style name="AppTheme.BottomSheetDialog.Custom" parent="AppTheme.BottomSheetDialog">
     <item name="bottomSheetBuilderItemTextColor">@color/colorPrimaryDark</item>
     <item name="bottomSheetBuilderBackgroundColor">@android:color/white</item>
     <item name="bottomSheetBuilderTitleTextColor">@color/colorAccent</item>
 </style>
-
+```
 ## Sample
 
 The sample includes 4 view modes: grid, list, long list and list with one submenu.
