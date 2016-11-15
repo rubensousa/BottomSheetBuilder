@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
             mBottomSheetDialog.dismiss();
         }
         mShowingLongDialog = true;
-        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog_Custom)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
                 .setMenu(R.menu.menu_bottom_list_sheet)

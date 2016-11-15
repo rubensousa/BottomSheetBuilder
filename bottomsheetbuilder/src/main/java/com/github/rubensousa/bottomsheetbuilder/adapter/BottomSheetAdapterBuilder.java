@@ -70,11 +70,12 @@ public class BottomSheetAdapterBuilder {
         final RecyclerView recyclerView = (RecyclerView) sheet.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
+
         if (backgroundDrawable != 0) {
-            recyclerView.setBackgroundResource(backgroundDrawable);
+            sheet.setBackgroundResource(backgroundDrawable);
         } else {
             if (backgroundColor != 0) {
-                recyclerView.setBackgroundColor(backgroundColor);
+                sheet.setBackgroundColor(backgroundColor);
             }
         }
 
