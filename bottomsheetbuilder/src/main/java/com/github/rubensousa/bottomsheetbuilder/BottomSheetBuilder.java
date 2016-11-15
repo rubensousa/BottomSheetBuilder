@@ -17,7 +17,9 @@
 package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
@@ -26,6 +28,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
@@ -47,23 +50,18 @@ public class BottomSheetBuilder {
     @DrawableRes
     private int mBackgroundDrawable;
 
-    @ColorRes
-    private int mBackgroundColor;
-
     @DrawableRes
     private int mDividerBackground;
 
     @DrawableRes
     private int mItemBackground;
 
-    @ColorRes
-    private int mItemTextColor;
-
-    @ColorRes
-    private int mTitleTextColor;
-
     @StyleRes
     private int mTheme;
+
+    private int mBackgroundColor;
+    private int mItemTextColor;
+    private int mTitleTextColor;
 
     private boolean mDelayedDismiss = true;
     private boolean mExpandOnStart = false;
@@ -119,13 +117,30 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    public BottomSheetBuilder setItemTextColor(@ColorRes int color) {
+    public BottomSheetBuilder setItemTextColor(@ColorInt int color) {
         mItemTextColor = color;
         return this;
     }
 
-    public BottomSheetBuilder setTitleTextColor(@ColorRes int color) {
+    public BottomSheetBuilder setTitleTextColor(@ColorInt int color) {
         mTitleTextColor = color;
+        return this;
+    }
+
+    public BottomSheetBuilder setBackgroundColor(@ColorInt int color) {
+        mBackgroundColor = color;
+        return this;
+    }
+
+    public BottomSheetBuilder setItemTextColorResource(@ColorRes int color) {
+        mItemTextColor = ResourcesCompat.getColor(mContext.getResources(), color,
+                mContext.getTheme());
+        return this;
+    }
+
+    public BottomSheetBuilder setTitleTextColorResource(@ColorRes int color) {
+        mTitleTextColor = ResourcesCompat.getColor(mContext.getResources(), color,
+                mContext.getTheme());
         return this;
     }
 
@@ -134,8 +149,9 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    public BottomSheetBuilder setBackgroundColor(@ColorRes int background) {
-        mBackgroundColor = background;
+    public BottomSheetBuilder setBackgroundColorResource(@ColorRes int background) {
+        mBackgroundColor = ResourcesCompat.getColor(mContext.getResources(), background,
+                mContext.getTheme());
         return this;
     }
 

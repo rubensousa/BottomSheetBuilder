@@ -74,7 +74,7 @@ public class BottomSheetAdapterBuilder {
             recyclerView.setBackgroundResource(backgroundDrawable);
         } else {
             if (backgroundColor != 0) {
-                recyclerView.setBackgroundColor(ContextCompat.getColor(mContext, backgroundColor));
+                recyclerView.setBackgroundColor(backgroundColor);
             }
         }
 
@@ -89,8 +89,7 @@ public class BottomSheetAdapterBuilder {
                 headerTextView.setVisibility(View.VISIBLE);
                 headerTextView.setText(header.getTitle());
                 if (titleTextColor != 0) {
-                    headerTextView.setTextColor(ContextCompat.getColor(sheet.getContext(),
-                            titleTextColor));
+                    headerTextView.setTextColor(titleTextColor);
                 }
                 items.remove(0);
             }
@@ -109,7 +108,6 @@ public class BottomSheetAdapterBuilder {
             recyclerView.post(new Runnable() {
                 @Override
                 public void run() {
-
                     float margin = mContext.getResources()
                             .getDimensionPixelSize(R.dimen.bottomsheet_grid_horizontal_margin);
                     adapter.setItemWidth((int) ((recyclerView.getWidth() - 2 * margin) / columns));

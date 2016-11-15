@@ -170,7 +170,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
             int color = item.getTextColor();
 
             if (color != 0) {
-                textView.setTextColor(ContextCompat.getColor(itemView.getContext(), color));
+                textView.setTextColor(color);
             }
         }
     }
@@ -195,7 +195,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
             int background = item.getBackground();
 
             if (color != 0) {
-                textView.setTextColor(ContextCompat.getColor(itemView.getContext(), color));
+                textView.setTextColor(color);
             }
 
             if (background != 0) {

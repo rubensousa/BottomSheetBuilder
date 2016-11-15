@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
 
         View bottomSheet = new BottomSheetBuilder(this, coordinatorLayout)
                 .setMode(BottomSheetBuilder.MODE_GRID)
-                .setBackgroundColor(android.R.color.white)
+                .setBackgroundColorResource(android.R.color.white)
                 .setMenu(R.menu.menu_bottom_grid_sheet)
                 .setItemClickListener(this)
                 .createView();
@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
+                .setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setMenu(R.menu.menu_bottom_list_sheet)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
