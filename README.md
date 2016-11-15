@@ -15,7 +15,7 @@ Available from API 14.
 - Add the following to your build.gradle:
 ```groovy
 dependencies {
-  compile 'com.github.rubensousa:bottomsheetbuilder:1.4'
+  compile 'com.github.rubensousa:bottomsheetbuilder:1.5'
 }
 ```
 
@@ -73,11 +73,19 @@ Make sure the style passed in the BottomSheetBuilder's constructor extends from 
     </style>
 
     <style name="AppTheme.BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/white</item>
         <item name="behavior_hideable">true</item>
         <item name="behavior_skipCollapsed">true</item>
     </style>
 ```
+
+You can also style the background and text colors as of 1.5:
+
+<style name="AppTheme.BottomSheetDialog.Custom" parent="AppTheme.BottomSheetDialog">
+    <item name="bottomSheetBuilderItemTextColor">@color/colorPrimaryDark</item>
+    <item name="bottomSheetBuilderBackgroundColor">@android:color/white</item>
+    <item name="bottomSheetBuilderTitleTextColor">@color/colorAccent</item>
+</style>
+
 ## Sample
 
 The sample includes 4 view modes: grid, list, long list and list with one submenu.
@@ -85,12 +93,15 @@ It also has a save/restore state example.
 
 ## Customization methods
 ```java
-setItemTextColor(@ColorRes int color)
-setTitleTextColor(@ColorRes int color)
+setItemTextColor(@ColorInt int color)
+setTitleTextColor(@ColorInt int color)
+setItemTextColorResource(@ColorRes int color)
+setTitleTextColorResource(@ColorRes int color)
 setIconTintColorResource(@ColorRes int color)
 setIconTintColor(int color)
 setBackground(@DrawableRes int background)
-setBackgroundColor(@ColorRes int background)
+setBackgroundColorResource(@ColorRes int background)
+setBackgroundColor(@ColorInt int background)
 setDividerBackground(@DrawableRes int background)
 setItemBackground(@DrawableRes int background)
 setAppBarLayout(AppBarLayout appbar) -> To avoid overlapping
