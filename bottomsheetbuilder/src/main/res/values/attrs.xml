@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <attr name="bottomSheetBuilderBackgroundColor" format="color"/>
-    <attr name="bottomSheetBuilderTitleTextColor" format="color"/>
-    <attr name="bottomSheetBuilderItemTextColor" format="color"/>
-    
+
+    <attr name="bottomSheetBuilderBackgroundColor" format="color" />
+    <attr name="bottomSheetBuilderItemTextColor" format="color" />
+    <attr name="bottomSheetBuilderTitleTextColor" format="color" />
+
 </resources>

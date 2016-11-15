@@ -244,13 +244,13 @@ public class BottomSheetBuilder {
         if (mTheme != 0) {
             setupThemeColors(mContext.obtainStyledAttributes(mTheme, new int[]{
                     R.attr.bottomSheetBuilderBackgroundColor,
-                    R.attr.bottomSheetBuilderTitleTextColor,
-                    R.attr.bottomSheetBuilderItemTextColor}));
+                    R.attr.bottomSheetBuilderItemTextColor,
+                    R.attr.bottomSheetBuilderTitleTextColor}));
         } else {
             setupThemeColors(mContext.getTheme().obtainStyledAttributes(new int[]{
                     R.attr.bottomSheetBuilderBackgroundColor,
-                    R.attr.bottomSheetBuilderTitleTextColor,
-                    R.attr.bottomSheetBuilderItemTextColor}));
+                    R.attr.bottomSheetBuilderItemTextColor,
+                    R.attr.bottomSheetBuilderTitleTextColor,}));
         }
 
         View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
@@ -279,8 +279,8 @@ public class BottomSheetBuilder {
     @SuppressWarnings("ResourceType")
     private void setupThemeColors(TypedArray typedArray) {
         int backgroundRes = typedArray.getResourceId(0, mBackgroundColor);
-        int titleRes = typedArray.getResourceId(1, mTitleTextColor);
-        int textRes = typedArray.getResourceId(2, mItemTextColor);
+        int textRes = typedArray.getResourceId(1, mItemTextColor);
+        int titleRes = typedArray.getResourceId(2, mTitleTextColor);
 
         if (backgroundRes != mBackgroundColor) {
             mBackgroundColor = ContextCompat.getColor(mContext, backgroundRes);

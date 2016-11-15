@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
             mBottomSheetDialog.dismiss();
         }
         mShowingHeaderDialog = true;
-        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+        mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog_Custom)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
                 .setMenu(R.menu.menu_bottom_headers_sheet)
@@ -225,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
-                .setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setMenu(R.menu.menu_bottom_list_sheet)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
