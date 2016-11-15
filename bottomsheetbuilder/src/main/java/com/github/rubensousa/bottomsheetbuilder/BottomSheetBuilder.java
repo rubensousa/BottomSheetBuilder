@@ -17,7 +17,7 @@
 package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -241,6 +241,18 @@ public class BottomSheetBuilder {
                 ? new BottomSheetMenuDialog(mContext, R.style.BottomSheetBuilder_DialogStyle)
                 : new BottomSheetMenuDialog(mContext, mTheme);
 
+        if (mTheme != 0) {
+            setupThemeColors(mContext.obtainStyledAttributes(mTheme, new int[]{
+                    R.attr.bottomSheetBuilderBackgroundColor,
+                    R.attr.bottomSheetBuilderTitleTextColor,
+                    R.attr.bottomSheetBuilderItemTextColor}));
+        } else {
+            setupThemeColors(mContext.getTheme().obtainStyledAttributes(new int[]{
+                    R.attr.bottomSheetBuilderBackgroundColor,
+                    R.attr.bottomSheetBuilderTitleTextColor,
+                    R.attr.bottomSheetBuilderItemTextColor}));
+        }
+
         View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
                 mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
                 mIconTintColor, dialog);
@@ -262,6 +274,27 @@ public class BottomSheetBuilder {
         }
 
         return dialog;
+    }
+
+    @SuppressWarnings("ResourceType")
+    private void setupThemeColors(TypedArray typedArray) {
+        int backgroundRes = typedArray.getResourceId(0, mBackgroundColor);
+        int titleRes = typedArray.getResourceId(1, mTitleTextColor);
+        int textRes = typedArray.getResourceId(2, mItemTextColor);
+
+        if (backgroundRes != mBackgroundColor) {
+            mBackgroundColor = ContextCompat.getColor(mContext, backgroundRes);
+        }
+
+        if (titleRes != mTitleTextColor) {
+            mTitleTextColor = ContextCompat.getColor(mContext, titleRes);
+        }
+
+        if (textRes != mItemTextColor) {
+            mItemTextColor = ContextCompat.getColor(mContext, textRes);
+        }
+
+        typedArray.recycle();
     }
 
 }

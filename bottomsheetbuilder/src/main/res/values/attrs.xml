@@ -2,6 +2,7 @@
 <resources>
     
     <attr name="bottomSheetBuilderBackgroundColor" format="color"/>
+    <attr name="bottomSheetBuilderTitleTextColor" format="color"/>
     <attr name="bottomSheetBuilderItemTextColor" format="color"/>
     
 </resources>
