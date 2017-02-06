@@ -18,6 +18,9 @@ package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -34,6 +37,7 @@ import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -90,7 +94,6 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder setMode(int mode) {
-
         if (mode != MODE_LIST && mode != MODE_GRID) {
             throw new IllegalArgumentException("Mode must be one of BottomSheetBuilder.MODE_LIST" +
                     "or BottomSheetBuilder.MODE_GRID");
@@ -114,6 +117,55 @@ public class BottomSheetBuilder {
     public BottomSheetBuilder setMenu(Menu menu) {
         mMenu = menu;
         mAdapterBuilder.setMenu(mMenu);
+        return this;
+    }
+
+    /**
+     * Add a new item to the menu. This item displays the given title for its label.
+     *
+     * @param  groupId  The group identifier that this item should be part of. This can be used to define groups of items for batch state changes. Normally use Menu.NONE if an item should not be in a group.
+     * @param  itemId Unique item ID. Use Menu.NONE if you do not need a unique ID.
+     * @param  order The order for the item. Use Menu.NONE if you do not care about the order.
+     * @param  title The text to display for the item.
+     * @param  iconDrawable The icon of the menu item. Use null if don't want to use icon.
+     */
+
+    public BottomSheetBuilder addItem(int groupId,int itemId,int order, CharSequence title,Drawable iconDrawable){
+        MenuItem newItem=mMenu.add(groupId,itemId,order,title);
+        newItem.setIcon(iconDrawable);
+        return this;
+    }
+
+    /**
+     * Add a new item to the menu. This item displays the given title for its label.
+     *
+     * @param  groupId  The group identifier that this item should be part of. This can be used to define groups of items for batch state changes. Normally use Menu.NONE if an item should not be in a group.
+     * @param  itemId Unique item ID. Use Menu.NONE if you do not need a unique ID.
+     * @param  order The order for the item. Use Menu.NONE if you do not care about the order.
+     * @param  title The text to display for the item.
+     * @param  iconBitmap The icon of the menu item. Use null if don't want to use icon.
+     */
+
+    public BottomSheetBuilder addItem(int groupId,int itemId,int order, CharSequence title,Bitmap iconBitmap){
+        MenuItem newItem=mMenu.add(groupId,itemId,order,title);
+        newItem.setIcon(new BitmapDrawable(mContext.getResources(), iconBitmap));
+        return this;
+    }
+
+
+    /**
+     * Add a new item to the menu. This item displays the given title for its label.
+     *
+     * @param  groupId  The group identifier that this item should be part of. This can be used to define groups of items for batch state changes. Normally use NONE if an item should not be in a group.
+     * @param  itemId Unique item ID. Use Menu.NONE if you do not need a unique ID.
+     * @param  order The order for the item. Use Menu.NONE if you do not care about the order.
+     * @param  title The text to display for the item.
+     * @param  iconDrawableResource The icon of the menu item. Use 0 if don't want to use icon.
+     */
+
+    public BottomSheetBuilder addItem(int groupId,int itemId,int order, CharSequence title,int iconDrawableResource){
+        MenuItem newItem=mMenu.add(groupId,itemId,order,title);
+        newItem.setIcon(iconDrawableResource);
         return this;
     }
 
