@@ -131,11 +131,15 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         if (mBottomSheetDialog != null) {
             mBottomSheetDialog.dismiss();
         }
+
         mShowingSimpleDialog = true;
         mBottomSheetDialog = new BottomSheetBuilder(this)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
-                .setMenu(R.menu.menu_bottom_simple_sheet)
+                .addItem(0, "Preview", R.drawable.ic_preview_24dp)
+                .addItem(1, "Share", R.drawable.ic_share_24dp)
+                .addItem(2, "Get link", R.drawable.ic_link_24dp)
+                .addItem(3, "Make a copy", R.drawable.ic_content_copy_24dp)
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override

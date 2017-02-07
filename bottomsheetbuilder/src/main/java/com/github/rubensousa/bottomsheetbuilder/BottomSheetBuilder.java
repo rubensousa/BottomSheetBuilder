@@ -26,6 +26,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
@@ -120,6 +121,33 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder addItem(int itemId, @StringRes int title, Drawable icon) {
+        return addItem(Menu.NONE, itemId, Menu.NONE, mContext.getString(title), icon);
+    }
+
+    public BottomSheetBuilder addItem(int itemId, @StringRes int title, @DrawableRes int icon) {
+        return addItem(Menu.NONE, itemId, Menu.NONE, mContext.getString(title),
+                ContextCompat.getDrawable(mContext, icon));
+    }
+
+    public BottomSheetBuilder addItem(int itemId, CharSequence title, Drawable icon) {
+        return addItem(Menu.NONE, itemId, Menu.NONE, title, icon);
+    }
+
+    public BottomSheetBuilder addItem(int itemId, CharSequence title, @DrawableRes int icon) {
+        return addItem(Menu.NONE, itemId, Menu.NONE, title,
+                ContextCompat.getDrawable(mContext, icon));
+    }
+
+    public BottomSheetBuilder addItem(int groupId, int itemId, CharSequence title, Drawable icon) {
+        return addItem(groupId, itemId, Menu.NONE, title, icon);
+    }
+
+    public BottomSheetBuilder addItem(int groupId, int itemId, int order, CharSequence title,
+                                      @DrawableRes int icon) {
+        return addItem(groupId, itemId, order, title, ContextCompat.getDrawable(mContext, icon));
+    }
+
     /**
      * Add a new item to the menu. This item displays the given title for its label.
      *
@@ -133,49 +161,12 @@ public class BottomSheetBuilder {
      */
     public BottomSheetBuilder addItem(int groupId, int itemId, int order, CharSequence title,
                                       Drawable iconDrawable) {
+        if (mMenu == null) {
+            mMenu = new MenuBuilder(mContext);
+            mAdapterBuilder.setMenu(mMenu);
+        }
         MenuItem newItem = mMenu.add(groupId, itemId, order, title);
         newItem.setIcon(iconDrawable);
-        return this;
-    }
-
-    /**
-     * Add a new item to the menu. This item displays the given title for its label.
-     *
-     * @param groupId    The group identifier that this item should be part of.
-     *                   This can be used to define groups of items for batch state changes.
-     *                   Normally use Menu.NONE if an item should not be in a group.
-     * @param itemId     Unique item ID. Use Menu.NONE if you do not need a unique ID.
-     * @param order      The order for the item. Use Menu.NONE if you do not care about the order.
-     * @param title      The text to display for the item.
-     * @param iconBitmap The icon of the menu item. Use null if don't want to use icon.
-     */
-
-    public BottomSheetBuilder addItem(int groupId, int itemId, int order, CharSequence title,
-                                      Bitmap iconBitmap) {
-        MenuItem newItem = mMenu.add(groupId, itemId, order, title);
-        newItem.setIcon(new BitmapDrawable(mContext.getResources(), iconBitmap));
-        return this;
-    }
-
-
-    /**
-     * Add a new item to the menu. This item displays the given title for its label.
-     *
-     * @param groupId              The group identifier that this item should be part of.
-     *                             This can be used to define groups of items
-     *                             for batch state changes.
-     *                             Normally use NONE if an item should not be in a group.
-     * @param itemId               Unique item ID. Use Menu.NONE if you do not need a unique ID.
-     * @param order                The order for the item.
-     *                             Use Menu.NONE if you do not care about the order.
-     * @param title                The text to display for the item.
-     * @param iconDrawableResource The icon of the menu item. Use 0 if don't want to use icon.
-     */
-
-    public BottomSheetBuilder addItem(int groupId, int itemId, int order, CharSequence title,
-                                      int iconDrawableResource) {
-        MenuItem newItem = mMenu.add(groupId, itemId, order, title);
-        newItem.setIcon(iconDrawableResource);
         return this;
     }
 
