@@ -16,15 +16,11 @@
 
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
-import android.content.res.ColorStateList;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder;

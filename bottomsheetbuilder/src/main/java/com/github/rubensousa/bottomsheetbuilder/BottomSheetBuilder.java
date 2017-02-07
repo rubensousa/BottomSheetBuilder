@@ -296,7 +296,7 @@ public class BottomSheetBuilder {
 
         View sheet = mAdapterBuilder.createView(mTitleTextColor, mBackgroundDrawable,
                 mBackgroundColor, mDividerBackground, mItemTextColor, mItemBackground,
-                mIconTintColor, mItemClickListener);
+                mIconTintColor, dialog);
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);
