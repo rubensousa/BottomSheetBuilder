@@ -68,6 +68,7 @@ public class BottomSheetBuilder {
     private boolean mDelayedDismiss = true;
     private boolean mExpandOnStart = false;
     private int mIconTintColor = -1;
+    private int mMode;
     private Menu mMenu;
     private BottomSheetAdapterBuilder mAdapterBuilder;
     private CoordinatorLayout mCoordinatorLayout;
@@ -96,7 +97,7 @@ public class BottomSheetBuilder {
             throw new IllegalArgumentException("Mode must be one of BottomSheetBuilder.MODE_LIST" +
                     "or BottomSheetBuilder.MODE_GRID");
         }
-
+        mMode = mode;
         mAdapterBuilder.setMode(mode);
         return this;
     }
@@ -123,11 +124,19 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder addTitleItem(String title) {
+        if (mMode == BottomSheetBuilder.MODE_GRID) {
+            throw new IllegalStateException("You can't add a title with MODE_GRID. " +
+                    "Use MODE_LIST instead");
+        }
         mAdapterBuilder.addTitleItem(title, mTitleTextColor);
         return this;
     }
 
     public BottomSheetBuilder addDividerItem() {
+        if (mMode == BottomSheetBuilder.MODE_GRID) {
+            throw new IllegalStateException("You can't add a divider with MODE_GRID. " +
+                    "Use MODE_LIST instead");
+        }
         mAdapterBuilder.addDividerItem(mDividerBackground);
         return this;
     }
