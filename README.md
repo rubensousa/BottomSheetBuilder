@@ -65,19 +65,6 @@ BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_
               .setIconTintColorResource(R.color.colorPrimary)
               ...
 ```
-- If you want to add the menu items programmetically. If you are using this method you can also add menu file without any item.
-```java
-BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
-              .addItem(Menu.NONE,1,4,"Item Name", R.drawable.drawable_name)
-              .addItem(Menu.NONE,2,4,"Item Name1", anyDrawable)
-              .addItem(Menu.NONE,3,4,"Item Name2", anyBitmap)
-              ...
-
-// full function definition
-// public BottomSheetBuilder addItem(int groupId,int itemId,int order, CharSequence title,int iconDrawableResource)
-
-
-```
 
 ## Styling
 
