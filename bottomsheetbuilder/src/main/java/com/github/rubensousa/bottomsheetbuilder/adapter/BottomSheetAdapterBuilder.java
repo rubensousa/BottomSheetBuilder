@@ -37,6 +37,7 @@ import java.util.List;
 
 public class BottomSheetAdapterBuilder {
 
+    private List<BottomSheetItem> mItems;
     private int mTitles;
     private int mMode;
     private Menu mMenu;
@@ -44,6 +45,7 @@ public class BottomSheetAdapterBuilder {
 
     public BottomSheetAdapterBuilder(Context context) {
         mContext = context;
+        mItems = new ArrayList<>();
     }
 
     public void setMenu(Menu menu) {
@@ -54,10 +56,15 @@ public class BottomSheetAdapterBuilder {
         mMode = mode;
     }
 
+    public void createItemsFromMenu(int dividerBackground, int titleTextColor, int itemTextColor,
+                                    int itemBackground, int tintColor) {
+        mItems = createAdapterItems(dividerBackground, titleTextColor,
+                itemTextColor, itemBackground, tintColor);
+    }
+
     @SuppressLint("InflateParams")
-    public View createView(int itemTextColor, int titleTextColor, int backgroundDrawable,
-                           int backgroundColor, int dividerBackground, int itemBackground,
-                           int tintColor, BottomSheetItemClickListener itemClickListener) {
+    public View createView(int titleTextColor, int backgroundDrawable, int backgroundColor,
+                           BottomSheetItemClickListener itemClickListener) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
@@ -78,12 +85,9 @@ public class BottomSheetAdapterBuilder {
             }
         }
 
-        List<BottomSheetItem> items = createAdapterItems(dividerBackground, titleTextColor,
-                itemTextColor, itemBackground, tintColor);
-
         // If we only have one title and it's the first item, set it as fixed
         if (mTitles == 1 && mMode == BottomSheetBuilder.MODE_LIST) {
-            BottomSheetItem header = items.get(0);
+            BottomSheetItem header = mItems.get(0);
             TextView headerTextView = (TextView) sheet.findViewById(R.id.textView);
             if (header instanceof BottomSheetHeader) {
                 headerTextView.setVisibility(View.VISIBLE);
@@ -91,11 +95,11 @@ public class BottomSheetAdapterBuilder {
                 if (titleTextColor != 0) {
                     headerTextView.setTextColor(titleTextColor);
                 }
-                items.remove(0);
+                mItems.remove(0);
             }
         }
 
-        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(items, mMode,
+        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(mItems, mMode,
                 itemClickListener);
 
         if (mMode == BottomSheetBuilder.MODE_LIST) {
@@ -117,7 +121,10 @@ public class BottomSheetAdapterBuilder {
         }
 
         return sheet;
+    }
 
+    public List<BottomSheetItem> getItems() {
+        return mItems;
     }
 
     private List<BottomSheetItem> createAdapterItems(int dividerBackground, int titleTextColor,

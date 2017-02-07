@@ -245,9 +245,9 @@ public class BottomSheetBuilder {
 
     public View createView() {
 
-        if (mMenu == null) {
-            throw new IllegalStateException("You need to provide at least one Menu" +
-                    "or a Menu resource id");
+        if (mMenu == null || mAdapterBuilder.getItems().isEmpty()) {
+            throw new IllegalStateException("You need to provide at least one Menu " +
+                    "or an item with addItem");
         }
 
         if (mCoordinatorLayout == null) {
@@ -255,9 +255,13 @@ public class BottomSheetBuilder {
                     "so the view can be placed on it");
         }
 
-        View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
-                mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
-                mIconTintColor, mItemClickListener);
+        if (mMenu != null) {
+            mAdapterBuilder.createItemsFromMenu(mDividerBackground, mTitleTextColor, mItemTextColor,
+                    mItemBackground, mIconTintColor);
+        }
+
+        View sheet = mAdapterBuilder.createView(mTitleTextColor, mBackgroundDrawable,
+                mBackgroundColor, mItemClickListener);
 
         ViewCompat.setElevation(sheet, mContext.getResources()
                 .getDimensionPixelSize(R.dimen.bottomsheet_elevation));
@@ -285,9 +289,9 @@ public class BottomSheetBuilder {
 
     public BottomSheetMenuDialog createDialog() {
 
-        if (mMenu == null) {
-            throw new IllegalStateException("You need to provide at least one Menu" +
-                    "or a Menu resource id");
+        if (mMenu == null || mAdapterBuilder.getItems().isEmpty()) {
+            throw new IllegalStateException("You need to provide at least one Menu " +
+                    "or an item with addItem");
         }
 
         BottomSheetMenuDialog dialog = mTheme == 0
@@ -306,9 +310,13 @@ public class BottomSheetBuilder {
                     R.attr.bottomSheetBuilderTitleTextColor,}));
         }
 
-        View sheet = mAdapterBuilder.createView(mItemTextColor, mTitleTextColor,
-                mBackgroundDrawable, mBackgroundColor, mDividerBackground, mItemBackground,
-                mIconTintColor, dialog);
+        if (mMenu != null) {
+            mAdapterBuilder.createItemsFromMenu(mDividerBackground, mTitleTextColor, mItemTextColor,
+                    mItemBackground, mIconTintColor);
+        }
+
+        View sheet = mAdapterBuilder.createView(mTitleTextColor, mBackgroundDrawable,
+                mBackgroundColor, mItemClickListener);
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);
