@@ -18,8 +18,6 @@ package com.github.rubensousa.bottomsheetbuilder;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -38,7 +36,6 @@ import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -121,52 +118,34 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    public BottomSheetBuilder addItem(int itemId, @StringRes int title, Drawable icon) {
-        return addItem(Menu.NONE, itemId, Menu.NONE, mContext.getString(title), icon);
+    public BottomSheetBuilder addTitleItem(@StringRes int title) {
+        return addTitleItem(mContext.getString(title));
     }
 
-    public BottomSheetBuilder addItem(int itemId, @StringRes int title, @DrawableRes int icon) {
-        return addItem(Menu.NONE, itemId, Menu.NONE, mContext.getString(title),
-                ContextCompat.getDrawable(mContext, icon));
+    public BottomSheetBuilder addTitleItem(String title) {
+        mAdapterBuilder.addTitleItem(title, mTitleTextColor);
+        return this;
     }
 
-    public BottomSheetBuilder addItem(int itemId, CharSequence title, Drawable icon) {
-        return addItem(Menu.NONE, itemId, Menu.NONE, title, icon);
+    public BottomSheetBuilder addDividerItem() {
+        mAdapterBuilder.addDividerItem(mDividerBackground);
+        return this;
     }
 
-    public BottomSheetBuilder addItem(int itemId, CharSequence title, @DrawableRes int icon) {
-        return addItem(Menu.NONE, itemId, Menu.NONE, title,
-                ContextCompat.getDrawable(mContext, icon));
+    public BottomSheetBuilder addItem(int id, @StringRes int title, @DrawableRes int icon) {
+        return addItem(id, mContext.getString(title), ContextCompat.getDrawable(mContext, icon));
     }
 
-    public BottomSheetBuilder addItem(int groupId, int itemId, CharSequence title, Drawable icon) {
-        return addItem(groupId, itemId, Menu.NONE, title, icon);
+    public BottomSheetBuilder addItem(int id, @StringRes int title, Drawable icon) {
+        return addItem(id, mContext.getString(title), icon);
     }
 
-    public BottomSheetBuilder addItem(int groupId, int itemId, int order, CharSequence title,
-                                      @DrawableRes int icon) {
-        return addItem(groupId, itemId, order, title, ContextCompat.getDrawable(mContext, icon));
+    public BottomSheetBuilder addItem(int id, String title, @DrawableRes int icon) {
+        return addItem(id, title, ContextCompat.getDrawable(mContext, icon));
     }
 
-    /**
-     * Add a new item to the menu. This item displays the given title for its label.
-     *
-     * @param groupId      The group identifier that this item should be part of.
-     *                     This can be used to define groups of items for batch state changes.
-     *                     Normally use Menu.NONE if an item should not be in a group.
-     * @param itemId       Unique item ID. Use Menu.NONE if you do not need a unique ID.
-     * @param order        The order for the item. Use Menu.NONE if you do not care about the order.
-     * @param title        The text to display for the item.
-     * @param iconDrawable The icon of the menu item. Use null if don't want to use an icon.
-     */
-    public BottomSheetBuilder addItem(int groupId, int itemId, int order, CharSequence title,
-                                      Drawable iconDrawable) {
-        if (mMenu == null) {
-            mMenu = new MenuBuilder(mContext);
-            mAdapterBuilder.setMenu(mMenu);
-        }
-        MenuItem newItem = mMenu.add(groupId, itemId, order, title);
-        newItem.setIcon(iconDrawable);
+    public BottomSheetBuilder addItem(int id, String title, Drawable icon) {
+        mAdapterBuilder.addItem(id, title, icon, mItemTextColor, mItemBackground, mIconTintColor);
         return this;
     }
 
@@ -245,7 +224,7 @@ public class BottomSheetBuilder {
 
     public View createView() {
 
-        if (mMenu == null || mAdapterBuilder.getItems().isEmpty()) {
+        if (mMenu == null && mAdapterBuilder.getItems().isEmpty()) {
             throw new IllegalStateException("You need to provide at least one Menu " +
                     "or an item with addItem");
         }
@@ -255,13 +234,9 @@ public class BottomSheetBuilder {
                     "so the view can be placed on it");
         }
 
-        if (mMenu != null) {
-            mAdapterBuilder.createItemsFromMenu(mDividerBackground, mTitleTextColor, mItemTextColor,
-                    mItemBackground, mIconTintColor);
-        }
-
         View sheet = mAdapterBuilder.createView(mTitleTextColor, mBackgroundDrawable,
-                mBackgroundColor, mItemClickListener);
+                mBackgroundColor, mDividerBackground, mItemTextColor, mItemBackground,
+                mIconTintColor, mItemClickListener);
 
         ViewCompat.setElevation(sheet, mContext.getResources()
                 .getDimensionPixelSize(R.dimen.bottomsheet_elevation));
@@ -289,7 +264,7 @@ public class BottomSheetBuilder {
 
     public BottomSheetMenuDialog createDialog() {
 
-        if (mMenu == null || mAdapterBuilder.getItems().isEmpty()) {
+        if (mMenu == null && mAdapterBuilder.getItems().isEmpty()) {
             throw new IllegalStateException("You need to provide at least one Menu " +
                     "or an item with addItem");
         }
@@ -310,13 +285,9 @@ public class BottomSheetBuilder {
                     R.attr.bottomSheetBuilderTitleTextColor,}));
         }
 
-        if (mMenu != null) {
-            mAdapterBuilder.createItemsFromMenu(mDividerBackground, mTitleTextColor, mItemTextColor,
-                    mItemBackground, mIconTintColor);
-        }
-
         View sheet = mAdapterBuilder.createView(mTitleTextColor, mBackgroundDrawable,
-                mBackgroundColor, mItemClickListener);
+                mBackgroundColor, mDividerBackground, mItemTextColor, mItemBackground,
+                mIconTintColor, mItemClickListener);
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);

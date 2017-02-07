@@ -19,6 +19,8 @@ package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,7 @@ public class BottomSheetAdapterBuilder {
     private int mTitles;
     private int mMode;
     private Menu mMenu;
+    private boolean mFromMenu;
     private Context mContext;
 
     public BottomSheetAdapterBuilder(Context context) {
@@ -50,21 +53,40 @@ public class BottomSheetAdapterBuilder {
 
     public void setMenu(Menu menu) {
         mMenu = menu;
+        mFromMenu = true;
     }
 
     public void setMode(int mode) {
         mMode = mode;
     }
 
-    public void createItemsFromMenu(int dividerBackground, int titleTextColor, int itemTextColor,
-                                    int itemBackground, int tintColor) {
-        mItems = createAdapterItems(dividerBackground, titleTextColor,
-                itemTextColor, itemBackground, tintColor);
+    public void addTitleItem(String title, int titleTextColor) {
+        mItems.add(new BottomSheetHeader(title, titleTextColor));
+    }
+
+    public void addDividerItem(int dividerBackground) {
+        mItems.add(new BottomSheetDivider(dividerBackground));
+    }
+
+    public void addItem(int id, String title, Drawable icon, int itemTextColor,
+                        int itemBackground, int tintColor) {
+        if (mMenu == null) {
+            mMenu = new MenuBuilder(mContext);
+        }
+        MenuItem item = mMenu.add(Menu.NONE, id, Menu.NONE, title);
+        item.setIcon(icon);
+        mItems.add(new BottomSheetMenuItem(item, itemTextColor, itemBackground, tintColor));
     }
 
     @SuppressLint("InflateParams")
     public View createView(int titleTextColor, int backgroundDrawable, int backgroundColor,
-                           BottomSheetItemClickListener itemClickListener) {
+                           int dividerBackground, int itemTextColor, int itemBackground,
+                           int tintColor, BottomSheetItemClickListener itemClickListener) {
+
+        if (mFromMenu) {
+            mItems = createAdapterItems(dividerBackground, titleTextColor,
+                    itemTextColor, itemBackground, tintColor);
+        }
 
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
@@ -72,10 +94,8 @@ public class BottomSheetAdapterBuilder {
                 layoutInflater.inflate(R.layout.bottomsheetbuilder_sheet_grid, null)
                 : layoutInflater.inflate(R.layout.bottomsheetbuilder_sheet_list, null);
 
-
         final RecyclerView recyclerView = (RecyclerView) sheet.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-
 
         if (backgroundDrawable != 0) {
             sheet.setBackgroundResource(backgroundDrawable);
