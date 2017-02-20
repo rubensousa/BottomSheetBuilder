@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
-                .addTitleItem("Dynamic title")
+                .addTitleItem("Custom title")
                 .addItem(0, "Preview", R.drawable.ic_preview_24dp)
                 .addItem(1, "Share", R.drawable.ic_share_24dp)
                 .addDividerItem()
