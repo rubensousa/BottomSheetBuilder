@@ -16,6 +16,7 @@
 
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,16 +30,19 @@ import com.github.rubensousa.bottomsheetbuilder.R;
 import java.util.List;
 
 
-class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter.ViewHolder> {
+public class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter.ViewHolder> {
 
     public static final int TYPE_ITEM = 0;
     public static final int TYPE_HEADER = 1;
     public static final int TYPE_DIVIDER = 2;
 
-    private List<BottomSheetItem> mItems;
-    BottomSheetItemClickListener mListener;
-    private int mMode;
-    private int mItemWidth;
+    protected List<BottomSheetItem> mItems;
+    protected BottomSheetItemClickListener mListener;
+    protected int mMode;
+    protected int mItemWidth;
+
+    @LayoutRes
+    protected int itemLayoutRes = -1;
 
     public BottomSheetItemAdapter(List<BottomSheetItem> items, int mode,
                                   BottomSheetItemClickListener listener) {
@@ -90,8 +94,13 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
             }
 
             if (viewType == TYPE_ITEM) {
-                return new ItemViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.bottomsheetbuilder_list_adapter, parent, false));
+                if (itemLayoutRes == -1) {
+                    return new ItemViewHolder(LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.bottomsheetbuilder_list_adapter, parent, false));
+                } else {
+                    return new ItemViewHolder(LayoutInflater.from(parent.getContext())
+                            .inflate(itemLayoutRes, parent, false));
+                }
             }
 
             if (viewType == TYPE_DIVIDER) {
@@ -127,11 +136,16 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         return mItems.size();
     }
 
+    public void setItemLayoutRes(int itemLayoutRes) {
+        this.itemLayoutRes = itemLayoutRes;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
+
 
     }
 
@@ -185,7 +199,12 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetMenuItem item) {
-            imageView.setImageDrawable(item.getIcon());
+            if (item.getIcon() == null) {
+                imageView.setVisibility(View.GONE);
+            } else {
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setImageDrawable(item.getIcon());
+            }
             textView.setText(item.getTitle());
             int color = item.getTextColor();
             int background = item.getBackground();

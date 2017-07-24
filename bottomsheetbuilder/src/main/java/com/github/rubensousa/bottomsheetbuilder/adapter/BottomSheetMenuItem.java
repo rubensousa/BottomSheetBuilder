@@ -23,7 +23,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.MenuItem;
 
 
-class BottomSheetMenuItem implements BottomSheetItem {
+public class BottomSheetMenuItem implements BottomSheetItem {
 
     @ColorInt
     private int mTextColor;
@@ -39,7 +39,7 @@ class BottomSheetMenuItem implements BottomSheetItem {
     @DrawableRes
     private int mBackground;
 
-    public BottomSheetMenuItem(MenuItem item,@ColorInt int textColor, @DrawableRes int background,
+    public BottomSheetMenuItem(MenuItem item, @ColorInt int textColor, @DrawableRes int background,
                                @ColorInt int tintColor) {
         mMenuItem = item;
         mIcon = item.getIcon();

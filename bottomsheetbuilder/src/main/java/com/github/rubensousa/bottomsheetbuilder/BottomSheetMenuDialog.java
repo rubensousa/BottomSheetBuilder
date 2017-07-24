@@ -35,15 +35,48 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
     BottomSheetBehavior.BottomSheetCallback mCallback;
     BottomSheetBehavior mBehavior;
-    private BottomSheetItemClickListener mClickListener;
-    private AppBarLayout mAppBarLayout;
-    private boolean mExpandOnStart;
-    private boolean mDelayDismiss;
     boolean mRequestedExpand;
     boolean mClicked;
     boolean mRequestCancel;
     boolean mRequestDismiss;
     OnCancelListener mOnCancelListener;
+    private BottomSheetItemClickListener mClickListener;
+    private AppBarLayout mAppBarLayout;
+    private boolean mExpandOnStart;
+    private boolean mDelayDismiss;
+    private BottomSheetBehavior.BottomSheetCallback mBottomSheetCallback
+            = new BottomSheetBehavior.BottomSheetCallback() {
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet,
+                                   @BottomSheetBehavior.State int newState) {
+
+            if (mCallback != null) {
+                mCallback.onStateChanged(bottomSheet, newState);
+            }
+
+            //noinspection WrongConstant
+            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                mBehavior.setBottomSheetCallback(null);
+                try {
+                    BottomSheetMenuDialog.super.dismiss();
+                } catch (IllegalArgumentException e) {
+                    // Ignore exception handling
+                }
+
+                // User dragged the sheet.
+                if (!mClicked && !mRequestDismiss && !mRequestCancel && mOnCancelListener != null) {
+                    mOnCancelListener.onCancel(BottomSheetMenuDialog.this);
+                }
+            }
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            if (mCallback != null) {
+                mCallback.onSlide(bottomSheet, slideOffset);
+            }
+        }
+    };
 
     public BottomSheetMenuDialog(Context context) {
         super(context);
@@ -185,40 +218,6 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
             mClicked = true;
         }
     }
-
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetCallback
-            = new BottomSheetBehavior.BottomSheetCallback() {
-        @Override
-        public void onStateChanged(@NonNull View bottomSheet,
-                                   @BottomSheetBehavior.State int newState) {
-
-            if (mCallback != null) {
-                mCallback.onStateChanged(bottomSheet, newState);
-            }
-
-            //noinspection WrongConstant
-            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                mBehavior.setBottomSheetCallback(null);
-                try {
-                    BottomSheetMenuDialog.super.dismiss();
-                }catch (IllegalArgumentException e){
-                    // Ignore exception handling
-                }
-
-                // User dragged the sheet.
-                if (!mClicked && !mRequestDismiss && !mRequestCancel && mOnCancelListener != null) {
-                    mOnCancelListener.onCancel(BottomSheetMenuDialog.this);
-                }
-            }
-        }
-
-        @Override
-        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            if (mCallback != null) {
-                mCallback.onSlide(bottomSheet, slideOffset);
-            }
-        }
-    };
 
     private void fixLandscapePeekHeight(final View sheet) {
         // On landscape, we shouldn't use the 16:9 keyline alignment
