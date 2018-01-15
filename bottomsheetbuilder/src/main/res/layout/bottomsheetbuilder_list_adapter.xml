@@ -13,17 +13,15 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/bottomsheet_horizontal_margin"
-        android:layout_marginRight="@dimen/bottomsheet_horizontal_margin" />
+        android:layout_width="@dimen/bottomsheet_list_item_icon_size"
+        android:layout_height="@dimen/bottomsheet_list_item_icon_size"
+        android:layout_marginEnd="@dimen/bottomsheet_horizontal_margin_double"
+        android:layout_marginRight="@dimen/bottomsheet_horizontal_margin_double" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/bottomsheet_horizontal_margin"
-        android:layout_marginStart="@dimen/bottomsheet_horizontal_margin"
         android:ellipsize="end"
         android:maxLines="1"
         android:gravity="center_vertical"

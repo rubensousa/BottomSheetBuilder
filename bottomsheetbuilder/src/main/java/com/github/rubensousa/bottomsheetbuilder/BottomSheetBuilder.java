@@ -119,6 +119,11 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder setShowIcon(boolean showIcon) {
+        mAdapterBuilder.setShowIcon(showIcon);
+        return this;
+    }
+
     public BottomSheetBuilder addTitleItem(@StringRes int title) {
         return addTitleItem(mContext.getString(title));
     }
@@ -139,6 +144,14 @@ public class BottomSheetBuilder {
         }
         mAdapterBuilder.addDividerItem(mDividerBackground);
         return this;
+    }
+
+    public BottomSheetBuilder addItem(int id, @StringRes int title) {
+        return addItem(id, mContext.getString(title), null);
+    }
+
+    public BottomSheetBuilder addItem(int id, String title) {
+        return addItem(id, title, null);
     }
 
     public BottomSheetBuilder addItem(int id, @StringRes int title, @DrawableRes int icon) {

@@ -43,6 +43,7 @@ public class BottomSheetAdapterBuilder {
     private int mTitles;
     private int mMode;
     private Menu mMenu;
+    private boolean mShowIcon = true;
     private boolean mFromMenu;
     private Context mContext;
 
@@ -54,6 +55,10 @@ public class BottomSheetAdapterBuilder {
     public void setMenu(Menu menu) {
         mMenu = menu;
         mFromMenu = true;
+    }
+
+    public void setShowIcon(boolean showIcon) {
+        this.mShowIcon = showIcon;
     }
 
     public void setMode(int mode) {
@@ -119,7 +124,7 @@ public class BottomSheetAdapterBuilder {
             }
         }
 
-        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(mItems, mMode,
+        final BottomSheetItemAdapter adapter = new BottomSheetItemAdapter(mItems, mMode, mShowIcon,
                 itemClickListener);
 
         if (mMode == BottomSheetBuilder.MODE_LIST) {

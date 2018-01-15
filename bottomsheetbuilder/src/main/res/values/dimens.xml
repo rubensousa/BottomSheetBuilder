@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bottomsheet_title_vertical_margin">16dp</dimen>
+
     <dimen name="bottomsheet_list_item_height">48dp</dimen>
+    <dimen name="bottomsheet_list_item_icon_size">24dp</dimen>
+    <dimen name="bottomsheet_horizontal_margin_double">32dp</dimen>
+
     <dimen name="bottomsheet_grid_horizontal_margin">24dp</dimen>
     <dimen name="bottomsheet_grid_margin_top">16dp</dimen>
     <dimen name="bottomsheet_grid_padding_bottom">24dp</dimen>

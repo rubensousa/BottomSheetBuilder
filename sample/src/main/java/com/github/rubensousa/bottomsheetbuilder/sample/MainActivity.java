@@ -7,7 +7,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -160,6 +159,41 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog.show();
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.showDialogWithoutIconBtn)
+    public void onShowDialogWithoutIconClick() {
+        if (mBottomSheetDialog != null) {
+            mBottomSheetDialog.dismiss();
+        }
+
+        mShowingSimpleDialog = true;
+        mBottomSheetDialog = new BottomSheetBuilder(this)
+                .setMode(BottomSheetBuilder.MODE_LIST)
+                .setAppBarLayout(appBarLayout)
+                .addTitleItem("Custom title")
+                .addItem(0, "Preview")
+                .addItem(1, "Share")
+                .addDividerItem()
+                .addItem(2, "Get link", R.drawable.ic_link_24dp)
+                .addItem(3, "Make a copy", R.drawable.ic_content_copy_24dp)
+                .setShowIcon(false)
+                .expandOnStart(true)
+                .setItemClickListener(new BottomSheetItemClickListener() {
+                    @Override
+                    public void onBottomSheetItemClick(MenuItem item) {
+                        Log.d("Item click", item.getTitle() + "");
+                        mShowingSimpleDialog = false;
+                    }
+                })
+                .createDialog();
+        mBottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mShowingSimpleDialog = false;
+            }
+        });
+        mBottomSheetDialog.show();
+    }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.showDialogHeadersBtn)

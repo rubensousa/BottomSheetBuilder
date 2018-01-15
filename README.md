@@ -66,6 +66,13 @@ BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_
               ...
 ```
 
+- If you want to hide menu item icons:
+```java
+BottomSheetMenuDialog dialog = new BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+              .setShowIcon(false)
+              ...
+```
+
 ## Styling
 
 Make sure the style passed in the BottomSheetBuilder's constructor extends from the Theme.Design.BottomSheetDialog family:
@@ -95,6 +102,7 @@ It also has a save/restore state example.
 
 ## Customization methods
 ```java
+setShowIcon(boolean showIcon)
 setItemTextColor(@ColorInt int color)
 setTitleTextColor(@ColorInt int color)
 setItemTextColorResource(@ColorRes int color)
