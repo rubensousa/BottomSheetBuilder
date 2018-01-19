@@ -16,12 +16,12 @@
 
 package com.github.rubensousa.bottomsheetbuilder.util;
 
-import android.annotation.MenuRes;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.MenuRes;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;

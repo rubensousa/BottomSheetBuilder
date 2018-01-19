@@ -17,10 +17,10 @@
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
 
-import android.annotation.ColorInt;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
