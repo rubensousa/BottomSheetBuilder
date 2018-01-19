@@ -154,7 +154,12 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder addItem(int id, String title, Drawable icon) {
-        mAdapterBuilder.addItem(id, title, icon, mItemTextColor, mItemBackground, mIconTintColor);
+        addItem(id, title, icon, mItemTextColor, mIconTintColor);
+        return this;
+    }
+
+    public BottomSheetBuilder addItem(int id, String title, Drawable icon, @ColorInt int itemTextColor, @ColorInt int itemTintColor) {
+        mAdapterBuilder.addItem(id, title, icon, itemTextColor, mItemBackground, itemTintColor);
         return this;
     }
 

@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
     private boolean mShowingHeaderDialog;
     private boolean mShowingGridDialog;
     private boolean mShowingLongDialog;
+    private int colorAccent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        colorAccent = ContextCompat.getColor(this, R.color.colorAccent);
 
         View bottomSheet = new BottomSheetBuilder(this, coordinatorLayout)
                 .setMode(BottomSheetBuilder.MODE_GRID)
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
                 .addTitleItem("Custom title")
-                .addItem(0, "Preview", R.drawable.ic_preview_24dp)
+                .addItem(0, "Preview", ContextCompat.getDrawable(this, R.drawable.ic_preview_24dp), colorAccent, colorAccent)
                 .addItem(1, "Share", R.drawable.ic_share_24dp)
                 .addDividerItem()
                 .addItem(2, "Get link", R.drawable.ic_link_24dp)
