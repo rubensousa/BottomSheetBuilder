@@ -166,6 +166,7 @@ public class BottomSheetAdapterBuilder {
 
         boolean addedSubMenu = false;
 
+        int itemCount = 0;
         for (int i = 0; i < mMenu.size(); i++) {
             MenuItem item = mMenu.getItem(i);
 
@@ -191,17 +192,19 @@ public class BottomSheetAdapterBuilder {
                         MenuItem subItem = subMenu.getItem(j);
                         if (subItem.isVisible()) {
                             items.add(new BottomSheetMenuItem(subItem,
-                                    getMenuItemTextColor(i, defaultItemTextColor),
+                                    getMenuItemTextColor(itemCount, defaultItemTextColor),
                                     itemBackground,
-                                    getMenuItemTintColor(i, defaultTintColor)));
+                                    getMenuItemTintColor(itemCount, defaultTintColor)));
                             addedSubMenu = true;
+                            itemCount++;
                         }
                     }
                 } else {
                     items.add(new BottomSheetMenuItem(item,
-                            getMenuItemTextColor(i, defaultItemTextColor),
+                            getMenuItemTextColor(itemCount, defaultItemTextColor),
                             itemBackground,
-                            getMenuItemTintColor(i, defaultTintColor)));
+                            getMenuItemTintColor(itemCount, defaultTintColor)));
+                    itemCount++;
                 }
             }
         }
@@ -210,12 +213,12 @@ public class BottomSheetAdapterBuilder {
     }
 
     private int getMenuItemTextColor(int position, int defaultItemTextColor) {
-        return (titleTextColors != null && position < titleTextColors.length) ?
+        return (titleTextColors != null && position < titleTextColors.length && titleTextColors[position] != -1) ?
                 titleTextColors[position] : defaultItemTextColor;
     }
 
     private int getMenuItemTintColor(int position, int defaultItemTintColor) {
-        return (tintColors != null && position < tintColors.length) ?
+        return (tintColors != null && position < tintColors.length && tintColors[position] != -1) ?
                 tintColors[position] : defaultItemTintColor;
     }
 }

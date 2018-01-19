@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
                 .setMenu(BottomSheetBuilderUtils.inflateMenu(this, R.menu.menu_bottom_headers_sheet),
-                        new int[]{colorAccent}, new int[]{colorAccent})
+                        new int[]{colorAccent, -1, -1, colorAccent}, new int[]{colorAccent, -1, -1, colorAccent})
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
