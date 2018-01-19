@@ -173,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements BottomSheetItemCl
         mBottomSheetDialog = new BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog_Custom)
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .setAppBarLayout(appBarLayout)
-                .setMenu(R.menu.menu_bottom_headers_sheet)
+                .setMenu(BottomSheetBuilderUtils.inflateMenu(this, R.menu.menu_bottom_headers_sheet),
+                        new int[]{colorAccent}, new int[]{colorAccent})
                 .expandOnStart(true)
                 .setItemClickListener(new BottomSheetItemClickListener() {
                     @Override
