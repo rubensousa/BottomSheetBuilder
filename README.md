@@ -115,6 +115,11 @@ delayDismissOnItemClick(boolean delayDismiss) -> Defaults to true
 
 https://github.com/rubensousa/BottomSheetBuilder/blob/master/CHANGELOG.md
 
+## Third Party Bindings
+  		  
+### React Native
+You may now use this library with [React Native](https://github.com/facebook/react-native) via the module [here](https://github.com/prscX/react-native-bottom-action-sheet)
+
 ## License
 
     Copyright 2016 Rúben Sousa
