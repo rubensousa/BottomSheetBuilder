@@ -20,6 +20,7 @@ package com.github.rubensousa.bottomsheetbuilder.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,6 +45,8 @@ public class BottomSheetAdapterBuilder {
     private int mMode;
     private Menu mMenu;
     private boolean mFromMenu;
+    private int[] titleTextColors;
+    private int[] tintColors;
     private Context mContext;
 
     public BottomSheetAdapterBuilder(Context context) {
@@ -54,6 +57,12 @@ public class BottomSheetAdapterBuilder {
     public void setMenu(Menu menu) {
         mMenu = menu;
         mFromMenu = true;
+    }
+
+    public void setMenu(Menu menu, @ColorInt int[] titleTextColors, @ColorInt int[] tintColors) {
+        setMenu(menu);
+        this.titleTextColors = titleTextColors;
+        this.tintColors = tintColors;
     }
 
     public void setMode(int mode) {
@@ -68,6 +77,7 @@ public class BottomSheetAdapterBuilder {
         mItems.add(new BottomSheetDivider(dividerBackground));
     }
 
+    @SuppressLint("RestrictedApi")
     public void addItem(int id, String title, Drawable icon, int itemTextColor,
                         int itemBackground, int tintColor) {
         if (mMenu == null) {
@@ -78,14 +88,15 @@ public class BottomSheetAdapterBuilder {
         mItems.add(new BottomSheetMenuItem(item, itemTextColor, itemBackground, tintColor));
     }
 
+
     @SuppressLint("InflateParams")
     public View createView(int titleTextColor, int backgroundDrawable, int backgroundColor,
-                           int dividerBackground, int itemTextColor, int itemBackground,
-                           int tintColor, BottomSheetItemClickListener itemClickListener) {
+                           int dividerBackground, int defaultItemTextColor, int itemBackground,
+                           int defaultTintColor, BottomSheetItemClickListener itemClickListener) {
 
         if (mFromMenu) {
             mItems = createAdapterItems(dividerBackground, titleTextColor,
-                    itemTextColor, itemBackground, tintColor);
+                    defaultItemTextColor, itemBackground, defaultTintColor);
         }
 
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
@@ -148,13 +159,14 @@ public class BottomSheetAdapterBuilder {
     }
 
     private List<BottomSheetItem> createAdapterItems(int dividerBackground, int titleTextColor,
-                                                     int itemTextColor, int itemBackground,
-                                                     int tintColor) {
+                                                     int defaultItemTextColor, int itemBackground,
+                                                     int defaultTintColor) {
         List<BottomSheetItem> items = new ArrayList<>();
         mTitles = 0;
 
         boolean addedSubMenu = false;
 
+        int itemCount = 0;
         for (int i = 0; i < mMenu.size(); i++) {
             MenuItem item = mMenu.getItem(i);
 
@@ -179,13 +191,20 @@ public class BottomSheetAdapterBuilder {
                     for (int j = 0; j < subMenu.size(); j++) {
                         MenuItem subItem = subMenu.getItem(j);
                         if (subItem.isVisible()) {
-                            items.add(new BottomSheetMenuItem(subItem, itemTextColor,
-                                    itemBackground, tintColor));
+                            items.add(new BottomSheetMenuItem(subItem,
+                                    getMenuItemTextColor(itemCount, defaultItemTextColor),
+                                    itemBackground,
+                                    getMenuItemTintColor(itemCount, defaultTintColor)));
                             addedSubMenu = true;
+                            itemCount++;
                         }
                     }
                 } else {
-                    items.add(new BottomSheetMenuItem(item, itemTextColor, itemBackground, tintColor));
+                    items.add(new BottomSheetMenuItem(item,
+                            getMenuItemTextColor(itemCount, defaultItemTextColor),
+                            itemBackground,
+                            getMenuItemTintColor(itemCount, defaultTintColor)));
+                    itemCount++;
                 }
             }
         }
@@ -193,4 +212,13 @@ public class BottomSheetAdapterBuilder {
         return items;
     }
 
+    private int getMenuItemTextColor(int position, int defaultItemTextColor) {
+        return (titleTextColors != null && position < titleTextColors.length && titleTextColors[position] != -1) ?
+                titleTextColors[position] : defaultItemTextColor;
+    }
+
+    private int getMenuItemTintColor(int position, int defaultItemTintColor) {
+        return (tintColors != null && position < tintColors.length && tintColors[position] != -1) ?
+                tintColors[position] : defaultItemTintColor;
+    }
 }

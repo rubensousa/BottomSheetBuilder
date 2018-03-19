@@ -42,6 +42,7 @@ import android.widget.FrameLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetAdapterBuilder;
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
+import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 
 public class BottomSheetBuilder {
@@ -108,14 +109,20 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder setMenu(@MenuRes int menu) {
-        mMenu = new MenuBuilder(mContext);
-        new SupportMenuInflater(mContext).inflate(menu, mMenu);
-        return setMenu(mMenu);
+        return setMenu(BottomSheetBuilderUtils.inflateMenu(mContext, menu), null);
     }
 
     public BottomSheetBuilder setMenu(Menu menu) {
+        return setMenu(menu, null);
+    }
+
+    public BottomSheetBuilder setMenu(Menu menu, @ColorInt int[] titleTextColors) {
+        return setMenu(menu, titleTextColors, null);
+    }
+
+    public BottomSheetBuilder setMenu(Menu menu, @ColorInt int[] titleTextColors, @ColorInt int[] tintColors) {
         mMenu = menu;
-        mAdapterBuilder.setMenu(mMenu);
+        mAdapterBuilder.setMenu(mMenu, titleTextColors, tintColors);
         return this;
     }
 
@@ -154,7 +161,12 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder addItem(int id, String title, Drawable icon) {
-        mAdapterBuilder.addItem(id, title, icon, mItemTextColor, mItemBackground, mIconTintColor);
+        addItem(id, title, icon, mItemTextColor, mIconTintColor);
+        return this;
+    }
+
+    public BottomSheetBuilder addItem(int id, String title, Drawable icon, @ColorInt int itemTextColor, @ColorInt int itemTintColor) {
+        mAdapterBuilder.addItem(id, title, icon, itemTextColor, mItemBackground, itemTintColor);
         return this;
     }
 
