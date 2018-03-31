@@ -23,7 +23,9 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.design.widget.AppBarLayout;
@@ -48,38 +50,34 @@ public class BottomSheetBuilder {
 
     public static final int MODE_LIST = 0;
     public static final int MODE_GRID = 1;
-
+    @DrawableRes
+    protected int mItemBackground;
+    protected int mItemTextColor;
+    protected int mIconTintColor = -1;
+    protected BottomSheetAdapterBuilder mAdapterBuilder;
+    protected Context mContext;
     @DrawableRes
     private int mBackgroundDrawable;
-
     @DrawableRes
     private int mDividerBackground;
-
-    @DrawableRes
-    private int mItemBackground;
-
     @StyleRes
     private int mTheme;
-
+    @LayoutRes
+    private int itemLayoutRes = -1;
     private int mBackgroundColor;
-    private int mItemTextColor;
     private int mTitleTextColor;
-
     private boolean mDelayedDismiss = true;
     private boolean mExpandOnStart = false;
-    private int mIconTintColor = -1;
     private int mMode;
     private Menu mMenu;
-    private BottomSheetAdapterBuilder mAdapterBuilder;
     private CoordinatorLayout mCoordinatorLayout;
     private AppBarLayout mAppBarLayout;
-    private Context mContext;
     private BottomSheetItemClickListener mItemClickListener;
 
     public BottomSheetBuilder(Context context, CoordinatorLayout coordinatorLayout) {
         mContext = context;
         mCoordinatorLayout = coordinatorLayout;
-        mAdapterBuilder = new BottomSheetAdapterBuilder(mContext);
+        mAdapterBuilder = getBottomSheetAdapterBuilder();
     }
 
     public BottomSheetBuilder(Context context) {
@@ -89,7 +87,12 @@ public class BottomSheetBuilder {
     public BottomSheetBuilder(Context context, @StyleRes int theme) {
         mContext = context;
         mTheme = theme;
-        mAdapterBuilder = new BottomSheetAdapterBuilder(mContext);
+        mAdapterBuilder = getBottomSheetAdapterBuilder();
+    }
+
+    @NonNull
+    protected BottomSheetAdapterBuilder getBottomSheetAdapterBuilder() {
+        return new BottomSheetAdapterBuilder(mContext);
     }
 
     public BottomSheetBuilder setMode(int mode) {
@@ -111,6 +114,11 @@ public class BottomSheetBuilder {
         mMenu = new MenuBuilder(mContext);
         new SupportMenuInflater(mContext).inflate(menu, mMenu);
         return setMenu(mMenu);
+    }
+
+    public BottomSheetBuilder setItemLayout(@LayoutRes int layoutRes) {
+        this.itemLayoutRes = layoutRes;
+        return this;
     }
 
     public BottomSheetBuilder setMenu(Menu menu) {
@@ -245,7 +253,7 @@ public class BottomSheetBuilder {
 
         View sheet = mAdapterBuilder.createView(mTitleTextColor, mBackgroundDrawable,
                 mBackgroundColor, mDividerBackground, mItemTextColor, mItemBackground,
-                mIconTintColor, mItemClickListener);
+                mIconTintColor, itemLayoutRes, mItemClickListener);
 
         ViewCompat.setElevation(sheet, mContext.getResources()
                 .getDimensionPixelSize(R.dimen.bottomsheet_elevation));
@@ -296,7 +304,7 @@ public class BottomSheetBuilder {
 
         View sheet = mAdapterBuilder.createView(mTitleTextColor, mBackgroundDrawable,
                 mBackgroundColor, mDividerBackground, mItemTextColor, mItemBackground,
-                mIconTintColor, dialog);
+                mIconTintColor, itemLayoutRes, dialog);
 
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);
