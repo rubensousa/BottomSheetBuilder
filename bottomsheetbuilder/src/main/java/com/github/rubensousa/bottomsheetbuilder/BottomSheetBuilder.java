@@ -64,7 +64,6 @@ public class BottomSheetBuilder {
     private int mItemTextColor;
     private int mTitleTextColor;
 
-    private boolean mDelayedDismiss = true;
     private boolean mExpandOnStart = false;
     private int mIconTintColor = -1;
     private int mMode;
@@ -212,11 +211,6 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    public BottomSheetBuilder delayDismissOnItemClick(boolean dismiss) {
-        mDelayedDismiss = dismiss;
-        return this;
-    }
-
     public BottomSheetBuilder setAppBarLayout(AppBarLayout appbar) {
         mAppBarLayout = appbar;
         return this;
@@ -302,7 +296,6 @@ public class BottomSheetBuilder {
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);
         dialog.expandOnStart(mExpandOnStart);
-        dialog.delayDismiss(mDelayedDismiss);
         dialog.setBottomSheetItemClickListener(mItemClickListener);
 
         if (mContext.getResources().getBoolean(R.bool.tablet_landscape)) {

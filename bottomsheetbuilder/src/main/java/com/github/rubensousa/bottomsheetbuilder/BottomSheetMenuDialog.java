@@ -29,7 +29,6 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener;
-import com.github.rubensousa.bottomsheetbuilder.util.BottomSheetBuilderUtils;
 
 public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSheetItemClickListener {
 
@@ -38,7 +37,6 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     private BottomSheetItemClickListener mClickListener;
     private AppBarLayout mAppBarLayout;
     private boolean mExpandOnStart;
-    private boolean mDelayDismiss;
     boolean mRequestedExpand;
     boolean mClicked;
     boolean mRequestCancel;
@@ -87,12 +85,11 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
     @Override
     protected void onStart() {
         super.onStart();
-        final FrameLayout sheet = (FrameLayout) findViewById(R.id.design_bottom_sheet);
+        final FrameLayout sheet = findViewById(R.id.design_bottom_sheet);
 
         if (sheet != null) {
             mBehavior = BottomSheetBehavior.from(sheet);
             mBehavior.setBottomSheetCallback(mBottomSheetCallback);
-            mBehavior.setSkipCollapsed(true);
 
             if (getContext().getResources().getBoolean(R.bool.tablet_landscape)) {
                 CoordinatorLayout.LayoutParams layoutParams
@@ -117,9 +114,6 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                 }
             }
 
-            if (getContext().getResources().getBoolean(R.bool.landscape)) {
-                fixLandscapePeekHeight(sheet);
-            }
 
             if (mExpandOnStart) {
                 sheet.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -138,6 +132,8 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                         mRequestedExpand = true;
                     }
                 });
+            } else if (getContext().getResources().getBoolean(R.bool.landscape)) {
+                fixLandscapePeekHeight(sheet);
             }
         }
     }
@@ -148,10 +144,6 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
     public void expandOnStart(boolean expand) {
         mExpandOnStart = expand;
-    }
-
-    public void delayDismiss(boolean dismiss) {
-        mDelayDismiss = dismiss;
     }
 
     public void setBottomSheetCallback(BottomSheetBehavior.BottomSheetCallback callback) {
@@ -171,11 +163,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
         if (!mClicked) {
 
             if (mBehavior != null) {
-                if (mDelayDismiss) {
-                    BottomSheetBuilderUtils.delayDismiss(mBehavior);
-                } else {
-                    mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                }
+                mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             }
 
             if (mClickListener != null) {
@@ -201,7 +189,7 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
                 mBehavior.setBottomSheetCallback(null);
                 try {
                     BottomSheetMenuDialog.super.dismiss();
-                }catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     // Ignore exception handling
                 }
 
@@ -222,12 +210,26 @@ public class BottomSheetMenuDialog extends BottomSheetDialog implements BottomSh
 
     private void fixLandscapePeekHeight(final View sheet) {
         // On landscape, we shouldn't use the 16:9 keyline alignment
-        sheet.post(new Runnable() {
-            @Override
-            public void run() {
-                mBehavior.setPeekHeight(sheet.getHeight() / 2);
-            }
-        });
+        final int peek = sheet.getResources()
+                .getDimensionPixelOffset(R.dimen.bottomsheet_landscape_peek);
+        if (sheet.getHeight() != 0) {
+            mBehavior.setPeekHeight(Math.max(sheet.getHeight() / 2, peek));
+        } else {
+            sheet.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (sheet.getHeight() > 0) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            sheet.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            //noinspection deprecation
+                            sheet.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+                        mBehavior.setPeekHeight(Math.max(sheet.getHeight() / 2, peek));
+                    }
+                }
+            });
+        }
     }
 
     private void applyAppbarMargin(View sheet) {
