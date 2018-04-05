@@ -32,8 +32,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.view.SupportMenuInflater;
-import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -108,8 +107,10 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder setMenu(@MenuRes int menu) {
-        mMenu = new MenuBuilder(mContext);
-        new SupportMenuInflater(mContext).inflate(menu, mMenu);
+        @SuppressWarnings("ConstantConditions")
+        PopupMenu popupMenu = new PopupMenu(mContext, null);
+        mMenu = popupMenu.getMenu();
+        popupMenu.getMenuInflater().inflate(menu, mMenu);
         return setMenu(mMenu);
     }
 
