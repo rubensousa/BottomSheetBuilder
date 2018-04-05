@@ -15,8 +15,8 @@ Available from API 14.
 - Add the following to your build.gradle:
 ```groovy
 dependencies {
-  compile 'com.android.support:design:25.1.1'
-  compile 'com.github.rubensousa:bottomsheetbuilder:1.6.0'
+  compile 'com.android.support:design:27.1.1'
+  compile 'com.github.rubensousa:bottomsheetbuilder:1.6.1'
 }
 ```
 
@@ -108,12 +108,7 @@ setDividerBackground(@DrawableRes int background)
 setItemBackground(@DrawableRes int background)
 setAppBarLayout(AppBarLayout appbar) -> To avoid overlapping
 expandOnStart(boolean expand) -> Defaults to false
-delayDismissOnItemClick(boolean delayDismiss) -> Defaults to true
 ```
-
-## Changelog
-
-https://github.com/rubensousa/BottomSheetBuilder/blob/master/CHANGELOG.md
 
 ## Third Party Bindings
   		  
