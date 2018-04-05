@@ -5,6 +5,7 @@
     android:layout_marginTop="@dimen/bottomsheet_grid_margin_top"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
+    android:focusable="true"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -12,8 +13,8 @@
         android:id="@+id/imageView"
         android:layout_width="@dimen/bottomsheet_list_item_height"
         android:layout_height="@dimen/bottomsheet_list_item_height"
-        android:scaleType="fitXY"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/textView"
@@ -21,10 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
-        android:singleLine="true"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="12sp"
-        android:textColor="@color/colorSheetTitle" />
+        android:singleLine="true"
+        android:textColor="@color/colorSheetTitle"
+        android:textSize="12sp" />
 
 </LinearLayout>
