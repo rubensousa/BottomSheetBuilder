@@ -185,7 +185,10 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetMenuItem item) {
-            imageView.setImageDrawable(item.getIcon());
+            Drawable icon = item.getIcon();
+            imageView.setImageDrawable(icon);
+            boolean isIconNullOrZeroWidth = icon == null || icon.getIntrinsicWidth() == 0;
+            imageView.setVisibility(isIconNullOrZeroWidth ? View.GONE : View.VISIBLE);
             textView.setText(item.getTitle());
             int color = item.getTextColor();
             int background = item.getBackground();
