@@ -39,10 +39,12 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
     BottomSheetItemClickListener mListener;
     private int mMode;
     private int mItemWidth;
+    private boolean mShowIcon;
 
     public BottomSheetItemAdapter(List<BottomSheetItem> items, int mode,
-                                  BottomSheetItemClickListener listener) {
+                                  boolean showIcon, BottomSheetItemClickListener listener) {
         mMode = mode;
+        mShowIcon = showIcon;
         mItems = items;
         mListener = listener;
     }
@@ -186,6 +188,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
 
         public void setData(BottomSheetMenuItem item) {
             imageView.setImageDrawable(item.getIcon());
+            imageView.setVisibility(mShowIcon ? View.VISIBLE : View.GONE);
             textView.setText(item.getTitle());
             int color = item.getTextColor();
             int background = item.getBackground();

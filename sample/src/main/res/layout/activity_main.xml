@@ -26,6 +26,12 @@
             android:text="Dialog with simple list" />
 
         <Button
+            android:id="@+id/showDialogWithoutIconBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simple list dialog without icon" />
+
+        <Button
             android:id="@+id/showDialogLongBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
