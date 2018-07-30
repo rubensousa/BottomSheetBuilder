@@ -39,7 +39,7 @@ class BottomSheetMenuItem implements BottomSheetItem {
     @DrawableRes
     private int mBackground;
 
-    public BottomSheetMenuItem(MenuItem item,@ColorInt int textColor, @DrawableRes int background,
+    public BottomSheetMenuItem(MenuItem item, @ColorInt int textColor, @DrawableRes int background,
                                @ColorInt int tintColor) {
         mMenuItem = item;
         mIcon = item.getIcon();
@@ -49,7 +49,8 @@ class BottomSheetMenuItem implements BottomSheetItem {
         mBackground = background;
         mTintColor = tintColor;
 
-        if (mTintColor != -1) {
+        // Check if we have a tint to be applied to an icon
+        if (mTintColor != -1 && mIcon != null) {
             mIcon = DrawableCompat.wrap(mIcon);
             DrawableCompat.setTint(mIcon, mTintColor);
         }

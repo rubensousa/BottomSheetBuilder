@@ -32,8 +32,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.view.SupportMenuInflater;
-import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -65,7 +64,6 @@ public class BottomSheetBuilder {
     private int mItemTextColor;
     private int mTitleTextColor;
 
-    private boolean mDelayedDismiss = true;
     private boolean mExpandOnStart = false;
     private int mIconTintColor = -1;
     private int mMode;
@@ -108,8 +106,10 @@ public class BottomSheetBuilder {
     }
 
     public BottomSheetBuilder setMenu(@MenuRes int menu) {
-        mMenu = new MenuBuilder(mContext);
-        new SupportMenuInflater(mContext).inflate(menu, mMenu);
+        @SuppressWarnings("ConstantConditions")
+        PopupMenu popupMenu = new PopupMenu(mContext, null);
+        mMenu = popupMenu.getMenu();
+        popupMenu.getMenuInflater().inflate(menu, mMenu);
         return setMenu(mMenu);
     }
 
@@ -224,11 +224,6 @@ public class BottomSheetBuilder {
         return this;
     }
 
-    public BottomSheetBuilder delayDismissOnItemClick(boolean dismiss) {
-        mDelayedDismiss = dismiss;
-        return this;
-    }
-
     public BottomSheetBuilder setAppBarLayout(AppBarLayout appbar) {
         mAppBarLayout = appbar;
         return this;
@@ -314,7 +309,6 @@ public class BottomSheetBuilder {
         sheet.findViewById(R.id.fakeShadow).setVisibility(View.GONE);
         dialog.setAppBar(mAppBarLayout);
         dialog.expandOnStart(mExpandOnStart);
-        dialog.delayDismiss(mDelayedDismiss);
         dialog.setBottomSheetItemClickListener(mItemClickListener);
 
         if (mContext.getResources().getBoolean(R.bool.tablet_landscape)) {

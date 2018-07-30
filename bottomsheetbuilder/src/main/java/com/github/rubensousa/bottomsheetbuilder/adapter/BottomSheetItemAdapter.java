@@ -31,9 +31,9 @@ import java.util.List;
 
 class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter.ViewHolder> {
 
-    public static final int TYPE_ITEM = 0;
-    public static final int TYPE_HEADER = 1;
-    public static final int TYPE_DIVIDER = 2;
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_HEADER = 1;
+    private static final int TYPE_DIVIDER = 2;
 
     private List<BottomSheetItem> mItems;
     BottomSheetItemClickListener mListener;
@@ -129,9 +129,9 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         return mItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
         }
 
@@ -141,7 +141,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
 
         public View divider;
 
-        public DividerViewHolder(View itemView) {
+        DividerViewHolder(View itemView) {
             super(itemView);
             divider = itemView;
         }
@@ -158,9 +158,9 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
 
         public TextView textView;
 
-        public HeaderViewHolder(View itemView) {
+        HeaderViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.textView);
+            textView = itemView.findViewById(R.id.textView);
         }
 
         public void setData(BottomSheetHeader item) {
@@ -179,11 +179,11 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         public AppCompatImageView imageView;
         public TextView textView;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            imageView = (AppCompatImageView) itemView.findViewById(R.id.imageView);
-            textView = (TextView) itemView.findViewById(R.id.textView);
+            imageView = itemView.findViewById(R.id.imageView);
+            textView = itemView.findViewById(R.id.textView);
         }
 
         public void setData(BottomSheetMenuItem item) {
