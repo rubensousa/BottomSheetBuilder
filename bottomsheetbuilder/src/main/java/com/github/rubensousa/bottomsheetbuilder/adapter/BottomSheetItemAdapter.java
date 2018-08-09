@@ -16,6 +16,7 @@
 
 package com.github.rubensousa.bottomsheetbuilder.adapter;
 
+import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -185,7 +186,24 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetMenuItem item) {
-            imageView.setImageDrawable(item.getIcon());
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) textView.getLayoutParams();
+            if (item.getIcon() == null) {
+                imageView.setVisibility(View.GONE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    params.setMarginStart(0);
+                } else {
+                    params.leftMargin = 0;
+                }
+            } else {
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setImageDrawable(item.getIcon());
+                int margin = textView.getContext().getResources().getDimensionPixelSize(R.dimen.bottomsheet_horizontal_margin);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    params.setMarginStart(margin);
+                } else  {
+                    params.leftMargin = margin;
+                }
+            }
             textView.setText(item.getTitle());
             int color = item.getTextColor();
             int background = item.getBackground();
