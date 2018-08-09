@@ -186,24 +186,7 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
         }
 
         public void setData(BottomSheetMenuItem item) {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) textView.getLayoutParams();
-            if (item.getIcon() == null) {
-                imageView.setVisibility(View.GONE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    params.setMarginStart(0);
-                } else {
-                    params.leftMargin = 0;
-                }
-            } else {
-                imageView.setVisibility(View.VISIBLE);
-                imageView.setImageDrawable(item.getIcon());
-                int margin = textView.getContext().getResources().getDimensionPixelSize(R.dimen.bottomsheet_horizontal_margin);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    params.setMarginStart(margin);
-                } else  {
-                    params.leftMargin = margin;
-                }
-            }
+            imageView.setImageDrawable(item.getIcon());
             textView.setText(item.getTitle());
             int color = item.getTextColor();
             int background = item.getBackground();
@@ -216,6 +199,25 @@ class BottomSheetItemAdapter extends RecyclerView.Adapter<BottomSheetItemAdapter
                 itemView.setBackgroundResource(background);
             }
 
+            if (mMode == BottomSheetBuilder.MODE_LIST) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) textView.getLayoutParams();
+                if (item.getIcon() == null) {
+                    imageView.setVisibility(View.GONE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        params.setMarginStart(0);
+                    } else {
+                        params.leftMargin = 0;
+                    }
+                } else {
+                    imageView.setVisibility(View.VISIBLE);
+                    int margin = textView.getContext().getResources().getDimensionPixelSize(R.dimen.bottomsheet_horizontal_margin);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        params.setMarginStart(margin);
+                    } else {
+                        params.leftMargin = margin;
+                    }
+                }
+            }
         }
 
         @Override
