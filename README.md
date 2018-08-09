@@ -15,8 +15,8 @@ Available from API 14.
 - Add the following to your build.gradle:
 ```groovy
 dependencies {
-  compile 'com.android.support:design:27.1.1'
-  compile 'com.github.rubensousa:bottomsheetbuilder:1.6.1'
+  implementation 'com.github.rubensousa:bottomsheetbuilder:1.6.1'
+  implementation 'com.android.support:design:27.1.1'
 }
 ```
 

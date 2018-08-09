@@ -24,6 +24,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.design.widget.AppBarLayout;
@@ -141,11 +142,19 @@ public class BottomSheetBuilder {
         return this;
     }
 
+    public BottomSheetBuilder addItem(int id, @StringRes int title) {
+        return addItem(id, mContext.getString(title));
+    }
+
+    public BottomSheetBuilder addItem(int id, String title) {
+        return addItem(id, title, null);
+    }
+
     public BottomSheetBuilder addItem(int id, @StringRes int title, @DrawableRes int icon) {
         return addItem(id, mContext.getString(title), ContextCompat.getDrawable(mContext, icon));
     }
 
-    public BottomSheetBuilder addItem(int id, @StringRes int title, Drawable icon) {
+    public BottomSheetBuilder addItem(int id, @StringRes int title, @Nullable Drawable icon) {
         return addItem(id, mContext.getString(title), icon);
     }
 
@@ -153,7 +162,7 @@ public class BottomSheetBuilder {
         return addItem(id, title, ContextCompat.getDrawable(mContext, icon));
     }
 
-    public BottomSheetBuilder addItem(int id, String title, Drawable icon) {
+    public BottomSheetBuilder addItem(int id, String title, @Nullable Drawable icon) {
         mAdapterBuilder.addItem(id, title, icon, mItemTextColor, mItemBackground, mIconTintColor);
         return this;
     }

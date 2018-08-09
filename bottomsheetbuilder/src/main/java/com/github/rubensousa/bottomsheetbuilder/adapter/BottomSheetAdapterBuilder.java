@@ -20,6 +20,7 @@ package com.github.rubensousa.bottomsheetbuilder.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,13 +69,15 @@ public class BottomSheetAdapterBuilder {
         mItems.add(new BottomSheetDivider(dividerBackground));
     }
 
-    public void addItem(int id, String title, Drawable icon, int itemTextColor,
+    public void addItem(int id, String title, @Nullable Drawable icon, int itemTextColor,
                         int itemBackground, int tintColor) {
         if (mMenu == null) {
             mMenu = new MenuBuilder(mContext);
         }
         MenuItem item = mMenu.add(Menu.NONE, id, Menu.NONE, title);
-        item.setIcon(icon);
+        if (icon != null) {
+            item.setIcon(icon);
+        }
         mItems.add(new BottomSheetMenuItem(item, itemTextColor, itemBackground, tintColor));
     }
 
